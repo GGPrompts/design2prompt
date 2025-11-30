@@ -59,27 +59,27 @@ export function CustomizationPanel({
 
       {/* Tabs */}
       <Tabs defaultValue="colors" className="flex-1 flex flex-col">
-        <div className="border-b border-white/10 px-2">
-          <TabsList className="w-full h-10 grid grid-cols-5 gap-1">
-            <TabsTrigger value="colors" className="text-xs px-2">
-              <Palette className="w-3 h-3 mr-1" />
-              Colors
+        <div className="border-b border-white/10 px-2 overflow-x-auto">
+          <TabsList className="w-full h-10 grid grid-cols-5 gap-1 min-w-[280px]">
+            <TabsTrigger value="colors" className="text-xs px-1.5 sm:px-2">
+              <Palette className="w-3 h-3 sm:mr-1" />
+              <span className="hidden sm:inline">Colors</span>
             </TabsTrigger>
-            <TabsTrigger value="typography" className="text-xs px-2">
-              <Type className="w-3 h-3 mr-1" />
-              Type
+            <TabsTrigger value="typography" className="text-xs px-1.5 sm:px-2">
+              <Type className="w-3 h-3 sm:mr-1" />
+              <span className="hidden sm:inline">Type</span>
             </TabsTrigger>
-            <TabsTrigger value="spacing" className="text-xs px-2">
-              <Box className="w-3 h-3 mr-1" />
-              Space
+            <TabsTrigger value="spacing" className="text-xs px-1.5 sm:px-2">
+              <Box className="w-3 h-3 sm:mr-1" />
+              <span className="hidden sm:inline">Space</span>
             </TabsTrigger>
-            <TabsTrigger value="effects" className="text-xs px-2">
-              <Zap className="w-3 h-3 mr-1" />
-              FX
+            <TabsTrigger value="effects" className="text-xs px-1.5 sm:px-2">
+              <Zap className="w-3 h-3 sm:mr-1" />
+              <span className="hidden sm:inline">FX</span>
             </TabsTrigger>
-            <TabsTrigger value="code" className="text-xs px-2">
-              <Code2 className="w-3 h-3 mr-1" />
-              Code
+            <TabsTrigger value="code" className="text-xs px-1.5 sm:px-2">
+              <Code2 className="w-3 h-3 sm:mr-1" />
+              <span className="hidden sm:inline">Code</span>
             </TabsTrigger>
           </TabsList>
         </div>

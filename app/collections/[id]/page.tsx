@@ -215,25 +215,25 @@ export default function CollectionDetailPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 h-14 border-b border-white/10 flex items-center justify-between px-4 bg-zinc-900/50 backdrop-blur-sm">
-        <div className="flex items-center gap-4">
+      <header className="sticky top-0 z-50 h-14 border-b border-white/10 flex items-center justify-between px-3 md:px-4 bg-zinc-900/50 backdrop-blur-sm">
+        <div className="flex items-center gap-2 md:gap-4">
           <Link href="/collections">
-            <Button variant="ghost" size="sm" className="gap-2 text-white/70 hover:text-white hover:bg-white/10">
+            <Button variant="ghost" size="sm" className="gap-2 text-white/70 hover:text-white hover:bg-white/10 px-2 md:px-3">
               <ArrowLeft className="w-4 h-4" />
-              Collections
+              <span className="hidden sm:inline">Collections</span>
             </Button>
           </Link>
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-emerald-400" />
-            <span className="font-bold">design2prompt</span>
+            <span className="font-bold text-sm md:text-base hidden sm:inline">design2prompt</span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 md:gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10">
+              <Button variant="outline" size="sm" className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10 px-2 md:px-3">
                 <Download className="w-4 h-4" />
-                Export
+                <span className="hidden md:inline">Export</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -253,35 +253,35 @@ export default function CollectionDetailPage() {
             </DropdownMenuContent>
           </DropdownMenu>
           <Link href="/studio">
-            <Button size="sm" className="gap-2 bg-emerald-500 text-white hover:bg-emerald-600">
+            <Button size="sm" className="gap-2 bg-emerald-500 text-white hover:bg-emerald-600 px-2 md:px-3">
               <Plus className="w-4 h-4" />
-              Add Component
+              <span className="hidden sm:inline">Add Component</span>
             </Button>
           </Link>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-6 md:py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
           {/* Collection Header */}
-          <div className="mb-8">
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <div>
-                <h1 className="text-3xl font-bold mb-2">{collection.name}</h1>
+          <div className="mb-6 md:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4 mb-4">
+              <div className="min-w-0 flex-1">
+                <h1 className="text-2xl md:text-3xl font-bold mb-1 md:mb-2 truncate">{collection.name}</h1>
                 {collection.description && (
-                  <p className="text-white/60">{collection.description}</p>
+                  <p className="text-white/60 text-sm md:text-base line-clamp-2">{collection.description}</p>
                 )}
               </div>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setEditDialogOpen(true)}
-                className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10"
+                className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10 self-start flex-shrink-0"
               >
                 <Edit2 className="w-4 h-4" />
                 Edit
@@ -289,7 +289,7 @@ export default function CollectionDetailPage() {
             </div>
 
             {/* Meta Info */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-white/60">
+            <div className="flex flex-wrap items-center gap-3 md:gap-4 text-xs md:text-sm text-white/60">
               <span className="flex items-center gap-1">
                 <Package className="w-4 h-4" />
                 {collection.components.length} component
@@ -303,9 +303,9 @@ export default function CollectionDetailPage() {
 
             {/* Tags */}
             {collection.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4">
+              <div className="flex flex-wrap gap-2 mt-3 md:mt-4">
                 {collection.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary">
+                  <Badge key={tag} variant="secondary" className="text-xs">
                     {tag}
                   </Badge>
                 ))}
@@ -315,7 +315,7 @@ export default function CollectionDetailPage() {
 
           {/* Components Grid */}
           {sortedComponents.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
               <AnimatePresence mode="popLayout">
                 {sortedComponents.map((savedComponent) => (
                   <motion.div

@@ -101,45 +101,46 @@ export default function CollectionsPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 h-14 border-b border-white/10 flex items-center justify-between px-4 bg-zinc-900/50 backdrop-blur-sm">
-        <div className="flex items-center gap-4">
+      <header className="sticky top-0 z-50 h-14 border-b border-white/10 flex items-center justify-between px-3 md:px-4 bg-zinc-900/50 backdrop-blur-sm">
+        <div className="flex items-center gap-2 md:gap-4">
           <Link href="/">
-            <Button variant="ghost" size="sm" className="gap-2 text-white/70 hover:text-white hover:bg-white/10">
+            <Button variant="ghost" size="sm" className="gap-2 text-white/70 hover:text-white hover:bg-white/10 px-2 md:px-3">
               <ArrowLeft className="w-4 h-4" />
-              Back
+              <span className="hidden sm:inline">Back</span>
             </Button>
           </Link>
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-emerald-400" />
-            <span className="font-bold">design2prompt</span>
-            <span className="text-white/60">/ Collections</span>
+            <span className="font-bold text-sm md:text-base">design2prompt</span>
+            <span className="text-white/60 hidden md:inline">/ Collections</span>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <Link href="/studio">
-            <Button variant="outline" size="sm" className="border-white/20 text-white/70 hover:text-white hover:bg-white/10">
-              Open Studio
+            <Button variant="outline" size="sm" className="border-white/20 text-white/70 hover:text-white hover:bg-white/10 px-2 md:px-3">
+              <Sparkles className="w-4 h-4 md:hidden" />
+              <span className="hidden md:inline">Open Studio</span>
             </Button>
           </Link>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-6 md:py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
           {/* Page Header */}
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-              <FolderOpen className="w-6 h-6 text-emerald-400" />
+          <div className="flex items-center gap-3 mb-6 md:mb-8">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+              <FolderOpen className="w-5 h-5 md:w-6 md:h-6 text-emerald-400" />
             </div>
-            <div>
-              <h1 className="text-2xl font-bold">Collections</h1>
-              <p className="text-white/60">
-                Organize your customized components into collections
+            <div className="min-w-0">
+              <h1 className="text-xl md:text-2xl font-bold">Collections</h1>
+              <p className="text-white/60 text-sm md:text-base truncate">
+                Organize your customized components
               </p>
             </div>
           </div>

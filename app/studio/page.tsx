@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ComponentLibrary } from '@/components/studio/ComponentLibrary';
 import { CustomizationPanel } from '@/components/studio/CustomizationPanel';
 import { LivePreview } from '@/components/studio/LivePreview';
@@ -13,7 +14,20 @@ import { Customization, defaultCustomization } from '@/types/customization';
 import { Collection, SavedComponent } from '@/types/collection';
 import { useCollectionStore } from '@/lib/stores/collection-store';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Sparkles, FolderPlus, FolderOpen } from 'lucide-react';
+import { MobileDrawer, MobileDrawerHeader, MobileDrawerContent } from '@/components/ui/mobile-drawer';
+import { useIsMobile, useIsTablet } from '@/lib/hooks';
+import {
+  ArrowLeft,
+  Sparkles,
+  FolderPlus,
+  FolderOpen,
+  PanelLeft,
+  PanelLeftClose,
+  PanelRight,
+  PanelRightClose,
+  Menu,
+  X,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 
@@ -51,6 +65,27 @@ function StudioContent() {
   const [showExport, setShowExport] = useState(false);
   const [addToCollectionOpen, setAddToCollectionOpen] = useState(false);
   const [createCollectionOpen, setCreateCollectionOpen] = useState(false);
+
+  // Mobile responsive state
+  const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
+  const [leftSidebarOpen, setLeftSidebarOpen] = useState(true);
+  const [rightSidebarOpen, setRightSidebarOpen] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Auto-close sidebars on mobile/tablet
+  useEffect(() => {
+    if (isMobile) {
+      setLeftSidebarOpen(false);
+      setRightSidebarOpen(false);
+    } else if (isTablet) {
+      setRightSidebarOpen(false);
+      setLeftSidebarOpen(true);
+    } else {
+      setLeftSidebarOpen(true);
+      setRightSidebarOpen(true);
+    }
+  }, [isMobile, isTablet]);
 
   // Handle URL params for loading component from collection
   useEffect(() => {
@@ -139,23 +174,50 @@ function StudioContent() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-zinc-950 text-white">
+    <div className="h-screen flex flex-col bg-zinc-950 text-white overflow-hidden">
       {/* Top Bar */}
-      <header className="h-14 border-b border-white/10 flex items-center justify-between px-4 bg-zinc-900/50 backdrop-blur-sm">
-        <div className="flex items-center gap-4">
-          <Link href="/">
+      <header className="h-14 border-b border-white/10 flex items-center justify-between px-3 md:px-4 bg-zinc-900/50 backdrop-blur-sm flex-shrink-0">
+        <div className="flex items-center gap-2 md:gap-4">
+          {/* Mobile menu toggle */}
+          {isMobile && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="text-white/70 hover:text-white hover:bg-white/10"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
+          )}
+
+          {/* Left sidebar toggle (tablet/desktop) */}
+          {!isMobile && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setLeftSidebarOpen(!leftSidebarOpen)}
+              className="text-white/70 hover:text-white hover:bg-white/10"
+              title={leftSidebarOpen ? 'Hide components' : 'Show components'}
+            >
+              {leftSidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeft className="w-5 h-5" />}
+            </Button>
+          )}
+
+          <Link href="/" className="hidden sm:block">
             <Button variant="ghost" size="sm" className="gap-2 text-white/70 hover:text-white hover:bg-white/10">
               <ArrowLeft className="w-4 h-4" />
-              Back
+              <span className="hidden md:inline">Back</span>
             </Button>
           </Link>
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-emerald-400" />
-            <span className="font-bold">design2prompt</span>
-            <span className="text-white/60">/ Studio</span>
+            <span className="font-bold text-sm md:text-base">design2prompt</span>
+            <span className="text-white/60 hidden md:inline">/ Studio</span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+
+        {/* Desktop actions */}
+        <div className="hidden md:flex items-center gap-2">
           <Link href="/collections">
             <Button variant="ghost" size="sm" className="gap-2 text-white/70 hover:text-white hover:bg-white/10">
               <FolderOpen className="w-4 h-4" />
@@ -183,21 +245,167 @@ function StudioContent() {
             {showExport ? 'Hide Export' : 'Generate Prompt'}
           </Button>
         </div>
+
+        {/* Mobile/Tablet actions */}
+        <div className="flex md:hidden items-center gap-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setShowExport(!showExport)}
+            className={showExport
+              ? "bg-emerald-500/20 text-emerald-400"
+              : "text-white/70 hover:text-white hover:bg-white/10"
+            }
+          >
+            <Sparkles className="w-5 h-5" />
+          </Button>
+          {/* Right sidebar toggle (customization) */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setRightSidebarOpen(!rightSidebarOpen)}
+            className="text-white/70 hover:text-white hover:bg-white/10"
+            title={rightSidebarOpen ? 'Hide customization' : 'Show customization'}
+          >
+            {rightSidebarOpen ? <PanelRightClose className="w-5 h-5" /> : <PanelRight className="w-5 h-5" />}
+          </Button>
+        </div>
+
+        {/* Desktop right sidebar toggle */}
+        {!isMobile && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setRightSidebarOpen(!rightSidebarOpen)}
+            className="hidden md:flex text-white/70 hover:text-white hover:bg-white/10 ml-2"
+            title={rightSidebarOpen ? 'Hide customization' : 'Show customization'}
+          >
+            {rightSidebarOpen ? <PanelRightClose className="w-5 h-5" /> : <PanelRight className="w-5 h-5" />}
+          </Button>
+        )}
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar - Component Library */}
-        <aside className="w-72 flex-shrink-0">
-          <ComponentLibrary
-            selectedComponent={selectedComponent}
-            onSelectComponent={handleSelectComponent}
-          />
-        </aside>
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Mobile Left Drawer - Component Library */}
+        {isMobile && (
+          <MobileDrawer
+            isOpen={leftSidebarOpen}
+            onClose={() => setLeftSidebarOpen(false)}
+            side="left"
+            width="w-72"
+          >
+            <MobileDrawerHeader>
+              <Sparkles className="w-5 h-5 text-emerald-400" />
+              <span className="font-bold">Components</span>
+            </MobileDrawerHeader>
+            <MobileDrawerContent>
+              <ComponentLibrary
+                selectedComponent={selectedComponent}
+                onSelectComponent={(component) => {
+                  handleSelectComponent(component);
+                  setLeftSidebarOpen(false);
+                }}
+              />
+            </MobileDrawerContent>
+          </MobileDrawer>
+        )}
+
+        {/* Mobile Right Drawer - Customization Panel */}
+        {isMobile && (
+          <MobileDrawer
+            isOpen={rightSidebarOpen}
+            onClose={() => setRightSidebarOpen(false)}
+            side="right"
+            width="w-80"
+          >
+            <MobileDrawerContent>
+              <CustomizationPanel
+                customization={customization}
+                selectedComponent={selectedComponent}
+                onUpdateCustomization={handleUpdateCustomization}
+              />
+            </MobileDrawerContent>
+          </MobileDrawer>
+        )}
+
+        {/* Mobile Menu Drawer - Navigation & Actions */}
+        {isMobile && (
+          <MobileDrawer
+            isOpen={mobileMenuOpen}
+            onClose={() => setMobileMenuOpen(false)}
+            side="left"
+            width="w-64"
+          >
+            <MobileDrawerHeader>
+              <Sparkles className="w-5 h-5 text-emerald-400" />
+              <span className="font-bold">Menu</span>
+            </MobileDrawerHeader>
+            <MobileDrawerContent className="p-4 space-y-2">
+              <Link href="/" className="block">
+                <Button variant="ghost" className="w-full justify-start gap-2 text-white/70 hover:text-white">
+                  <ArrowLeft className="w-4 h-4" />
+                  Back to Home
+                </Button>
+              </Link>
+              <Link href="/collections" className="block">
+                <Button variant="ghost" className="w-full justify-start gap-2 text-white/70 hover:text-white">
+                  <FolderOpen className="w-4 h-4" />
+                  Collections
+                </Button>
+              </Link>
+              <Button
+                variant="ghost"
+                className="w-full justify-start gap-2 text-white/70 hover:text-white"
+                onClick={() => {
+                  setLeftSidebarOpen(true);
+                  setMobileMenuOpen(false);
+                }}
+              >
+                <PanelLeft className="w-4 h-4" />
+                Browse Components
+              </Button>
+              <Button
+                variant="ghost"
+                className="w-full justify-start gap-2 text-white/70 hover:text-white"
+                onClick={() => {
+                  setAddToCollectionOpen(true);
+                  setMobileMenuOpen(false);
+                }}
+                disabled={!selectedComponent}
+              >
+                <FolderPlus className="w-4 h-4" />
+                Save to Collection
+              </Button>
+            </MobileDrawerContent>
+          </MobileDrawer>
+        )}
+
+        {/* Desktop/Tablet Left Sidebar - Component Library */}
+        {!isMobile && (
+          <AnimatePresence>
+            {leftSidebarOpen && (
+              <motion.aside
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: 288, opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="flex-shrink-0 overflow-hidden"
+              >
+                <div className="w-72 h-full">
+                  <ComponentLibrary
+                    selectedComponent={selectedComponent}
+                    onSelectComponent={handleSelectComponent}
+                  />
+                </div>
+              </motion.aside>
+            )}
+          </AnimatePresence>
+        )}
 
         {/* Center - Live Preview */}
-        <main className="flex-1 flex flex-col overflow-hidden">
-          <div className={showExport ? 'flex-1' : 'h-full'}>
+        <main className="flex-1 flex flex-col overflow-hidden min-w-0">
+          <div className={showExport ? 'flex-1 min-h-0' : 'h-full'}>
             <LivePreview
               component={selectedComponent}
               customization={customization}
@@ -206,24 +414,46 @@ function StudioContent() {
           </div>
 
           {/* Export Panel (shown when toggled) */}
-          {showExport && (
-            <div className="h-80 flex-shrink-0">
-              <ExportMenu
-                component={selectedComponent}
-                customization={customization}
-              />
-            </div>
-          )}
+          <AnimatePresence>
+            {showExport && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: isMobile ? 200 : 320, opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="flex-shrink-0 overflow-hidden"
+              >
+                <ExportMenu
+                  component={selectedComponent}
+                  customization={customization}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </main>
 
-        {/* Right Sidebar - Customization Panel */}
-        <aside className="w-80 flex-shrink-0">
-          <CustomizationPanel
-            customization={customization}
-            selectedComponent={selectedComponent}
-            onUpdateCustomization={handleUpdateCustomization}
-          />
-        </aside>
+        {/* Desktop/Tablet Right Sidebar - Customization Panel */}
+        {!isMobile && (
+          <AnimatePresence>
+            {rightSidebarOpen && (
+              <motion.aside
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: 320, opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="flex-shrink-0 overflow-hidden"
+              >
+                <div className="w-80 h-full">
+                  <CustomizationPanel
+                    customization={customization}
+                    selectedComponent={selectedComponent}
+                    onUpdateCustomization={handleUpdateCustomization}
+                  />
+                </div>
+              </motion.aside>
+            )}
+          </AnimatePresence>
+        )}
       </div>
 
       {/* Add to Collection Dialog */}
