@@ -184,7 +184,7 @@ function StudioContent() {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-white/70 hover:text-white hover:bg-white/10"
+              className="text-white hover:bg-white/10"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
@@ -196,7 +196,7 @@ function StudioContent() {
               variant="ghost"
               size="icon"
               onClick={() => setLeftSidebarOpen(!leftSidebarOpen)}
-              className="text-white/70 hover:text-white hover:bg-white/10"
+              className="text-white/80 hover:text-white hover:bg-white/10"
               title={leftSidebarOpen ? 'Hide components' : 'Show components'}
             >
               {leftSidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeft className="w-5 h-5" />}
@@ -204,7 +204,7 @@ function StudioContent() {
           )}
 
           <Link href="/" className="hidden sm:block">
-            <Button variant="ghost" size="sm" className="gap-2 text-white/70 hover:text-white hover:bg-white/10">
+            <Button variant="ghost" size="sm" className="gap-2 text-white hover:bg-white/10">
               <ArrowLeft className="w-4 h-4" />
               <span className="hidden md:inline">Back</span>
             </Button>
@@ -219,7 +219,7 @@ function StudioContent() {
         {/* Desktop actions */}
         <div className="hidden md:flex items-center gap-2">
           <Link href="/collections">
-            <Button variant="ghost" size="sm" className="gap-2 text-white/70 hover:text-white hover:bg-white/10">
+            <Button variant="ghost" size="sm" className="gap-2 text-white hover:bg-white/10">
               <FolderOpen className="w-4 h-4" />
               Collections
             </Button>
@@ -229,7 +229,7 @@ function StudioContent() {
             size="sm"
             onClick={() => setAddToCollectionOpen(true)}
             disabled={!selectedComponent}
-            className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10 disabled:text-white/30 disabled:border-white/10"
+            className="gap-2 border-white/20 text-white hover:bg-white/10 disabled:text-white/30 disabled:border-white/10"
           >
             <FolderPlus className="w-4 h-4" />
             Save to Collection
@@ -238,11 +238,21 @@ function StudioContent() {
             onClick={() => setShowExport(!showExport)}
             className={showExport
               ? "gap-2 bg-emerald-500 text-white hover:bg-emerald-600"
-              : "gap-2 border border-white/20 bg-transparent text-white/70 hover:text-white hover:bg-white/10"
+              : "gap-2 border border-white/20 bg-transparent text-white hover:bg-white/10"
             }
           >
             <Sparkles className="w-4 h-4" />
             {showExport ? 'Hide Export' : 'Generate Prompt'}
+          </Button>
+          {/* Right sidebar toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setRightSidebarOpen(!rightSidebarOpen)}
+            className="text-white/70 hover:text-white hover:bg-white/10"
+            title={rightSidebarOpen ? 'Hide customization' : 'Show customization'}
+          >
+            {rightSidebarOpen ? <PanelRightClose className="w-5 h-5" /> : <PanelRight className="w-5 h-5" />}
           </Button>
         </div>
 
@@ -270,19 +280,6 @@ function StudioContent() {
             {rightSidebarOpen ? <PanelRightClose className="w-5 h-5" /> : <PanelRight className="w-5 h-5" />}
           </Button>
         </div>
-
-        {/* Desktop right sidebar toggle */}
-        {!isMobile && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setRightSidebarOpen(!rightSidebarOpen)}
-            className="hidden md:flex text-white/70 hover:text-white hover:bg-white/10 ml-2"
-            title={rightSidebarOpen ? 'Hide customization' : 'Show customization'}
-          >
-            {rightSidebarOpen ? <PanelRightClose className="w-5 h-5" /> : <PanelRight className="w-5 h-5" />}
-          </Button>
-        )}
       </header>
 
       {/* Main Content */}
