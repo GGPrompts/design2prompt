@@ -37,25 +37,65 @@ export type Customization = {
 };
 
 export const defaultCustomization: Customization = {
+  // Colors
   primaryColor: '#10b981',
-  secondaryColor: '#8b5cf6',
-  backgroundColor: '#ffffff',
-  textColor: '#1f2937',
+  secondaryColor: '#06b6d4',
+  backgroundColor: '#0a0a0a',
+  textColor: '#f0fdf4',
+
+  // Typography
   fontFamily: 'Inter',
-  fontSize: '16px',
+  fontSize: '16',
   fontWeight: '400',
-  padding: '1rem',
-  margin: '0',
-  borderRadius: '0.5rem',
+
+  // Spacing
+  padding: '20',
+  margin: '10',
+  borderRadius: '8',
+
+  // Effects
   animation: 'smooth',
-  duration: '300ms',
-  shadowIntensity: 'medium',
-  blurAmount: '12px',
+  duration: '300',
+  shadowIntensity: '50',
+  blurAmount: '12',
+
+  // Framework
   framework: 'react',
   typescript: true,
   styling: 'tailwind',
+
+  // Features
   responsive: true,
   darkMode: true,
   accessibility: true,
   animations: true,
+
+  // Component-specific defaults (added dynamically)
+  glassOpacity: '15',
+  glassBorderOpacity: '40',
+  floatHeight: '10',
+  rotationX: '5',
+  rotationY: '5',
+  glowIntensity: '60',
+  glowSpread: '40',
+  pulseSpeed: '2',
+  gradientAngle: '135',
+  hoverScale: '1.05',
+  neoDepth: '8',
+  softShadowIntensity: '20',
+  particleCount: '20',
+  explosionRadius: '50',
+  fieldStagger: '0.1',
+  stepCount: '3',
+  progressStyle: 'bar',
+  navPosition: 'top',
+  navSpacing: '20',
+  sidebarWidth: '240',
+  collapseWidth: '60',
+  trailLength: '8',
+  cursorBlendMode: 'screen',
+  cursorSize: '20',
+  parallaxSpeed: '0.5',
+  layerCount: '3',
+  parallaxDirection: 'vertical',
 };
