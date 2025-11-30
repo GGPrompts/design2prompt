@@ -455,168 +455,305 @@ function ComponentSpecificOptions({
   customization,
   onUpdate,
 }: ComponentSpecificOptionsProps) {
-  // Glass Card
+  // Component ID arrays for shared controls
+  const glassComponentIds = [
+    'glass-card',
+    'glass-nav',
+    'glass-modal',
+    'sticky-header',
+    'transparent-header',
+    'command-palette',
+    'search-command',
+    'form-card',
+    'pricing-card',
+    'testimonial-card',
+    'login-card',
+  ];
+
+  const gradientComponentIds = [
+    'gradient-btn',
+    'pill-btn',
+    'animated-border-btn',
+    'gradient-hero',
+    'terminal-hero',
+    'video-hero',
+    'quote-card',
+    'cta-section',
+    'feature-showcase',
+    'trust-badges',
+    'stats-counter',
+    'comparison-table',
+    'faq-accordion',
+    'newsletter-signup',
+    'announcement-banner',
+    'social-proof',
+  ];
+
+  const hoverScaleComponentIds = [
+    'gradient-btn',
+    'outline-btn',
+    'icon-btn',
+    'split-btn',
+    'pill-btn',
+    'animated-border-btn',
+  ];
+
+  const glowComponentIds = ['glow-button', 'neon-card'];
+
+  // Check which control sets apply to this component
+  const hasGlassControls = glassComponentIds.includes(component.id);
+  const hasGradientControls = gradientComponentIds.includes(component.id);
+  const hasHoverScaleControls = hoverScaleComponentIds.includes(component.id);
+  const hasGlowControls = glowComponentIds.includes(component.id);
+
+  // Build controls array
+  const controls: React.ReactNode[] = [];
+
+  // Glass Card specific: also has border opacity
   if (component.id === 'glass-card') {
-    return (
-      <div className="space-y-3">
-        <SliderControl
-          label="Glass Opacity"
-          value={parseInt(customization.glassOpacity) || 15}
-          min={5}
-          max={50}
-          unit="%"
-          onChange={(v) => onUpdate('glassOpacity', v.toString())}
-        />
-        <SliderControl
-          label="Border Opacity"
-          value={parseInt(customization.glassBorderOpacity) || 40}
-          min={10}
-          max={80}
-          unit="%"
-          onChange={(v) => onUpdate('glassBorderOpacity', v.toString())}
-        />
-      </div>
+    controls.push(
+      <SliderControl
+        key="glassOpacity"
+        label="Glass Opacity"
+        value={parseInt(customization.glassOpacity) || 15}
+        min={5}
+        max={50}
+        unit="%"
+        onChange={(v) => onUpdate('glassOpacity', v.toString())}
+      />,
+      <SliderControl
+        key="glassBorderOpacity"
+        label="Border Opacity"
+        value={parseInt(customization.glassBorderOpacity) || 40}
+        min={10}
+        max={80}
+        unit="%"
+        onChange={(v) => onUpdate('glassBorderOpacity', v.toString())}
+      />
+    );
+  }
+  // Other glass components: glass opacity and blur only
+  else if (hasGlassControls) {
+    controls.push(
+      <SliderControl
+        key="glassOpacity"
+        label="Glass Opacity"
+        value={parseInt(customization.glassOpacity) || 15}
+        min={5}
+        max={50}
+        unit="%"
+        onChange={(v) => onUpdate('glassOpacity', v.toString())}
+      />,
+      <SliderControl
+        key="blurAmount"
+        label="Blur Amount"
+        value={parseInt(customization.blurAmount) || 12}
+        min={4}
+        max={24}
+        unit="px"
+        onChange={(v) => onUpdate('blurAmount', v.toString())}
+      />
     );
   }
 
   // Floating Card
   if (component.id === 'floating-card') {
-    return (
-      <div className="space-y-3">
-        <SliderControl
-          label="Float Height"
-          value={parseInt(customization.floatHeight) || 10}
-          min={5}
-          max={30}
-          unit="px"
-          onChange={(v) => onUpdate('floatHeight', v.toString())}
-        />
-        <SliderControl
-          label="X Rotation"
-          value={parseInt(customization.rotationX) || 5}
-          min={0}
-          max={15}
-          unit="°"
-          onChange={(v) => onUpdate('rotationX', v.toString())}
-        />
-        <SliderControl
-          label="Y Rotation"
-          value={parseInt(customization.rotationY) || 5}
-          min={0}
-          max={15}
-          unit="°"
-          onChange={(v) => onUpdate('rotationY', v.toString())}
-        />
-      </div>
+    controls.push(
+      <SliderControl
+        key="floatHeight"
+        label="Float Height"
+        value={parseInt(customization.floatHeight) || 10}
+        min={5}
+        max={30}
+        unit="px"
+        onChange={(v) => onUpdate('floatHeight', v.toString())}
+      />,
+      <SliderControl
+        key="rotationX"
+        label="X Rotation"
+        value={parseInt(customization.rotationX) || 5}
+        min={0}
+        max={15}
+        unit="°"
+        onChange={(v) => onUpdate('rotationX', v.toString())}
+      />,
+      <SliderControl
+        key="rotationY"
+        label="Y Rotation"
+        value={parseInt(customization.rotationY) || 5}
+        min={0}
+        max={15}
+        unit="°"
+        onChange={(v) => onUpdate('rotationY', v.toString())}
+      />
     );
   }
 
-  // Neon Card
+  // Neon Card: glow controls + pulse speed
   if (component.id === 'neon-card') {
-    return (
-      <div className="space-y-3">
-        <SliderControl
-          label="Glow Intensity"
-          value={parseInt(customization.glowIntensity) || 60}
-          min={20}
-          max={100}
-          unit="%"
-          onChange={(v) => onUpdate('glowIntensity', v.toString())}
-        />
-        <SliderControl
-          label="Glow Spread"
-          value={parseInt(customization.glowSpread) || 40}
-          min={10}
-          max={80}
-          unit="px"
-          onChange={(v) => onUpdate('glowSpread', v.toString())}
-        />
-        <SliderControl
-          label="Pulse Speed"
-          value={parseFloat(customization.pulseSpeed) * 10 || 20}
-          min={5}
-          max={40}
-          unit="s"
-          onChange={(v) => onUpdate('pulseSpeed', (v / 10).toString())}
-        />
-      </div>
+    controls.push(
+      <SliderControl
+        key="glowIntensity"
+        label="Glow Intensity"
+        value={parseInt(customization.glowIntensity) || 60}
+        min={20}
+        max={100}
+        unit="%"
+        onChange={(v) => onUpdate('glowIntensity', v.toString())}
+      />,
+      <SliderControl
+        key="glowSpread"
+        label="Glow Spread"
+        value={parseInt(customization.glowSpread) || 40}
+        min={10}
+        max={80}
+        unit="px"
+        onChange={(v) => onUpdate('glowSpread', v.toString())}
+      />,
+      <SliderControl
+        key="pulseSpeed"
+        label="Pulse Speed"
+        value={parseFloat(customization.pulseSpeed) * 10 || 20}
+        min={5}
+        max={40}
+        unit="s"
+        onChange={(v) => onUpdate('pulseSpeed', (v / 10).toString())}
+      />
     );
   }
 
-  // Gradient Button
-  if (component.id === 'gradient-btn') {
-    return (
-      <div className="space-y-3">
-        <SliderControl
-          label="Gradient Angle"
-          value={parseInt(customization.gradientAngle) || 135}
-          min={0}
-          max={360}
-          step={15}
-          unit="°"
-          onChange={(v) => onUpdate('gradientAngle', v.toString())}
-        />
-        <SliderControl
-          label="Hover Scale"
-          value={(parseFloat(customization.hoverScale) || 1.05) * 100}
-          min={100}
-          max={120}
-          unit="%"
-          onChange={(v) => onUpdate('hoverScale', (v / 100).toString())}
-        />
-      </div>
+  // Glow Button: glow controls only (no pulse)
+  if (component.id === 'glow-button') {
+    controls.push(
+      <SliderControl
+        key="glowIntensity"
+        label="Glow Intensity"
+        value={parseInt(customization.glowIntensity) || 60}
+        min={20}
+        max={100}
+        unit="%"
+        onChange={(v) => onUpdate('glowIntensity', v.toString())}
+      />,
+      <SliderControl
+        key="glowSpread"
+        label="Glow Spread"
+        value={parseInt(customization.glowSpread) || 40}
+        min={10}
+        max={80}
+        unit="px"
+        onChange={(v) => onUpdate('glowSpread', v.toString())}
+      />
+    );
+  }
+
+  // Sidebar Nav
+  if (component.id === 'sidebar-nav') {
+    controls.push(
+      <SliderControl
+        key="sidebarWidth"
+        label="Sidebar Width"
+        value={parseInt(customization.sidebarWidth) || 240}
+        min={180}
+        max={320}
+        unit="px"
+        onChange={(v) => onUpdate('sidebarWidth', v.toString())}
+      />,
+      <SliderControl
+        key="collapseWidth"
+        label="Collapse Width"
+        value={parseInt(customization.collapseWidth) || 70}
+        min={50}
+        max={100}
+        unit="px"
+        onChange={(v) => onUpdate('collapseWidth', v.toString())}
+      />
     );
   }
 
   // Neomorphic Button
   if (component.id === 'neo-btn') {
-    return (
-      <div className="space-y-3">
-        <SliderControl
-          label="Depth"
-          value={parseInt(customization.neoDepth) || 8}
-          min={2}
-          max={16}
-          unit="px"
-          onChange={(v) => onUpdate('neoDepth', v.toString())}
-        />
-        <SliderControl
-          label="Shadow Softness"
-          value={parseInt(customization.softShadowIntensity) || 20}
-          min={10}
-          max={50}
-          unit="%"
-          onChange={(v) => onUpdate('softShadowIntensity', v.toString())}
-        />
-      </div>
+    controls.push(
+      <SliderControl
+        key="neoDepth"
+        label="Depth"
+        value={parseInt(customization.neoDepth) || 8}
+        min={2}
+        max={16}
+        unit="px"
+        onChange={(v) => onUpdate('neoDepth', v.toString())}
+      />,
+      <SliderControl
+        key="softShadowIntensity"
+        label="Shadow Softness"
+        value={parseInt(customization.softShadowIntensity) || 20}
+        min={10}
+        max={50}
+        unit="%"
+        onChange={(v) => onUpdate('softShadowIntensity', v.toString())}
+      />
     );
   }
 
   // Particle Button
   if (component.id === 'particle-btn') {
-    return (
-      <div className="space-y-3">
-        <SliderControl
-          label="Particle Count"
-          value={parseInt(customization.particleCount) || 20}
-          min={5}
-          max={50}
-          unit=""
-          onChange={(v) => onUpdate('particleCount', v.toString())}
-        />
-        <SliderControl
-          label="Explosion Radius"
-          value={parseInt(customization.explosionRadius) || 50}
-          min={20}
-          max={100}
-          unit="px"
-          onChange={(v) => onUpdate('explosionRadius', v.toString())}
-        />
-      </div>
+    controls.push(
+      <SliderControl
+        key="particleCount"
+        label="Particle Count"
+        value={parseInt(customization.particleCount) || 20}
+        min={5}
+        max={50}
+        unit=""
+        onChange={(v) => onUpdate('particleCount', v.toString())}
+      />,
+      <SliderControl
+        key="explosionRadius"
+        label="Explosion Radius"
+        value={parseInt(customization.explosionRadius) || 50}
+        min={20}
+        max={100}
+        unit="px"
+        onChange={(v) => onUpdate('explosionRadius', v.toString())}
+      />
     );
   }
 
-  // Default: no specific options
+  // Gradient Angle (shared by many components)
+  if (hasGradientControls) {
+    controls.push(
+      <SliderControl
+        key="gradientAngle"
+        label="Gradient Angle"
+        value={parseInt(customization.gradientAngle) || 135}
+        min={0}
+        max={360}
+        step={15}
+        unit="°"
+        onChange={(v) => onUpdate('gradientAngle', v.toString())}
+      />
+    );
+  }
+
+  // Hover Scale (shared by button components)
+  if (hasHoverScaleControls) {
+    controls.push(
+      <SliderControl
+        key="hoverScale"
+        label="Hover Scale"
+        value={(parseFloat(customization.hoverScale) || 1.05) * 100}
+        min={100}
+        max={120}
+        unit="%"
+        onChange={(v) => onUpdate('hoverScale', (v / 100).toString())}
+      />
+    );
+  }
+
+  // Return controls or default message
+  if (controls.length > 0) {
+    return <div className="space-y-3">{controls}</div>;
+  }
+
   return (
     <p className="text-xs text-white/50">
       No specific options for this component type.

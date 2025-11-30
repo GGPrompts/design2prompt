@@ -15,6 +15,9 @@ export function StickyHeader({ customization }: StickyHeaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll({ container: containerRef });
 
+  const glassOpacity = parseInt(customization.glassOpacity) || 15;
+  const blurAmount = parseInt(customization.blurAmount) || 12;
+
   const headerHeight = useTransform(scrollY, [0, 100], [80, 60]);
   const logoScale = useTransform(scrollY, [0, 100], [1, 0.85]);
   const backgroundOpacity = useTransform(scrollY, [0, 50], [0, 1]);
@@ -58,9 +61,9 @@ export function StickyHeader({ customization }: StickyHeaderProps) {
             className="absolute inset-0"
             style={{
               backgroundColor: isScrolled
-                ? `${customization.backgroundColor}f0`
+                ? `${customization.backgroundColor}${Math.round((100 - glassOpacity) * 2.55).toString(16).padStart(2, '0')}`
                 : 'transparent',
-              backdropFilter: isScrolled ? 'blur(12px)' : 'none',
+              backdropFilter: isScrolled ? `blur(${blurAmount}px)` : 'none',
               borderBottom: isScrolled
                 ? `1px solid ${customization.primaryColor}20`
                 : 'none',

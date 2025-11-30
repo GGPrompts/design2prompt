@@ -27,6 +27,9 @@ export function SidebarNav({ customization }: SidebarNavProps) {
   const [expandedSection, setExpandedSection] = useState<string | null>('projects');
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  const sidebarWidth = parseInt(customization.sidebarWidth) || 240;
+  const collapseWidth = parseInt(customization.collapseWidth) || 70;
+
   const baseStyle = {
     fontFamily: customization.fontFamily,
     fontSize: `${customization.fontSize}px`,
@@ -119,12 +122,12 @@ export function SidebarNav({ customization }: SidebarNavProps) {
       <motion.aside
         className="flex flex-col border rounded-xl overflow-hidden"
         style={{
-          width: isCollapsed ? 70 : 240,
+          width: isCollapsed ? collapseWidth : sidebarWidth,
           backgroundColor: customization.backgroundColor,
           borderColor: `${customization.primaryColor}20`,
           boxShadow: `0 4px 20px ${customization.primaryColor}10`,
         }}
-        animate={{ width: isCollapsed ? 70 : 240 }}
+        animate={{ width: isCollapsed ? collapseWidth : sidebarWidth }}
         transition={{ duration: 0.3 }}
       >
         {/* Header */}
