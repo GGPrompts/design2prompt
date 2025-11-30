@@ -190,7 +190,7 @@ export function GlowButton({ customization }: GlowButtonProps) {
           <motion.div
             className="absolute -inset-0.5 rounded-xl opacity-75"
             style={{
-              background: `linear-gradient(90deg, ${customization.primaryColor}, ${customization.secondaryColor}, #f59e0b, #ef4444, ${customization.primaryColor})`,
+              backgroundImage: `linear-gradient(90deg, ${customization.primaryColor}, ${customization.secondaryColor}, #f59e0b, #ef4444, ${customization.primaryColor})`,
               backgroundSize: '200% 100%',
               filter: 'blur(4px)',
             }}
