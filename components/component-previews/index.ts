@@ -12,6 +12,16 @@ export { TeamMemberCard } from './cards/TeamMemberCard';
 export { GradientButton } from './buttons/GradientButton';
 export { NeomorphicButton } from './buttons/NeomorphicButton';
 export { ParticleButton } from './buttons/ParticleButton';
+export { OutlineButton } from './buttons/OutlineButton';
+export { IconButton } from './buttons/IconButton';
+export { SplitButton } from './buttons/SplitButton';
+export { LoadingButton } from './buttons/LoadingButton';
+export { PillButton } from './buttons/PillButton';
+export { AnimatedBorderButton } from './buttons/AnimatedBorderButton';
+
+// Badge components
+export { StatusBadge } from './badges/StatusBadge';
+export { NotificationBadge } from './badges/NotificationBadge';
 
 // Form components
 export { AnimatedInput } from './forms/AnimatedInput';
@@ -60,6 +70,18 @@ export { CounterCard } from './data-display/CounterCard';
 export { HeatmapCell } from './data-display/HeatmapCell';
 export { TimelineVertical } from './data-display/TimelineVertical';
 
+// Header components
+export { StickyHeader } from './headers/StickyHeader';
+export { CenteredHeader } from './headers/CenteredHeader';
+export { TransparentHeader } from './headers/TransparentHeader';
+export { MegaMenuHeader } from './headers/MegaMenuHeader';
+
+// Footer components
+export { MultiColumnFooter } from './footers/MultiColumnFooter';
+export { MinimalFooter } from './footers/MinimalFooter';
+export { CTAFooter } from './footers/CTAFooter';
+export { SocialFooter } from './footers/SocialFooter';
+
 // Hero components
 export { GradientHero } from './heroes/GradientHero';
 export { BentoHero } from './heroes/BentoHero';
@@ -69,6 +91,16 @@ export { VideoHero } from './heroes/VideoHero';
 // Modal components
 export { GlassModal } from './modals/GlassModal';
 export { SlideDrawer } from './modals/SlideDrawer';
+export { ConfirmDialog } from './modals/ConfirmDialog';
+export { ImageLightbox } from './modals/ImageLightbox';
+export { CommandModal } from './modals/CommandModal';
+export { BottomSheet } from './modals/BottomSheet';
+
+// Feedback components
+export { ToastNotification } from './feedback/ToastNotification';
+export { AlertBanner } from './feedback/AlertBanner';
+export { ProgressLoader } from './feedback/ProgressLoader';
+export { SuccessState } from './feedback/SuccessState';
 
 // Pricing components
 export { PricingCard } from './pricing/PricingCard';

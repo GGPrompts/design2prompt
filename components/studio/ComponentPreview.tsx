@@ -16,6 +16,15 @@ import {
   GradientButton,
   NeomorphicButton,
   ParticleButton,
+  OutlineButton,
+  IconButton,
+  SplitButton,
+  LoadingButton,
+  PillButton,
+  AnimatedBorderButton,
+  // Badges
+  StatusBadge,
+  NotificationBadge,
   // Forms
   AnimatedInput,
   FloatingLabelInput,
@@ -59,6 +68,16 @@ import {
   CounterCard,
   HeatmapCell,
   TimelineVertical,
+  // Headers
+  StickyHeader,
+  CenteredHeader,
+  TransparentHeader,
+  MegaMenuHeader,
+  // Footers
+  MultiColumnFooter,
+  MinimalFooter,
+  CTAFooter,
+  SocialFooter,
   // Heroes
   GradientHero,
   BentoHero,
@@ -67,6 +86,15 @@ import {
   // Modals
   GlassModal,
   SlideDrawer,
+  ConfirmDialog,
+  ImageLightbox,
+  CommandModal,
+  BottomSheet,
+  // Feedback
+  ToastNotification,
+  AlertBanner,
+  ProgressLoader,
+  SuccessState,
   // Pricing
   PricingCard,
   FeatureGrid,
@@ -133,6 +161,24 @@ export function ComponentPreview({ component, customization }: ComponentPreviewP
       return <NeomorphicButton customization={customization} />;
     case 'particle-btn':
       return <ParticleButton customization={customization} />;
+    case 'outline-btn':
+      return <OutlineButton customization={customization} />;
+    case 'icon-btn':
+      return <IconButton customization={customization} />;
+    case 'split-btn':
+      return <SplitButton customization={customization} />;
+    case 'loading-btn':
+      return <LoadingButton customization={customization} />;
+    case 'pill-btn':
+      return <PillButton customization={customization} />;
+    case 'animated-border-btn':
+      return <AnimatedBorderButton customization={customization} />;
+
+    // Badges
+    case 'status-badge':
+      return <StatusBadge customization={customization} />;
+    case 'notification-badge':
+      return <NotificationBadge customization={customization} />;
 
     // Forms
     case 'animated-input':
@@ -220,6 +266,26 @@ export function ComponentPreview({ component, customization }: ComponentPreviewP
     case 'timeline-vertical':
       return <TimelineVertical customization={customization} />;
 
+    // Headers
+    case 'sticky-header':
+      return <StickyHeader customization={customization} />;
+    case 'centered-header':
+      return <CenteredHeader customization={customization} />;
+    case 'transparent-header':
+      return <TransparentHeader customization={customization} />;
+    case 'mega-menu-header':
+      return <MegaMenuHeader customization={customization} />;
+
+    // Footers
+    case 'multi-column-footer':
+      return <MultiColumnFooter customization={customization} />;
+    case 'minimal-footer':
+      return <MinimalFooter customization={customization} />;
+    case 'cta-footer':
+      return <CTAFooter customization={customization} />;
+    case 'social-footer':
+      return <SocialFooter customization={customization} />;
+
     // Heroes
     case 'gradient-hero':
       return <GradientHero customization={customization} />;
@@ -235,6 +301,24 @@ export function ComponentPreview({ component, customization }: ComponentPreviewP
       return <GlassModal customization={customization} />;
     case 'slide-drawer':
       return <SlideDrawer customization={customization} />;
+    case 'confirm-dialog':
+      return <ConfirmDialog customization={customization} />;
+    case 'image-lightbox':
+      return <ImageLightbox customization={customization} />;
+    case 'command-modal':
+      return <CommandModal customization={customization} />;
+    case 'bottom-sheet':
+      return <BottomSheet customization={customization} />;
+
+    // Feedback
+    case 'toast-notification':
+      return <ToastNotification customization={customization} />;
+    case 'alert-banner':
+      return <AlertBanner customization={customization} />;
+    case 'progress-loader':
+      return <ProgressLoader customization={customization} />;
+    case 'success-state':
+      return <SuccessState customization={customization} />;
 
     // Pricing
     case 'pricing-card':

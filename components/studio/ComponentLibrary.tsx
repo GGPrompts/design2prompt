@@ -23,12 +23,15 @@ import {
   BarChart3,
   Layers,
   PanelTop,
+  PanelBottom,
   ChevronRight,
   LayoutGrid,
   DollarSign,
   MessageSquare,
   KeyRound,
   Megaphone,
+  BadgeCheck,
+  Bell,
 } from 'lucide-react';
 
 type ComponentLibraryProps = {
@@ -39,12 +42,15 @@ type ComponentLibraryProps = {
 const categoryIconMap: Record<ComponentCategory, React.ReactNode> = {
   cards: <CreditCard className="w-4 h-4" />,
   buttons: <MousePointer className="w-4 h-4" />,
+  badges: <BadgeCheck className="w-4 h-4" />,
   forms: <FileText className="w-4 h-4" />,
   navigation: <Menu className="w-4 h-4" />,
   effects: <Sparkles className="w-4 h-4" />,
   'data-display': <BarChart3 className="w-4 h-4" />,
   modals: <Layers className="w-4 h-4" />,
+  feedback: <Bell className="w-4 h-4" />,
   headers: <PanelTop className="w-4 h-4" />,
+  footers: <PanelBottom className="w-4 h-4" />,
   heroes: <LayoutGrid className="w-4 h-4" />,
   pricing: <DollarSign className="w-4 h-4" />,
   testimonials: <MessageSquare className="w-4 h-4" />,
