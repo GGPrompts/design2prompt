@@ -8,18 +8,31 @@ import {
   Layers,
   Wand2,
   ArrowRight,
-  Code2,
   Eye,
 } from 'lucide-react';
+import { HeroShowcase, AnimatedStats } from '@/components/landing';
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 text-white overflow-hidden">
-      {/* Animated background effects */}
+    <main className="min-h-screen bg-[#030305] text-white overflow-hidden">
+      {/* Animated background effects - neon dark theme */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-3xl" />
+        {/* Base dark gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-950/20 to-transparent" />
+
+        {/* Neon glow orbs */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/8 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-cyan-500/6 rounded-full blur-[120px] animate-pulse delay-1000" />
+        <div className="absolute top-2/3 left-1/3 w-64 h-64 bg-emerald-400/5 rounded-full blur-[80px] animate-pulse delay-500" />
+
+        {/* Subtle grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(16, 185, 129, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(16, 185, 129, 0.3) 1px, transparent 1px)`,
+            backgroundSize: '60px 60px',
+          }}
+        />
       </div>
 
       {/* Content */}
@@ -59,47 +72,65 @@ export default function HomePage() {
         </header>
 
         {/* Hero */}
-        <section className="flex flex-col items-center justify-center px-6 pt-20 pb-32 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm mb-8">
-              <Sparkles className="w-4 h-4 text-emerald-400" />
-              <span>Visual Component Builder for AI</span>
-            </div>
-
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
-              Design Components.
-              <br />
-              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                Generate Perfect Prompts.
-              </span>
-            </h1>
-
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
-              Visually customize UI components and generate detailed prompts for
-              Claude, GPT, Cursor, and any AI coding assistant.
-            </p>
-
-            <div className="flex items-center justify-center gap-4">
-              <Link
-                href="/studio"
-                className="group flex items-center gap-2 px-6 py-3 bg-emerald-500 text-white rounded-lg font-medium hover:bg-emerald-600 transition-all"
+        <section className="px-6 pt-12 pb-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Left side - Text content */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                className="text-center lg:text-left"
               >
-                Open Studio
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link
-                href="/collections"
-                className="px-6 py-3 bg-white/5 border border-white/10 text-white rounded-lg font-medium hover:bg-white/10 transition-colors"
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm mb-6">
+                  <Sparkles className="w-4 h-4 text-emerald-400" />
+                  <span>Visual Component Builder for AI</span>
+                </div>
+
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent leading-tight">
+                  Design Components.
+                  <br />
+                  <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                    Generate Perfect Prompts.
+                  </span>
+                </h1>
+
+                <p className="text-lg text-gray-400 max-w-xl mb-8">
+                  Visually customize UI components and generate detailed prompts for
+                  Claude, GPT, Cursor, and any AI coding assistant.
+                </p>
+
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                  <Link
+                    href="/studio"
+                    className="group flex items-center gap-2 px-6 py-3 bg-emerald-500 text-white rounded-lg font-medium hover:bg-emerald-600 transition-all"
+                  >
+                    Open Studio
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <Link
+                    href="/collections"
+                    className="px-6 py-3 bg-white/5 border border-white/10 text-white rounded-lg font-medium hover:bg-white/10 transition-colors"
+                  >
+                    View Collections
+                  </Link>
+                </div>
+              </motion.div>
+
+              {/* Right side - Component showcase */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
               >
-                View Collections
-              </Link>
+                <HeroShowcase />
+              </motion.div>
             </div>
-          </motion.div>
+          </div>
         </section>
+
+        {/* Animated Stats Section */}
+        <AnimatedStats />
 
         {/* Features */}
         <section className="px-6 py-20">
@@ -112,7 +143,7 @@ export default function HomePage() {
               <FeatureCard
                 icon={<Palette className="w-6 h-6" />}
                 title="Browse & Customize"
-                description="50+ customizable components across cards, buttons, forms, navigation, and effects."
+                description="94+ customizable components across 16 categories: cards, buttons, forms, navigation, and more."
                 color="emerald"
               />
               <FeatureCard
@@ -138,7 +169,7 @@ export default function HomePage() {
         </section>
 
         {/* How it works */}
-        <section className="px-6 py-20 bg-white/5">
+        <section className="px-6 py-20 bg-emerald-950/10 border-y border-emerald-500/10">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-16">How It Works</h2>
 
@@ -184,16 +215,18 @@ export default function HomePage() {
         </section>
 
         {/* Footer */}
-        <footer className="px-6 py-8 border-t border-white/10">
+        <footer className="px-6 py-8 border-t border-emerald-500/10">
           <div className="max-w-5xl mx-auto flex items-center justify-between text-sm text-gray-500">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4" />
               <span>design2prompt</span>
             </div>
             <div className="flex items-center gap-4">
-              <span>Phase 1 MVP</span>
+              <span>94+ Components</span>
               <span>·</span>
-              <span>12 Components</span>
+              <span>16 Categories</span>
+              <span>·</span>
+              <span>6 AI Targets</span>
             </div>
           </div>
         </footer>
