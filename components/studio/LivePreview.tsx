@@ -1,10 +1,61 @@
 'use client';
 
+import { useState } from 'react';
 import { ComponentDefinition } from '@/lib/component-registry';
 import { Customization } from '@/types/customization';
 import { ComponentPreview } from './ComponentPreview';
 import { Button } from '@/components/ui/button';
-import { RotateCcw, Maximize2, Eye } from 'lucide-react';
+import { RotateCcw, Eye, Monitor, Sun, Moon, Grid3X3 } from 'lucide-react';
+
+type PreviewBackground = 'neutral' | 'light' | 'dark' | 'checker';
+
+const previewBackgrounds: Record<PreviewBackground, {
+  label: string;
+  icon: typeof Monitor;
+  style: React.CSSProperties;
+}> = {
+  neutral: {
+    label: 'Neutral',
+    icon: Monitor,
+    style: {
+      backgroundColor: '#18181b',
+      backgroundImage: 'radial-gradient(circle at 50% 50%, #27272a 0%, #18181b 100%)',
+    },
+  },
+  light: {
+    label: 'Light',
+    icon: Sun,
+    style: {
+      backgroundColor: '#f4f4f5',
+      backgroundImage: 'radial-gradient(circle at 50% 50%, #ffffff 0%, #e4e4e7 100%)',
+    },
+  },
+  dark: {
+    label: 'Dark',
+    icon: Moon,
+    style: {
+      backgroundColor: '#09090b',
+      backgroundImage: 'radial-gradient(circle at 50% 50%, #18181b 0%, #09090b 100%)',
+    },
+  },
+  checker: {
+    label: 'Checker',
+    icon: Grid3X3,
+    style: {
+      backgroundColor: '#18181b',
+      backgroundImage: `
+        linear-gradient(45deg, #27272a 25%, transparent 25%),
+        linear-gradient(-45deg, #27272a 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #27272a 75%),
+        linear-gradient(-45deg, transparent 75%, #27272a 75%)
+      `,
+      backgroundSize: '20px 20px',
+      backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px',
+    },
+  },
+};
+
+const backgroundOrder: PreviewBackground[] = ['neutral', 'light', 'dark', 'checker'];
 
 type LivePreviewProps = {
   component: ComponentDefinition | null;
@@ -17,6 +68,17 @@ export function LivePreview({
   customization,
   onResetCustomization,
 }: LivePreviewProps) {
+  const [previewBg, setPreviewBg] = useState<PreviewBackground>('neutral');
+
+  const cycleBackground = () => {
+    const currentIndex = backgroundOrder.indexOf(previewBg);
+    const nextIndex = (currentIndex + 1) % backgroundOrder.length;
+    setPreviewBg(backgroundOrder[nextIndex]);
+  };
+
+  const currentBg = previewBackgrounds[previewBg];
+  const CurrentIcon = currentBg.icon;
+
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
@@ -31,6 +93,17 @@ export function LivePreview({
           )}
         </div>
         <div className="flex items-center gap-2">
+          {/* Background toggle */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={cycleBackground}
+            className="h-8 text-white/70 hover:text-white hover:bg-white/10 gap-1.5"
+            title={`Preview background: ${currentBg.label} (click to cycle)`}
+          >
+            <CurrentIcon className="w-3.5 h-3.5" />
+            <span className="text-xs hidden sm:inline">{currentBg.label}</span>
+          </Button>
           <Button
             variant="ghost"
             size="sm"
@@ -45,14 +118,8 @@ export function LivePreview({
 
       {/* Preview Area */}
       <div
-        className="flex-1 flex items-center justify-center p-8 overflow-auto"
-        style={{
-          backgroundColor: customization.backgroundColor,
-          backgroundImage: `
-            radial-gradient(circle at 20% 50%, ${customization.primaryColor}08 0%, transparent 50%),
-            radial-gradient(circle at 80% 50%, ${customization.secondaryColor}08 0%, transparent 50%)
-          `,
-        }}
+        className="flex-1 flex items-center justify-center p-8 overflow-auto transition-colors duration-300"
+        style={currentBg.style}
       >
         <ComponentPreview
           component={component}
