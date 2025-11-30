@@ -30,7 +30,7 @@ app/                 # Next.js App Router
 
 components/
   studio/           # Browse & customize UI
-  component-previews/  # 50+ component renders
+  component-previews/  # 70+ component renders
   collections/      # Collection management
   canvas/          # Drag & drop canvas
 
@@ -63,9 +63,9 @@ All use `zustand/middleware/persist` for auto-save.
 ## Key Features
 
 ### 1. Component Browser
-- 50+ customizable components
+- 70+ customizable components
 - Search/filter by category
-- Real-time preview
+- Real-time preview with live customization
 
 ### 2. Collections
 - Save customized components
@@ -137,8 +137,8 @@ const snapToGrid = createSnapModifier(20)
 
 **Add new component:**
 1. Create preview in `components/component-previews/`
-2. Add metadata to `lib/component-registry.ts`
-3. Add customization options to `types/component.ts`
+2. Add metadata to `lib/component-registry.ts` (customizableProps + defaultCustomization)
+3. Add UI controls in `components/studio/CustomizationPanel.tsx` (ComponentSpecificOptions function)
 
 **Add AI export format:**
 1. Create generator in `lib/ai-targets/`
