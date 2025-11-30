@@ -12,7 +12,7 @@ export type ComponentDefinition = {
   defaultCustomization: Partial<Customization>;
 };
 
-// Component Library - 12 initial components across 6 categories
+// Component Library - All components across categories
 export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> = {
   cards: [
     {
@@ -106,57 +106,65 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
   ],
   forms: [
     {
-      id: 'animated-form',
-      name: 'Animated Form',
+      id: 'animated-input',
+      name: 'Animated Input',
       category: 'forms',
-      description: 'Field-level animations with staggered entrance',
-      tags: ['animated', 'stagger', 'entrance', 'form'],
-      customizableProps: ['fieldStagger', 'animation'],
+      description: 'Form inputs with staggered entrance and focus animations',
+      tags: ['animated', 'input', 'form', 'stagger', 'focus'],
+      customizableProps: ['duration', 'borderRadius'],
       defaultCustomization: {
         ...defaultCustomization,
-        fieldStagger: '0.1',
-        animation: 'smooth',
+        duration: '300',
       },
     },
     {
-      id: 'step-form',
-      name: 'Multi-Step Form',
+      id: 'floating-label-input',
+      name: 'Floating Label Input',
       category: 'forms',
-      description: 'Progress indicators with smooth step transitions',
-      tags: ['wizard', 'steps', 'progress', 'multi-step'],
-      customizableProps: ['stepCount', 'progressStyle'],
+      description: 'Material Design inspired inputs with floating labels',
+      tags: ['floating', 'label', 'material', 'form', 'input'],
+      customizableProps: ['borderRadius'],
       defaultCustomization: {
         ...defaultCustomization,
-        stepCount: '3',
-        progressStyle: 'bar',
+      },
+    },
+    {
+      id: 'search-command',
+      name: 'Search Command',
+      category: 'forms',
+      description: 'Command palette style search with keyboard navigation',
+      tags: ['search', 'command', 'keyboard', 'palette', 'filter'],
+      customizableProps: ['borderRadius', 'glassOpacity'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        glassOpacity: '15',
       },
     },
   ],
   navigation: [
     {
-      id: 'floating-nav',
-      name: 'Floating Navigation',
+      id: 'glass-nav',
+      name: 'Glass Navigation',
       category: 'navigation',
-      description: 'Fixed floating nav bar with backdrop blur',
-      tags: ['floating', 'sticky', 'navbar', 'blur'],
-      customizableProps: ['navPosition', 'navSpacing'],
+      description: 'Glassmorphic navigation bar with smooth indicator transitions',
+      tags: ['glass', 'navbar', 'blur', 'indicator', 'modern'],
+      customizableProps: ['glassOpacity', 'blurAmount', 'borderRadius'],
       defaultCustomization: {
         ...defaultCustomization,
-        navPosition: 'top',
-        navSpacing: '20',
+        glassOpacity: '15',
+        blurAmount: '12',
       },
     },
     {
-      id: 'sidebar-nav',
-      name: 'Collapsible Sidebar',
+      id: 'command-palette',
+      name: 'Command Palette',
       category: 'navigation',
-      description: 'Expandable/collapsible navigation sidebar',
-      tags: ['sidebar', 'collapsible', 'menu', 'drawer'],
-      customizableProps: ['sidebarWidth', 'collapseWidth'],
+      description: 'VS Code style command palette with grouped commands',
+      tags: ['command', 'palette', 'search', 'keyboard', 'shortcuts'],
+      customizableProps: ['glassOpacity', 'borderRadius'],
       defaultCustomization: {
         ...defaultCustomization,
-        sidebarWidth: '240',
-        collapseWidth: '60',
+        glassOpacity: '15',
       },
     },
   ],
@@ -190,9 +198,178 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
       },
     },
   ],
-  'data-display': [],
-  modals: [],
+  'data-display': [
+    {
+      id: 'stat-card',
+      name: 'Stat Card',
+      category: 'data-display',
+      description: 'Animated statistics cards with trend indicators',
+      tags: ['stats', 'metrics', 'dashboard', 'trends', 'analytics'],
+      customizableProps: ['shadowIntensity', 'borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        shadowIntensity: '50',
+      },
+    },
+    {
+      id: 'metric-tile',
+      name: 'Metric Tile',
+      category: 'data-display',
+      description: 'System metrics display with progress bars and sparkline',
+      tags: ['metrics', 'progress', 'sparkline', 'dashboard', 'monitoring'],
+      customizableProps: ['shadowIntensity', 'borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        shadowIntensity: '50',
+      },
+    },
+    {
+      id: 'progress-ring',
+      name: 'Progress Ring',
+      category: 'data-display',
+      description: 'Animated concentric progress rings with SVG',
+      tags: ['progress', 'ring', 'circular', 'svg', 'animated'],
+      customizableProps: ['borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+      },
+    },
+  ],
+  modals: [
+    {
+      id: 'glass-modal',
+      name: 'Glass Modal',
+      category: 'modals',
+      description: 'Glassmorphic modal dialog with blur backdrop',
+      tags: ['modal', 'glass', 'dialog', 'blur', 'overlay'],
+      customizableProps: ['glassOpacity', 'blurAmount', 'borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        glassOpacity: '15',
+        blurAmount: '12',
+      },
+    },
+    {
+      id: 'slide-drawer',
+      name: 'Slide Drawer',
+      category: 'modals',
+      description: 'Side drawer navigation with push effect',
+      tags: ['drawer', 'slide', 'navigation', 'sidebar', 'menu'],
+      customizableProps: ['shadowIntensity', 'borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        shadowIntensity: '50',
+      },
+    },
+  ],
   headers: [],
+  heroes: [
+    {
+      id: 'gradient-hero',
+      name: 'Gradient Hero',
+      category: 'heroes',
+      description: 'Hero section with animated gradient orbs and CTA buttons',
+      tags: ['hero', 'gradient', 'landing', 'cta', 'animated'],
+      customizableProps: ['gradientAngle', 'borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        gradientAngle: '135',
+      },
+    },
+    {
+      id: 'bento-hero',
+      name: 'Bento Hero',
+      category: 'heroes',
+      description: 'Bento grid layout hero with feature cards',
+      tags: ['bento', 'grid', 'hero', 'features', 'layout'],
+      customizableProps: ['shadowIntensity', 'borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        shadowIntensity: '50',
+      },
+    },
+  ],
+  pricing: [
+    {
+      id: 'pricing-card',
+      name: 'Pricing Card',
+      category: 'pricing',
+      description: 'Featured pricing card with shimmer effect and feature list',
+      tags: ['pricing', 'card', 'features', 'cta', 'shimmer'],
+      customizableProps: ['shadowIntensity', 'glassOpacity', 'borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        shadowIntensity: '50',
+        glassOpacity: '15',
+      },
+    },
+    {
+      id: 'feature-grid',
+      name: 'Feature Grid',
+      category: 'pricing',
+      description: 'Hover-activated feature grid with icons and descriptions',
+      tags: ['features', 'grid', 'icons', 'hover', 'marketing'],
+      customizableProps: ['shadowIntensity', 'borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        shadowIntensity: '50',
+      },
+    },
+  ],
+  testimonials: [
+    {
+      id: 'testimonial-card',
+      name: 'Testimonial Card',
+      category: 'testimonials',
+      description: 'Customer testimonial with rating, quote, and avatar',
+      tags: ['testimonial', 'review', 'rating', 'quote', 'social-proof'],
+      customizableProps: ['shadowIntensity', 'glassOpacity', 'borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        shadowIntensity: '50',
+        glassOpacity: '15',
+      },
+    },
+    {
+      id: 'quote-card',
+      name: 'Quote Card',
+      category: 'testimonials',
+      description: 'Inspirational quote card with animated gradient border',
+      tags: ['quote', 'gradient', 'border', 'inspiration', 'animated'],
+      customizableProps: ['gradientAngle', 'borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        gradientAngle: '135',
+      },
+    },
+  ],
+  auth: [
+    {
+      id: 'login-card',
+      name: 'Login Card',
+      category: 'auth',
+      description: 'Complete login form with social auth and animations',
+      tags: ['login', 'auth', 'form', 'social', 'password'],
+      customizableProps: ['shadowIntensity', 'glassOpacity', 'borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        shadowIntensity: '50',
+        glassOpacity: '15',
+      },
+    },
+    {
+      id: 'signup-card',
+      name: 'Signup Card',
+      category: 'auth',
+      description: 'Registration form with password strength indicator',
+      tags: ['signup', 'register', 'auth', 'form', 'password-strength'],
+      customizableProps: ['shadowIntensity', 'borderRadius'],
+      defaultCustomization: {
+        ...defaultCustomization,
+        shadowIntensity: '50',
+      },
+    },
+  ],
 };
 
 // Get all components as flat array
@@ -239,6 +416,10 @@ export const categoryDisplayNames: Record<ComponentCategory, string> = {
   'data-display': 'Data Display',
   modals: 'Modals & Overlays',
   headers: 'Headers',
+  heroes: 'Heroes & Landing',
+  pricing: 'Pricing & Features',
+  testimonials: 'Testimonials',
+  auth: 'Authentication',
 };
 
 // Category icons (lucide icon names)
@@ -251,4 +432,8 @@ export const categoryIcons: Record<ComponentCategory, string> = {
   'data-display': 'BarChart3',
   modals: 'Layers',
   headers: 'PanelTop',
+  heroes: 'Layout',
+  pricing: 'DollarSign',
+  testimonials: 'Quote',
+  auth: 'Lock',
 };

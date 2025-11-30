@@ -44,6 +44,12 @@ export default function HomePage() {
               Collections
             </Link>
             <Link
+              href="/canvas"
+              className="px-4 py-2 text-sm text-gray-300 hover:text-white transition-colors"
+            >
+              Canvas
+            </Link>
+            <Link
               href="/studio"
               className="px-4 py-2 bg-emerald-500 text-white rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors"
             >
@@ -102,7 +108,7 @@ export default function HomePage() {
               From Design to AI Prompt in Seconds
             </h2>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-4 gap-8">
               <FeatureCard
                 icon={<Palette className="w-6 h-6" />}
                 title="Browse & Customize"
@@ -116,10 +122,16 @@ export default function HomePage() {
                 color="cyan"
               />
               <FeatureCard
+                icon={<Layers className="w-6 h-6" />}
+                title="Canvas Mode"
+                description="Drag and drop components on a visual canvas to design full page layouts."
+                color="purple"
+              />
+              <FeatureCard
                 icon={<Wand2 className="w-6 h-6" />}
                 title="Export to AI"
                 description="Generate detailed prompts for Claude, GPT, Cursor, and other AI assistants."
-                color="purple"
+                color="emerald"
               />
             </div>
           </div>

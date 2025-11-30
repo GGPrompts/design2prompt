@@ -8,7 +8,11 @@ export type ComponentCategory =
   | 'effects'
   | 'data-display'
   | 'modals'
-  | 'headers';
+  | 'headers'
+  | 'heroes'
+  | 'pricing'
+  | 'testimonials'
+  | 'auth';
 
 export type CustomizableProp = {
   key: string;

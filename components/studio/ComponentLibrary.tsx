@@ -24,6 +24,10 @@ import {
   Layers,
   PanelTop,
   ChevronRight,
+  LayoutGrid,
+  DollarSign,
+  MessageSquare,
+  KeyRound,
 } from 'lucide-react';
 
 type ComponentLibraryProps = {
@@ -40,6 +44,10 @@ const categoryIconMap: Record<ComponentCategory, React.ReactNode> = {
   'data-display': <BarChart3 className="w-4 h-4" />,
   modals: <Layers className="w-4 h-4" />,
   headers: <PanelTop className="w-4 h-4" />,
+  heroes: <LayoutGrid className="w-4 h-4" />,
+  pricing: <DollarSign className="w-4 h-4" />,
+  testimonials: <MessageSquare className="w-4 h-4" />,
+  auth: <KeyRound className="w-4 h-4" />,
 };
 
 export function ComponentLibrary({
