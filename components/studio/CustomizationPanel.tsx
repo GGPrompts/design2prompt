@@ -670,6 +670,138 @@ function ComponentSpecificOptions({
     );
   }
 
+  // Profile Card
+  if (component.id === 'profile-card') {
+    controls.push(
+      <SliderControl
+        key="avatarSize"
+        label="Avatar Size"
+        value={parseInt(customization.avatarSize) || 80}
+        min={40}
+        max={120}
+        unit="px"
+        onChange={(v) => onUpdate('avatarSize', v.toString())}
+      />,
+      <ToggleOption
+        key="showSocialLinks"
+        label="Show Social Links"
+        description="Display social media buttons"
+        checked={customization.showSocialLinks !== 'false'}
+        onChange={(v) => onUpdate('showSocialLinks', v.toString())}
+      />
+    );
+  }
+
+  // Product Card
+  if (component.id === 'product-card') {
+    controls.push(
+      <SliderControl
+        key="imageHeight"
+        label="Image Height"
+        value={parseInt(customization.imageHeight) || 200}
+        min={120}
+        max={300}
+        unit="px"
+        onChange={(v) => onUpdate('imageHeight', v.toString())}
+      />,
+      <ToggleOption
+        key="showRating"
+        label="Show Rating"
+        description="Display star rating and reviews"
+        checked={customization.showRating !== 'false'}
+        onChange={(v) => onUpdate('showRating', v.toString())}
+      />
+    );
+  }
+
+  // Blog Card
+  if (component.id === 'blog-card') {
+    controls.push(
+      <SliderControl
+        key="excerptLines"
+        label="Excerpt Lines"
+        value={parseInt(customization.excerptLines) || 3}
+        min={1}
+        max={5}
+        unit=""
+        onChange={(v) => onUpdate('excerptLines', v.toString())}
+      />,
+      <ToggleOption
+        key="showAuthor"
+        label="Show Author"
+        description="Display author info section"
+        checked={customization.showAuthor !== 'false'}
+        onChange={(v) => onUpdate('showAuthor', v.toString())}
+      />
+    );
+  }
+
+  // Stat Card
+  if (component.id === 'stat-card') {
+    controls.push(
+      <SliderControl
+        key="iconSize"
+        label="Icon Size"
+        value={parseInt(customization.iconSize) || 24}
+        min={16}
+        max={40}
+        unit="px"
+        onChange={(v) => onUpdate('iconSize', v.toString())}
+      />,
+      <ToggleOption
+        key="showTrend"
+        label="Show Trend"
+        description="Display trend indicator badges"
+        checked={customization.showTrend !== 'false'}
+        onChange={(v) => onUpdate('showTrend', v.toString())}
+      />
+    );
+  }
+
+  // Toast Notification
+  if (component.id === 'toast-notification') {
+    controls.push(
+      <SliderControl
+        key="toastWidth"
+        label="Toast Width"
+        value={parseInt(customization.toastWidth) || 320}
+        min={280}
+        max={400}
+        unit="px"
+        onChange={(v) => onUpdate('toastWidth', v.toString())}
+      />,
+      <ToggleOption
+        key="showIcon"
+        label="Show Icon"
+        description="Display variant icon in toast"
+        checked={customization.showIcon !== 'false'}
+        onChange={(v) => onUpdate('showIcon', v.toString())}
+      />
+    );
+  }
+
+  // Loading Button
+  if (component.id === 'loading-btn') {
+    controls.push(
+      <SliderControl
+        key="spinnerSize"
+        label="Spinner Size"
+        value={parseInt(customization.spinnerSize) || 16}
+        min={12}
+        max={24}
+        unit="px"
+        onChange={(v) => onUpdate('spinnerSize', v.toString())}
+      />,
+      <ToggleOption
+        key="showSuccessState"
+        label="Show Success State"
+        description="Display success checkmark after loading"
+        checked={customization.showSuccessState !== 'false'}
+        onChange={(v) => onUpdate('showSuccessState', v.toString())}
+      />
+    );
+  }
+
   // Neomorphic Button
   if (component.id === 'neo-btn') {
     controls.push(

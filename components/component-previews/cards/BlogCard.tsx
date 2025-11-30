@@ -13,6 +13,8 @@ export function BlogCard({ customization }: BlogCardProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const excerptLines = parseInt(customization.excerptLines) || 3;
+  const showAuthor = customization.showAuthor !== 'false';
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -138,7 +140,15 @@ export function BlogCard({ customization }: BlogCardProps) {
         </h2>
 
         {/* Excerpt */}
-        <p className="text-sm opacity-70 leading-relaxed mb-4 line-clamp-3">
+        <p
+          className="text-sm opacity-70 leading-relaxed mb-4"
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: excerptLines,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+          }}
+        >
           Discover how artificial intelligence is revolutionizing the way we build software,
           from automated code generation to intelligent debugging and beyond.
         </p>
@@ -173,25 +183,27 @@ export function BlogCard({ customization }: BlogCardProps) {
         >
           <div className="flex items-center justify-between">
             {/* Author */}
-            <div className="flex items-center gap-3">
-              <motion.div
-                className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
-                style={{
-                  background: `linear-gradient(135deg, ${customization.primaryColor}, ${customization.secondaryColor})`,
-                  color: customization.backgroundColor,
-                }}
-                whileHover={{ scale: 1.1 }}
-              >
-                SJ
-              </motion.div>
-              <div>
-                <p className="text-sm font-semibold">Sarah Johnson</p>
-                <p className="text-xs opacity-60">Tech Writer</p>
+            {showAuthor && (
+              <div className="flex items-center gap-3">
+                <motion.div
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
+                  style={{
+                    background: `linear-gradient(135deg, ${customization.primaryColor}, ${customization.secondaryColor})`,
+                    color: customization.backgroundColor,
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  SJ
+                </motion.div>
+                <div>
+                  <p className="text-sm font-semibold">Sarah Johnson</p>
+                  <p className="text-xs opacity-60">Tech Writer</p>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Social Actions */}
-            <div className="flex items-center gap-1">
+            <div className={`flex items-center gap-1 ${!showAuthor ? 'ml-auto' : ''}`}>
               {[
                 { icon: Heart, count: 234 },
                 { icon: MessageCircle, count: 18 },

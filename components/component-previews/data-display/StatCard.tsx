@@ -11,6 +11,8 @@ type StatCardProps = {
 export function StatCard({ customization }: StatCardProps) {
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
   const glassOpacity = parseInt(customization.glassOpacity) || 15;
+  const iconSize = parseInt(customization.iconSize) || 24;
+  const showTrend = customization.showTrend !== 'false';
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -65,18 +67,20 @@ export function StatCard({ customization }: StatCardProps) {
                     className="p-2 rounded-lg"
                     style={{ backgroundColor: `${customization.primaryColor}20` }}
                   >
-                    <Icon className="w-4 h-4" style={{ color: customization.primaryColor }} />
+                    <Icon style={{ width: iconSize, height: iconSize, color: customization.primaryColor }} />
                   </div>
-                  <div
-                    className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full"
-                    style={{
-                      backgroundColor: stat.isPositive ? '#10b98115' : '#ef444415',
-                      color: stat.isPositive ? '#10b981' : '#ef4444',
-                    }}
-                  >
-                    <TrendIcon className="w-3 h-3" />
-                    {stat.change}
-                  </div>
+                  {showTrend && (
+                    <div
+                      className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full"
+                      style={{
+                        backgroundColor: stat.isPositive ? '#10b98115' : '#ef444415',
+                        color: stat.isPositive ? '#10b981' : '#ef4444',
+                      }}
+                    >
+                      <TrendIcon className="w-3 h-3" />
+                      {stat.change}
+                    </div>
+                  )}
                 </div>
 
                 <div className="mb-1">

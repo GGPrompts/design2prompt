@@ -13,6 +13,8 @@ export function LoadingButton({ customization }: LoadingButtonProps) {
   const [loadingState, setLoadingState] = useState<'idle' | 'loading' | 'success'>('idle');
   const [loadingState2, setLoadingState2] = useState<'idle' | 'loading' | 'success'>('idle');
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const spinnerSize = parseInt(customization.spinnerSize) || 16;
+  const showSuccessState = customization.showSuccessState !== 'false';
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -24,8 +26,12 @@ export function LoadingButton({ customization }: LoadingButtonProps) {
   const handleClick = (setter: typeof setLoadingState) => {
     setter('loading');
     setTimeout(() => {
-      setter('success');
-      setTimeout(() => setter('idle'), 1500);
+      if (showSuccessState) {
+        setter('success');
+        setTimeout(() => setter('idle'), 1500);
+      } else {
+        setter('idle');
+      }
     }, 2000);
   };
 
@@ -56,7 +62,7 @@ export function LoadingButton({ customization }: LoadingButtonProps) {
               animate={{ rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
             >
-              <Loader2 className="w-4 h-4" />
+              <Loader2 style={{ width: spinnerSize, height: spinnerSize }} />
             </motion.div>
             Processing...
           </>
@@ -123,8 +129,12 @@ export function LoadingButton({ customization }: LoadingButtonProps) {
           {[0, 1, 2].map((i) => (
             <motion.span
               key={i}
-              className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: customization.primaryColor }}
+              className="rounded-full"
+              style={{
+                width: spinnerSize / 2,
+                height: spinnerSize / 2,
+                backgroundColor: customization.primaryColor,
+              }}
               animate={{
                 scale: [1, 1.3, 1],
                 opacity: [0.5, 1, 0.5],

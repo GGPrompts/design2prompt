@@ -30,6 +30,8 @@ export function ToastNotification({ customization }: ToastNotificationProps) {
     { id: 1, variant: 'success', title: 'Success!', message: 'Your changes have been saved.' },
     { id: 2, variant: 'error', title: 'Error', message: 'Something went wrong.' },
   ]);
+  const toastWidth = parseInt(customization.toastWidth) || 320;
+  const showIcon = customization.showIcon !== 'false';
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -114,6 +116,7 @@ export function ToastNotification({ customization }: ToastNotificationProps) {
                 layout
                 className="flex items-start gap-3 p-4 rounded-xl border shadow-lg"
                 style={{
+                  width: toastWidth,
                   backgroundColor: customization.backgroundColor,
                   borderColor: `${config.color}30`,
                   borderRadius: `${customization.borderRadius}px`,
@@ -125,12 +128,14 @@ export function ToastNotification({ customization }: ToastNotificationProps) {
                 transition={{ type: 'spring', damping: 20, stiffness: 300 }}
               >
                 {/* Icon */}
-                <div
-                  className="p-1.5 rounded-full shrink-0"
-                  style={{ backgroundColor: `${config.color}15` }}
-                >
-                  <Icon className="w-4 h-4" style={{ color: config.color }} />
-                </div>
+                {showIcon && (
+                  <div
+                    className="p-1.5 rounded-full shrink-0"
+                    style={{ backgroundColor: `${config.color}15` }}
+                  >
+                    <Icon className="w-4 h-4" style={{ color: config.color }} />
+                  </div>
+                )}
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">

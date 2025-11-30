@@ -11,6 +11,8 @@ type ProfileCardProps = {
 export function ProfileCard({ customization }: ProfileCardProps) {
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
   const glassOpacity = parseInt(customization.glassOpacity) || 15;
+  const avatarSize = parseInt(customization.avatarSize) || 80;
+  const showSocialLinks = customization.showSocialLinks !== 'false';
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -64,18 +66,22 @@ export function ProfileCard({ customization }: ProfileCardProps) {
       {/* Avatar */}
       <div className="relative px-6">
         <motion.div
-          className="absolute -top-12 w-24 h-24 rounded-full border-4 overflow-hidden"
+          className="absolute rounded-full border-4 overflow-hidden"
           style={{
+            width: avatarSize,
+            height: avatarSize,
+            top: -avatarSize / 2,
             borderColor: customization.backgroundColor,
             boxShadow: `0 8px 20px ${customization.primaryColor}40`,
           }}
           whileHover={{ scale: 1.05 }}
         >
           <div
-            className="w-full h-full flex items-center justify-center text-2xl font-bold"
+            className="w-full h-full flex items-center justify-center font-bold"
             style={{
               background: `linear-gradient(135deg, ${customization.primaryColor}60, ${customization.secondaryColor}60)`,
               color: customization.textColor,
+              fontSize: `${avatarSize * 0.3}px`,
             }}
           >
             AJ
@@ -84,7 +90,7 @@ export function ProfileCard({ customization }: ProfileCardProps) {
       </div>
 
       {/* Content */}
-      <div className="pt-14 px-6 pb-6">
+      <div className="px-6 pb-6" style={{ paddingTop: avatarSize / 2 + 8 }}>
         <div className="flex items-center gap-2">
           <h3 className="text-xl font-bold">Alex Johnson</h3>
           <motion.div
@@ -147,31 +153,33 @@ export function ProfileCard({ customization }: ProfileCardProps) {
         </div>
 
         {/* Social Links */}
-        <div className="flex justify-center gap-3 mt-5">
-          {socialLinks.map((social, index) => {
-            const Icon = social.icon;
-            return (
-              <motion.button
-                key={social.label}
-                className="w-10 h-10 rounded-full flex items-center justify-center border"
-                style={{
-                  borderColor: `${customization.primaryColor}30`,
-                  backgroundColor: `${customization.primaryColor}10`,
-                }}
-                whileHover={{
-                  scale: 1.1,
-                  backgroundColor: customization.primaryColor,
-                }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3 + index * 0.1 }}
-              >
-                <Icon className="w-4 h-4" style={{ color: customization.textColor }} />
-              </motion.button>
-            );
-          })}
-        </div>
+        {showSocialLinks && (
+          <div className="flex justify-center gap-3 mt-5">
+            {socialLinks.map((social, index) => {
+              const Icon = social.icon;
+              return (
+                <motion.button
+                  key={social.label}
+                  className="w-10 h-10 rounded-full flex items-center justify-center border"
+                  style={{
+                    borderColor: `${customization.primaryColor}30`,
+                    backgroundColor: `${customization.primaryColor}10`,
+                  }}
+                  whileHover={{
+                    scale: 1.1,
+                    backgroundColor: customization.primaryColor,
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3 + index * 0.1 }}
+                >
+                  <Icon className="w-4 h-4" style={{ color: customization.textColor }} />
+                </motion.button>
+              );
+            })}
+          </div>
+        )}
 
         {/* Action Button */}
         <motion.button

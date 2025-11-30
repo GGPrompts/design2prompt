@@ -65,11 +65,13 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
       category: 'cards',
       description: 'User profile card with avatar, bio, stats, and social links',
       tags: ['profile', 'user', 'avatar', 'social', 'bio'],
-      customizableProps: ['shadowIntensity', 'glassOpacity', 'borderRadius'],
+      customizableProps: ['shadowIntensity', 'glassOpacity', 'borderRadius', 'avatarSize', 'showSocialLinks'],
       defaultCustomization: {
         ...defaultCustomization,
         shadowIntensity: '50',
         glassOpacity: '15',
+        avatarSize: '80',
+        showSocialLinks: 'true',
       },
     },
     {
@@ -78,10 +80,12 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
       category: 'cards',
       description: 'E-commerce product card with image, price, rating, and add to cart',
       tags: ['product', 'ecommerce', 'shop', 'price', 'rating'],
-      customizableProps: ['shadowIntensity', 'borderRadius'],
+      customizableProps: ['shadowIntensity', 'borderRadius', 'imageHeight', 'showRating'],
       defaultCustomization: {
         ...defaultCustomization,
         shadowIntensity: '50',
+        imageHeight: '200',
+        showRating: 'true',
       },
     },
     {
@@ -90,10 +94,12 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
       category: 'cards',
       description: 'Blog post preview with image, excerpt, author, and engagement',
       tags: ['blog', 'post', 'article', 'author', 'preview'],
-      customizableProps: ['shadowIntensity', 'borderRadius'],
+      customizableProps: ['shadowIntensity', 'borderRadius', 'excerptLines', 'showAuthor'],
       defaultCustomization: {
         ...defaultCustomization,
         shadowIntensity: '50',
+        excerptLines: '3',
+        showAuthor: 'true',
       },
     },
     {
@@ -208,10 +214,12 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
       category: 'buttons',
       description: 'Button with loading spinner and success states',
       tags: ['loading', 'spinner', 'async', 'submit', 'progress'],
-      customizableProps: ['shadowIntensity', 'borderRadius'],
+      customizableProps: ['shadowIntensity', 'borderRadius', 'spinnerSize', 'showSuccessState'],
       defaultCustomization: {
         ...defaultCustomization,
         shadowIntensity: '50',
+        spinnerSize: '16',
+        showSuccessState: 'true',
       },
     },
     {
@@ -605,10 +613,12 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
       category: 'data-display',
       description: 'Animated statistics cards with trend indicators',
       tags: ['stats', 'metrics', 'dashboard', 'trends', 'analytics'],
-      customizableProps: ['shadowIntensity', 'borderRadius'],
+      customizableProps: ['shadowIntensity', 'borderRadius', 'iconSize', 'showTrend'],
       defaultCustomization: {
         ...defaultCustomization,
         shadowIntensity: '50',
+        iconSize: '24',
+        showTrend: 'true',
       },
     },
     {
@@ -833,9 +843,11 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
       category: 'feedback',
       description: 'Toast popup notifications with success, error, warning, and info variants',
       tags: ['toast', 'notification', 'alert', 'success', 'error', 'popup'],
-      customizableProps: ['borderRadius'],
+      customizableProps: ['borderRadius', 'toastWidth', 'showIcon'],
       defaultCustomization: {
         ...defaultCustomization,
+        toastWidth: '320',
+        showIcon: 'true',
       },
     },
     {

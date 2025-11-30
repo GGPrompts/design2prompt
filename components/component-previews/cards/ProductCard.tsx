@@ -13,6 +13,8 @@ export function ProductCard({ customization }: ProductCardProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const imageHeight = parseInt(customization.imageHeight) || 200;
+  const showRating = customization.showRating !== 'false';
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -44,7 +46,7 @@ export function ProductCard({ customization }: ProductCardProps) {
       onHoverEnd={() => setIsHovered(false)}
     >
       {/* Image Container */}
-      <div className="relative h-56 overflow-hidden">
+      <div className="relative overflow-hidden" style={{ height: imageHeight }}>
         {/* Gradient Background (simulating product image) */}
         <motion.div
           className="absolute inset-0"
@@ -156,23 +158,25 @@ export function ProductCard({ customization }: ProductCardProps) {
         </h3>
 
         {/* Rating */}
-        <div className="flex items-center gap-2 mb-3">
-          <div className="flex items-center gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className="w-4 h-4"
-                style={{
-                  color: i < Math.floor(rating) ? '#fbbf24' : `${customization.textColor}30`,
-                  fill: i < Math.floor(rating) ? '#fbbf24' : 'transparent',
-                }}
-              />
-            ))}
+        {showRating && (
+          <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className="w-4 h-4"
+                  style={{
+                    color: i < Math.floor(rating) ? '#fbbf24' : `${customization.textColor}30`,
+                    fill: i < Math.floor(rating) ? '#fbbf24' : 'transparent',
+                  }}
+                />
+              ))}
+            </div>
+            <span className="text-sm opacity-70">
+              {rating} ({reviews} reviews)
+            </span>
           </div>
-          <span className="text-sm opacity-70">
-            {rating} ({reviews} reviews)
-          </span>
-        </div>
+        )}
 
         {/* Color Options */}
         <div className="flex items-center gap-2 mb-4">
