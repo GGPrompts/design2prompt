@@ -28,9 +28,13 @@ export function AnimatedBorderButton({ customization }: AnimatedBorderButtonProp
         whileHover={{ scale: hoverScale }}
       >
         <motion.div
-          className="absolute inset-0"
+          className="absolute"
           style={{
             background: `conic-gradient(from 0deg, ${customization.primaryColor}, ${customization.secondaryColor}, ${customization.primaryColor})`,
+            width: '200%',
+            height: '200%',
+            left: '-50%',
+            top: '-50%',
           }}
           animate={{ rotate: 360 }}
           transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}

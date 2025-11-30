@@ -63,6 +63,36 @@ type LivePreviewProps = {
   onResetCustomization: () => void;
 };
 
+// Get flex alignment classes based on component type
+function getPreviewAlignment(component: ComponentDefinition | null): string {
+  if (!component) return 'items-center justify-center';
+
+  const { category, id } = component;
+
+  // Headers go at top
+  if (category === 'headers') {
+    return 'items-start justify-center pt-0';
+  }
+
+  // Footers go at bottom
+  if (category === 'footers') {
+    return 'items-end justify-center pb-0';
+  }
+
+  // Sidebar navigation goes on the left
+  if (id === 'sidebar-nav') {
+    return 'items-stretch justify-start pl-0';
+  }
+
+  // Announcement banners go at top (they're typically page-wide)
+  if (id === 'announcement-banner') {
+    return 'items-start justify-center pt-0';
+  }
+
+  // Default: center everything
+  return 'items-center justify-center';
+}
+
 export function LivePreview({
   component,
   customization,
@@ -118,7 +148,7 @@ export function LivePreview({
 
       {/* Preview Area */}
       <div
-        className="flex-1 flex items-center justify-center p-8 overflow-auto transition-colors duration-300"
+        className={`flex-1 flex p-8 overflow-auto transition-colors duration-300 ${getPreviewAlignment(component)}`}
         style={currentBg.style}
       >
         <ComponentPreview
