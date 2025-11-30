@@ -28,6 +28,7 @@ import {
   DollarSign,
   MessageSquare,
   KeyRound,
+  Megaphone,
 } from 'lucide-react';
 
 type ComponentLibraryProps = {
@@ -48,6 +49,7 @@ const categoryIconMap: Record<ComponentCategory, React.ReactNode> = {
   pricing: <DollarSign className="w-4 h-4" />,
   testimonials: <MessageSquare className="w-4 h-4" />,
   auth: <KeyRound className="w-4 h-4" />,
+  marketing: <Megaphone className="w-4 h-4" />,
 };
 
 export function ComponentLibrary({

@@ -48,6 +48,7 @@ export function ComponentLibrarySidebar({ className }: ComponentLibrarySidebarPr
       pricing: [],
       testimonials: [],
       auth: [],
+      marketing: [],
     };
 
     Object.entries(componentLibrary).forEach(([category, comps]) => {

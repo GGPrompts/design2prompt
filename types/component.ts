@@ -12,7 +12,8 @@ export type ComponentCategory =
   | 'heroes'
   | 'pricing'
   | 'testimonials'
-  | 'auth';
+  | 'auth'
+  | 'marketing';
 
 export type CustomizableProp = {
   key: string;
