@@ -1,7 +1,50 @@
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { devtools, persist } from 'zustand/middleware';
 import { Component } from '@/types/component';
 import { Customization, defaultCustomization } from '@/types/customization';
+
+// Global settings that persist across component switches
+// These are the "theme" - colors, typography, spacing, effects, code prefs
+const GLOBAL_KEYS: (keyof Customization)[] = [
+  // Colors
+  'primaryColor',
+  'secondaryColor',
+  'backgroundColor',
+  'textColor',
+  // Typography
+  'fontFamily',
+  'fontSize',
+  'fontWeight',
+  // Spacing
+  'padding',
+  'margin',
+  'borderRadius',
+  // Effects
+  'animation',
+  'duration',
+  'shadowIntensity',
+  'blurAmount',
+  // Framework/Code
+  'framework',
+  'typescript',
+  'styling',
+  // Features
+  'responsive',
+  'darkMode',
+  'accessibility',
+  'animations',
+];
+
+// Extract global settings from a customization object
+function extractGlobalSettings(customization: Customization): Partial<Customization> {
+  const globals: Partial<Customization> = {};
+  for (const key of GLOBAL_KEYS) {
+    if (key in customization) {
+      globals[key] = customization[key];
+    }
+  }
+  return globals;
+}
 
 type CustomizationStore = {
   selectedComponent: Component | null;
@@ -9,28 +52,69 @@ type CustomizationStore = {
   setComponent: (component: Component | null) => void;
   updateCustomization: (updates: Partial<Customization>) => void;
   resetCustomization: () => void;
+  resetToDefaults: () => void; // Full reset including globals
 };
 
 export const useCustomizationStore = create<CustomizationStore>()(
   devtools(
-    (set) => ({
-      selectedComponent: null,
-      customization: defaultCustomization,
+    persist(
+      (set, get) => ({
+        selectedComponent: null,
+        customization: defaultCustomization,
 
-      setComponent: (component) =>
-        set({
-          selectedComponent: component,
-          customization: component?.defaultCustomization || defaultCustomization
+        setComponent: (component) => {
+          const currentGlobals = extractGlobalSettings(get().customization);
+          const componentDefaults = component?.defaultCustomization || defaultCustomization;
+
+          // Merge: component defaults + current global settings (globals win)
+          set({
+            selectedComponent: component,
+            customization: {
+              ...componentDefaults,
+              ...currentGlobals,
+            },
+          });
+        },
+
+        updateCustomization: (updates) =>
+          set((state) => ({
+            customization: { ...state.customization, ...updates },
+          })),
+
+        // Reset only component-specific settings, keep globals
+        resetCustomization: () => {
+          const currentGlobals = extractGlobalSettings(get().customization);
+          set({
+            customization: {
+              ...defaultCustomization,
+              ...currentGlobals,
+            },
+          });
+        },
+
+        // Full reset - back to default theme
+        resetToDefaults: () =>
+          set({ customization: defaultCustomization }),
+      }),
+      {
+        name: 'design2prompt-theme',
+        // Only persist global settings to localStorage
+        partialize: (state) => ({
+          customization: extractGlobalSettings(state.customization),
         }),
-
-      updateCustomization: (updates) =>
-        set((state) => ({
-          customization: { ...state.customization, ...updates },
-        })),
-
-      resetCustomization: () =>
-        set({ customization: defaultCustomization }),
-    }),
+        // Merge persisted globals with defaults on load
+        merge: (persisted, current) => {
+          const persistedState = persisted as { customization?: Partial<Customization> };
+          return {
+            ...current,
+            customization: {
+              ...current.customization,
+              ...(persistedState?.customization || {}),
+            },
+          };
+        },
+      }
+    ),
     { name: 'CustomizationStore' }
   )
 );
