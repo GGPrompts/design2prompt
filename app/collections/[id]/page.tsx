@@ -88,10 +88,10 @@ export default function CollectionDetailPage() {
 
   if (!collection) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-xl font-semibold mb-2">Collection not found</h2>
-          <p className="text-muted-foreground mb-4">
+          <p className="text-white/60 mb-4">
             The collection you're looking for doesn't exist.
           </p>
           <Link href="/collections">
@@ -213,25 +213,25 @@ export default function CollectionDetailPage() {
   const sortedComponents = [...collection.components].sort((a, b) => a.order - b.order);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-zinc-950 text-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 h-14 border-b flex items-center justify-between px-4 bg-background/80 backdrop-blur">
+      <header className="sticky top-0 z-50 h-14 border-b border-white/10 flex items-center justify-between px-4 bg-zinc-900/50 backdrop-blur-sm">
         <div className="flex items-center gap-4">
           <Link href="/collections">
-            <Button variant="ghost" size="sm" className="gap-2">
+            <Button variant="ghost" size="sm" className="gap-2 text-white/70 hover:text-white hover:bg-white/10">
               <ArrowLeft className="w-4 h-4" />
               Collections
             </Button>
           </Link>
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-primary" />
+            <Sparkles className="w-5 h-5 text-emerald-400" />
             <span className="font-bold">design2prompt</span>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button variant="outline" size="sm" className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10">
                 <Download className="w-4 h-4" />
                 Export
               </Button>
@@ -253,7 +253,7 @@ export default function CollectionDetailPage() {
             </DropdownMenuContent>
           </DropdownMenu>
           <Link href="/studio">
-            <Button size="sm" className="gap-2">
+            <Button size="sm" className="gap-2 bg-emerald-500 text-white hover:bg-emerald-600">
               <Plus className="w-4 h-4" />
               Add Component
             </Button>
@@ -274,14 +274,14 @@ export default function CollectionDetailPage() {
               <div>
                 <h1 className="text-3xl font-bold mb-2">{collection.name}</h1>
                 {collection.description && (
-                  <p className="text-muted-foreground">{collection.description}</p>
+                  <p className="text-white/60">{collection.description}</p>
                 )}
               </div>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setEditDialogOpen(true)}
-                className="gap-2"
+                className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10"
               >
                 <Edit2 className="w-4 h-4" />
                 Edit
@@ -289,7 +289,7 @@ export default function CollectionDetailPage() {
             </div>
 
             {/* Meta Info */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-white/60">
               <span className="flex items-center gap-1">
                 <Package className="w-4 h-4" />
                 {collection.components.length} component
@@ -383,18 +383,18 @@ function EmptyState() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col items-center justify-center py-16 px-4 border rounded-lg bg-muted/30"
+      className="flex flex-col items-center justify-center py-16 px-4 border border-white/10 rounded-lg bg-white/5"
     >
-      <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-        <Package className="w-8 h-8 text-muted-foreground" />
+      <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4">
+        <Package className="w-8 h-8 text-white/40" />
       </div>
       <h3 className="text-lg font-semibold mb-2">No components yet</h3>
-      <p className="text-muted-foreground text-center mb-6 max-w-md">
+      <p className="text-white/60 text-center mb-6 max-w-md">
         Start adding components to this collection from the Studio. Customize a component
         and save it here to build your design system.
       </p>
       <Link href="/studio">
-        <Button className="gap-2">
+        <Button className="gap-2 bg-emerald-500 text-white hover:bg-emerald-600">
           <Plus className="w-4 h-4" />
           Add Component from Studio
         </Button>

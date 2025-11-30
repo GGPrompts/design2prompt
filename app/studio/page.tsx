@@ -27,10 +27,10 @@ export default function StudioPage() {
 
 function StudioLoading() {
   return (
-    <div className="h-screen flex items-center justify-center bg-background">
+    <div className="h-screen flex items-center justify-center bg-zinc-950">
       <div className="flex items-center gap-2">
-        <Sparkles className="w-6 h-6 text-primary animate-pulse" />
-        <span className="text-lg font-medium">Loading Studio...</span>
+        <Sparkles className="w-6 h-6 text-emerald-400 animate-pulse" />
+        <span className="text-lg font-medium text-white">Loading Studio...</span>
       </div>
     </div>
   );
@@ -139,25 +139,25 @@ function StudioContent() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-background">
+    <div className="h-screen flex flex-col bg-zinc-950 text-white">
       {/* Top Bar */}
-      <header className="h-14 border-b flex items-center justify-between px-4 bg-background/80 backdrop-blur">
+      <header className="h-14 border-b border-white/10 flex items-center justify-between px-4 bg-zinc-900/50 backdrop-blur-sm">
         <div className="flex items-center gap-4">
           <Link href="/">
-            <Button variant="ghost" size="sm" className="gap-2">
+            <Button variant="ghost" size="sm" className="gap-2 text-white/70 hover:text-white hover:bg-white/10">
               <ArrowLeft className="w-4 h-4" />
               Back
             </Button>
           </Link>
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-primary" />
+            <Sparkles className="w-5 h-5 text-emerald-400" />
             <span className="font-bold">design2prompt</span>
-            <span className="text-muted-foreground">/ Studio</span>
+            <span className="text-white/60">/ Studio</span>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <Link href="/collections">
-            <Button variant="ghost" size="sm" className="gap-2">
+            <Button variant="ghost" size="sm" className="gap-2 text-white/70 hover:text-white hover:bg-white/10">
               <FolderOpen className="w-4 h-4" />
               Collections
             </Button>
@@ -167,15 +167,17 @@ function StudioContent() {
             size="sm"
             onClick={() => setAddToCollectionOpen(true)}
             disabled={!selectedComponent}
-            className="gap-2"
+            className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10 disabled:text-white/30 disabled:border-white/10"
           >
             <FolderPlus className="w-4 h-4" />
             Save to Collection
           </Button>
           <Button
-            variant={showExport ? 'default' : 'outline'}
             onClick={() => setShowExport(!showExport)}
-            className="gap-2"
+            className={showExport
+              ? "gap-2 bg-emerald-500 text-white hover:bg-emerald-600"
+              : "gap-2 border border-white/20 bg-transparent text-white/70 hover:text-white hover:bg-white/10"
+            }
           >
             <Sparkles className="w-4 h-4" />
             {showExport ? 'Hide Export' : 'Generate Prompt'}

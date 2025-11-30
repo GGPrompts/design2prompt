@@ -99,25 +99,25 @@ export default function CollectionsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-zinc-950 text-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 h-14 border-b flex items-center justify-between px-4 bg-background/80 backdrop-blur">
+      <header className="sticky top-0 z-50 h-14 border-b border-white/10 flex items-center justify-between px-4 bg-zinc-900/50 backdrop-blur-sm">
         <div className="flex items-center gap-4">
           <Link href="/">
-            <Button variant="ghost" size="sm" className="gap-2">
+            <Button variant="ghost" size="sm" className="gap-2 text-white/70 hover:text-white hover:bg-white/10">
               <ArrowLeft className="w-4 h-4" />
               Back
             </Button>
           </Link>
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-primary" />
+            <Sparkles className="w-5 h-5 text-emerald-400" />
             <span className="font-bold">design2prompt</span>
-            <span className="text-muted-foreground">/ Collections</span>
+            <span className="text-white/60">/ Collections</span>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <Link href="/studio">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="border-white/20 text-white/70 hover:text-white hover:bg-white/10">
               Open Studio
             </Button>
           </Link>
@@ -133,12 +133,12 @@ export default function CollectionsPage() {
         >
           {/* Page Header */}
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-              <FolderOpen className="w-6 h-6 text-primary" />
+            <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+              <FolderOpen className="w-6 h-6 text-emerald-400" />
             </div>
             <div>
               <h1 className="text-2xl font-bold">Collections</h1>
-              <p className="text-muted-foreground">
+              <p className="text-white/60">
                 Organize your customized components into collections
               </p>
             </div>

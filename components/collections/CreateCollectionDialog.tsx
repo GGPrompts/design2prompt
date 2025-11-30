@@ -83,12 +83,12 @@ export function CreateCollectionDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-zinc-900 border-white/10 text-white">
         <DialogHeader>
           <DialogTitle>
             {isEditing ? 'Edit Collection' : 'Create New Collection'}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-white/60">
             {isEditing
               ? 'Update your collection details.'
               : 'Organize your components into a new collection.'}
@@ -104,6 +104,7 @@ export function CreateCollectionDialog({
               value={name}
               onChange={(e) => setName(e.target.value)}
               autoFocus
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
             />
           </div>
 
@@ -115,6 +116,7 @@ export function CreateCollectionDialog({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
             />
           </div>
 
@@ -127,8 +129,9 @@ export function CreateCollectionDialog({
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={handleKeyDown}
+                className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
               />
-              <Button type="button" variant="secondary" onClick={handleAddTag}>
+              <Button type="button" variant="secondary" onClick={handleAddTag} className="bg-white/10 text-white hover:bg-white/20 border-0">
                 Add
               </Button>
             </div>
@@ -140,7 +143,7 @@ export function CreateCollectionDialog({
                   <Badge
                     key={tag}
                     variant="outline"
-                    className="cursor-pointer hover:bg-accent"
+                    className="cursor-pointer border-white/20 text-white/70 hover:bg-white/10"
                     onClick={() => {
                       setTags([...tags, tag]);
                       setTagInput('');
@@ -156,12 +159,12 @@ export function CreateCollectionDialog({
             {tags.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {tags.map((tag) => (
-                  <Badge key={tag} variant="secondary" className="gap-1">
+                  <Badge key={tag} variant="secondary" className="gap-1 bg-emerald-500/20 text-emerald-400 border-0">
                     {tag}
                     <button
                       type="button"
                       onClick={() => handleRemoveTag(tag)}
-                      className="ml-1 hover:text-destructive"
+                      className="ml-1 hover:text-red-400"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -173,10 +176,10 @@ export function CreateCollectionDialog({
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-white/20 text-white/70 hover:text-white hover:bg-white/10">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} disabled={!name.trim()}>
+          <Button onClick={handleSubmit} disabled={!name.trim()} className="bg-emerald-500 text-white hover:bg-emerald-600 disabled:bg-emerald-500/50">
             {isEditing ? 'Save Changes' : 'Create Collection'}
           </Button>
         </DialogFooter>

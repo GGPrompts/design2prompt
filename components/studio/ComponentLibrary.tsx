@@ -14,6 +14,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import {
   Search,
   CreditCard,
   MousePointer,
@@ -85,17 +91,17 @@ export function ComponentLibrary({
   );
 
   return (
-    <div className="flex flex-col h-full bg-background border-r">
+    <div className="flex flex-col h-full bg-zinc-900/50 border-r border-white/10">
       {/* Header */}
-      <div className="p-4 border-b">
+      <div className="p-4 border-b border-white/10">
         <h2 className="font-bold text-lg mb-3">Component Library</h2>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
           <Input
             placeholder="Search components..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9"
+            className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-white/40"
           />
         </div>
       </div>
@@ -106,7 +112,7 @@ export function ComponentLibrary({
           {searchQuery && filteredComponents ? (
             // Search results
             <div className="space-y-1">
-              <p className="text-xs text-muted-foreground px-2 py-1">
+              <p className="text-xs text-white/40 px-2 py-1">
                 {filteredComponents.length} results for "{searchQuery}"
               </p>
               {filteredComponents.map((component) => (
@@ -138,8 +144,8 @@ export function ComponentLibrary({
       </ScrollArea>
 
       {/* Footer */}
-      <div className="p-3 border-t">
-        <p className="text-xs text-muted-foreground text-center">
+      <div className="p-3 border-t border-white/10">
+        <p className="text-xs text-white/40 text-center">
           12 components · 6 categories
         </p>
       </div>
@@ -168,11 +174,11 @@ function CategorySection({
     <div>
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-2 px-2 py-2 rounded-md hover:bg-accent transition-colors"
+        className="w-full flex items-center gap-2 px-2 py-2 rounded-md hover:bg-white/5 transition-colors"
       >
         <ChevronRight
           className={cn(
-            'w-4 h-4 transition-transform',
+            'w-4 h-4 transition-transform text-white/60',
             isExpanded && 'rotate-90'
           )}
         />
@@ -180,7 +186,7 @@ function CategorySection({
         <span className="font-medium text-sm flex-1 text-left">
           {categoryDisplayNames[category]}
         </span>
-        <span className="text-xs text-muted-foreground">{components.length}</span>
+        <span className="text-xs text-white/40">{components.length}</span>
       </button>
       {isExpanded && (
         <motion.div
@@ -212,24 +218,34 @@ type ComponentItemProps = {
 
 function ComponentItem({ component, isSelected, onClick }: ComponentItemProps) {
   return (
-    <button
-      onClick={onClick}
-      className={cn(
-        'w-full text-left px-3 py-2 rounded-md transition-colors',
-        isSelected
-          ? 'bg-primary text-primary-foreground'
-          : 'hover:bg-accent'
-      )}
-    >
-      <div className="font-medium text-sm">{component.name}</div>
-      <div
-        className={cn(
-          'text-xs truncate',
-          isSelected ? 'opacity-80' : 'text-muted-foreground'
-        )}
-      >
-        {component.description}
-      </div>
-    </button>
+    <TooltipProvider delayDuration={300}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            onClick={onClick}
+            className={cn(
+              'w-full text-left px-3 py-2 rounded-md transition-colors',
+              isSelected
+                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                : 'hover:bg-white/5'
+            )}
+          >
+            <div className="font-medium text-sm">{component.name}</div>
+            <div
+              className={cn(
+                'text-xs line-clamp-2',
+                isSelected ? 'text-emerald-400/70' : 'text-white/50'
+              )}
+            >
+              {component.description}
+            </div>
+          </button>
+        </TooltipTrigger>
+        <TooltipContent side="right" className="max-w-xs bg-zinc-800 border-white/10">
+          <p className="font-medium">{component.name}</p>
+          <p className="text-xs text-white/60">{component.description}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

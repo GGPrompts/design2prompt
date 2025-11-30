@@ -49,8 +49,8 @@ export function SavedComponentCard({
     <motion.div
       layout
       className={cn(
-        'group relative bg-card border rounded-lg overflow-hidden transition-all',
-        isDragging && 'shadow-lg ring-2 ring-primary'
+        'group relative bg-zinc-900/50 border border-white/10 rounded-lg overflow-hidden transition-all',
+        isDragging && 'shadow-lg ring-2 ring-emerald-500'
       )}
       whileHover={{ scale: isDragging ? 1 : 1.02 }}
     >
@@ -60,7 +60,7 @@ export function SavedComponentCard({
           {...dragHandleProps}
           className="absolute top-2 left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing"
         >
-          <GripVertical className="w-4 h-4 text-muted-foreground" />
+          <GripVertical className="w-4 h-4 text-white/40" />
         </div>
       )}
 
@@ -88,7 +88,7 @@ export function SavedComponentCard({
         <div className="flex items-start justify-between gap-2 mb-2">
           <div className="min-w-0 flex-1">
             <h4 className="font-medium text-sm truncate">{componentDef.name}</h4>
-            <p className="text-xs text-muted-foreground truncate">
+            <p className="text-xs text-white/50 truncate">
               {componentDef.category}
             </p>
           </div>
@@ -126,17 +126,17 @@ export function SavedComponentCard({
         {/* Color Preview */}
         <div className="flex gap-1">
           <div
-            className="w-4 h-4 rounded-full border"
+            className="w-4 h-4 rounded-full border border-white/20"
             style={{ backgroundColor: customization.primaryColor }}
             title={`Primary: ${customization.primaryColor}`}
           />
           <div
-            className="w-4 h-4 rounded-full border"
+            className="w-4 h-4 rounded-full border border-white/20"
             style={{ backgroundColor: customization.secondaryColor }}
             title={`Secondary: ${customization.secondaryColor}`}
           />
           <div
-            className="w-4 h-4 rounded-full border"
+            className="w-4 h-4 rounded-full border border-white/20"
             style={{ backgroundColor: customization.backgroundColor }}
             title={`Background: ${customization.backgroundColor}`}
           />
@@ -144,7 +144,7 @@ export function SavedComponentCard({
 
         {/* Notes */}
         {savedComponent.notes && (
-          <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
+          <p className="text-xs text-white/50 mt-2 line-clamp-2">
             {savedComponent.notes}
           </p>
         )}

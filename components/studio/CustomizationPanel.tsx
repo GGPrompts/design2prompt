@@ -48,18 +48,18 @@ export function CustomizationPanel({
   };
 
   return (
-    <div className="flex flex-col h-full bg-background border-l">
+    <div className="flex flex-col h-full bg-zinc-900/50 border-l border-white/10">
       {/* Header */}
-      <div className="p-4 border-b">
+      <div className="p-4 border-b border-white/10">
         <h2 className="font-bold text-lg">Customization</h2>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-white/60">
           {selectedComponent ? selectedComponent.name : 'Select a component'}
         </p>
       </div>
 
       {/* Tabs */}
       <Tabs defaultValue="colors" className="flex-1 flex flex-col">
-        <div className="border-b px-2">
+        <div className="border-b border-white/10 px-2">
           <TabsList className="w-full h-10 grid grid-cols-5 gap-1">
             <TabsTrigger value="colors" className="text-xs px-2">
               <Palette className="w-3 h-3 mr-1" />
@@ -95,7 +95,7 @@ export function CustomizationPanel({
                   <button
                     key={key}
                     onClick={() => applyPreset(key)}
-                    className="p-2 rounded-md border hover:border-primary transition-colors"
+                    className="p-2 rounded-md border border-white/10 hover:border-emerald-500/50 bg-white/5 transition-colors"
                   >
                     <div className="flex gap-1 mb-1">
                       <div
@@ -151,7 +151,7 @@ export function CustomizationPanel({
               <select
                 value={customization.fontFamily}
                 onChange={(e) => updateValue('fontFamily', e.target.value)}
-                className="w-full mt-1 px-3 py-2 rounded-md border bg-background text-sm"
+                className="w-full mt-1 px-3 py-2 rounded-md border border-white/10 bg-white/5 text-sm text-white"
               >
                 <option value="Inter">Inter</option>
                 <option value="system-ui">System UI</option>
@@ -175,7 +175,7 @@ export function CustomizationPanel({
               <select
                 value={customization.fontWeight}
                 onChange={(e) => updateValue('fontWeight', e.target.value)}
-                className="w-full mt-1 px-3 py-2 rounded-md border bg-background text-sm"
+                className="w-full mt-1 px-3 py-2 rounded-md border border-white/10 bg-white/5 text-sm text-white"
               >
                 <option value="300">Light (300)</option>
                 <option value="400">Regular (400)</option>
@@ -223,7 +223,7 @@ export function CustomizationPanel({
               <select
                 value={customization.animation}
                 onChange={(e) => updateValue('animation', e.target.value)}
-                className="w-full mt-1 px-3 py-2 rounded-md border bg-background text-sm"
+                className="w-full mt-1 px-3 py-2 rounded-md border border-white/10 bg-white/5 text-sm text-white"
               >
                 <option value="none">None</option>
                 <option value="smooth">Smooth</option>
@@ -265,7 +265,7 @@ export function CustomizationPanel({
             <div className="flex items-center justify-between">
               <div>
                 <Label className="text-xs font-mono">Enable Animations</Label>
-                <p className="text-xs text-muted-foreground">Toggle motion effects</p>
+                <p className="text-xs text-white/50">Toggle motion effects</p>
               </div>
               <Switch
                 checked={customization.animations}
@@ -281,7 +281,7 @@ export function CustomizationPanel({
               <select
                 value={customization.framework}
                 onChange={(e) => updateValue('framework', e.target.value)}
-                className="w-full mt-1 px-3 py-2 rounded-md border bg-background text-sm"
+                className="w-full mt-1 px-3 py-2 rounded-md border border-white/10 bg-white/5 text-sm text-white"
               >
                 <option value="react">React + TypeScript</option>
                 <option value="nextjs">Next.js 15+ App Router</option>
@@ -297,7 +297,7 @@ export function CustomizationPanel({
               <select
                 value={customization.styling}
                 onChange={(e) => updateValue('styling', e.target.value)}
-                className="w-full mt-1 px-3 py-2 rounded-md border bg-background text-sm"
+                className="w-full mt-1 px-3 py-2 rounded-md border border-white/10 bg-white/5 text-sm text-white"
               >
                 <option value="tailwind">Tailwind CSS</option>
                 <option value="css-modules">CSS Modules</option>
@@ -337,9 +337,9 @@ export function CustomizationPanel({
 
           {/* Component-Specific Options */}
           {selectedComponent && (
-            <div className="p-4 border-t">
+            <div className="p-4 border-t border-white/10">
               <div className="flex items-center gap-2 mb-4">
-                <Settings className="w-4 h-4 text-primary" />
+                <Settings className="w-4 h-4 text-emerald-400" />
                 <span className="font-mono text-sm font-medium">
                   {selectedComponent.name} Options
                 </span>
@@ -436,7 +436,7 @@ function ToggleOption({ label, description, checked, onChange }: ToggleOptionPro
     <div className="flex items-center justify-between">
       <div>
         <Label className="text-xs font-mono">{label}</Label>
-        <p className="text-xs text-muted-foreground">{description}</p>
+        <p className="text-xs text-white/50">{description}</p>
       </div>
       <Switch checked={checked} onCheckedChange={onChange} />
     </div>
@@ -618,7 +618,7 @@ function ComponentSpecificOptions({
 
   // Default: no specific options
   return (
-    <p className="text-xs text-muted-foreground">
+    <p className="text-xs text-white/50">
       No specific options for this component type.
     </p>
   );

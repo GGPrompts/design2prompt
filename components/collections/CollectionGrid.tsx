@@ -61,15 +61,15 @@ export function CollectionGrid({
       {/* Search and Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
           <Input
             placeholder="Search collections..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9"
+            className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-white/40"
           />
         </div>
-        <Button onClick={onCreateNew} className="gap-2">
+        <Button onClick={onCreateNew} className="gap-2 bg-emerald-500 text-white hover:bg-emerald-600">
           <FolderPlus className="w-4 h-4" />
           New Collection
         </Button>
@@ -78,7 +78,7 @@ export function CollectionGrid({
       {/* Tag Filters */}
       {allTags.length > 0 && (
         <div className="flex flex-wrap items-center gap-2">
-          <Tag className="w-4 h-4 text-muted-foreground" />
+          <Tag className="w-4 h-4 text-white/40" />
           {allTags.map((tag) => (
             <Badge
               key={tag}
@@ -153,14 +153,14 @@ function EmptyState({ hasFilters, onCreateNew, onClearFilters }: EmptyStateProps
       animate={{ opacity: 1, y: 0 }}
       className="flex flex-col items-center justify-center py-16 px-4"
     >
-      <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-6">
-        <FolderPlus className="w-10 h-10 text-muted-foreground" />
+      <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center mb-6">
+        <FolderPlus className="w-10 h-10 text-white/40" />
       </div>
 
       {hasFilters ? (
         <>
           <h3 className="text-xl font-semibold mb-2">No collections found</h3>
-          <p className="text-muted-foreground text-center mb-6 max-w-md">
+          <p className="text-white/60 text-center mb-6 max-w-md">
             No collections match your current filters. Try adjusting your search or
             clearing the filters.
           </p>
@@ -171,11 +171,11 @@ function EmptyState({ hasFilters, onCreateNew, onClearFilters }: EmptyStateProps
       ) : (
         <>
           <h3 className="text-xl font-semibold mb-2">Create your first collection</h3>
-          <p className="text-muted-foreground text-center mb-6 max-w-md">
+          <p className="text-white/60 text-center mb-6 max-w-md">
             Collections help you organize customized components by project, theme, or
             purpose. Start by creating your first collection.
           </p>
-          <Button onClick={onCreateNew} className="gap-2">
+          <Button onClick={onCreateNew} className="gap-2 bg-emerald-500 text-white hover:bg-emerald-600">
             <FolderPlus className="w-4 h-4" />
             Create Collection
           </Button>

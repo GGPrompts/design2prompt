@@ -49,19 +49,19 @@ export function ExportMenu({ component, customization }: ExportMenuProps) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-background border-t">
+    <div className="flex flex-col h-full bg-zinc-900/50 border-t border-white/10">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b">
+      <div className="flex items-center justify-between p-4 border-b border-white/10">
         <div>
           <h3 className="font-bold">Generate Prompt</h3>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-white/60">
             Export to Claude or other AI assistants
           </p>
         </div>
         <Button
           onClick={handleGenerate}
           disabled={!component}
-          className="gap-2"
+          className="gap-2 bg-emerald-500 text-white hover:bg-emerald-600 disabled:bg-emerald-500/50"
         >
           <Wand2 className="w-4 h-4" />
           Generate
@@ -77,7 +77,7 @@ export function ExportMenu({ component, customization }: ExportMenuProps) {
               variant="outline"
               size="sm"
               onClick={handleCopy}
-              className="gap-2"
+              className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10"
             >
               {copied ? (
                 <>
@@ -95,7 +95,7 @@ export function ExportMenu({ component, customization }: ExportMenuProps) {
               variant="outline"
               size="sm"
               onClick={handleDownload}
-              className="gap-2"
+              className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10"
             >
               <Download className="w-3 h-3" />
               Download
@@ -104,7 +104,7 @@ export function ExportMenu({ component, customization }: ExportMenuProps) {
               variant="outline"
               size="sm"
               onClick={() => window.open('https://claude.ai/new', '_blank')}
-              className="gap-2"
+              className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10"
             >
               <ExternalLink className="w-3 h-3" />
               Open Claude
@@ -113,13 +113,13 @@ export function ExportMenu({ component, customization }: ExportMenuProps) {
 
           {/* Prompt Preview */}
           <div className="flex-1 overflow-auto">
-            <pre className="p-4 rounded-lg bg-muted/50 text-xs font-mono whitespace-pre-wrap">
+            <pre className="p-4 rounded-lg bg-white/5 border border-white/10 text-xs font-mono whitespace-pre-wrap text-white/80">
               {generatedPrompt}
             </pre>
           </div>
         </div>
       ) : (
-        <div className="flex-1 flex items-center justify-center text-muted-foreground">
+        <div className="flex-1 flex items-center justify-center text-white/40">
           <div className="text-center">
             <Wand2 className="w-8 h-8 mx-auto mb-2 opacity-30" />
             <p className="text-sm">

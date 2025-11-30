@@ -73,17 +73,17 @@ export function AddToCollectionDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] bg-zinc-900 border-white/10 text-white">
         <DialogHeader>
           <DialogTitle>Save to Collection</DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-white/60">
             Add this customized component to one of your collections.
           </DialogDescription>
         </DialogHeader>
 
         <div className="py-4 space-y-4">
           {/* Component Preview */}
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5">
             <div
               className="w-12 h-12 rounded-lg flex items-center justify-center"
               style={{
@@ -94,19 +94,19 @@ export function AddToCollectionDialog({
             </div>
             <div>
               <h4 className="font-semibold">{component.name}</h4>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-white/60">
                 {customization.primaryColor} • {customization.animation} animation
               </p>
             </div>
           </div>
 
-          <Separator />
+          <Separator className="bg-white/10" />
 
           {/* Collection Selection */}
           <div className="space-y-2">
             <Label>Select Collection</Label>
             {collections.length > 0 ? (
-              <ScrollArea className="h-48 rounded-md border">
+              <ScrollArea className="h-48 rounded-md border border-white/10">
                 <div className="p-2 space-y-1">
                   {collections.map((collection) => (
                     <button
@@ -115,20 +115,20 @@ export function AddToCollectionDialog({
                       className={cn(
                         'w-full flex items-center gap-3 p-3 rounded-md text-left transition-colors',
                         selectedCollectionId === collection.id
-                          ? 'bg-primary text-primary-foreground'
-                          : 'hover:bg-accent'
+                          ? 'bg-emerald-500/20 text-emerald-400'
+                          : 'hover:bg-white/5'
                       )}
                     >
                       <div
                         className={cn(
                           'w-5 h-5 rounded-full border-2 flex items-center justify-center',
                           selectedCollectionId === collection.id
-                            ? 'border-primary-foreground bg-primary-foreground'
-                            : 'border-muted-foreground'
+                            ? 'border-emerald-400 bg-emerald-400'
+                            : 'border-white/30'
                         )}
                       >
                         {selectedCollectionId === collection.id && (
-                          <Check className="w-3 h-3 text-primary" />
+                          <Check className="w-3 h-3 text-zinc-900" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -137,8 +137,8 @@ export function AddToCollectionDialog({
                           className={cn(
                             'text-sm',
                             selectedCollectionId === collection.id
-                              ? 'opacity-70'
-                              : 'text-muted-foreground'
+                              ? 'text-emerald-400/70'
+                              : 'text-white/50'
                           )}
                         >
                           {collection.components.length} component
@@ -150,10 +150,10 @@ export function AddToCollectionDialog({
                 </div>
               </ScrollArea>
             ) : (
-              <div className="h-48 rounded-md border flex items-center justify-center">
+              <div className="h-48 rounded-md border border-white/10 flex items-center justify-center">
                 <div className="text-center">
-                  <p className="text-muted-foreground mb-2">No collections yet</p>
-                  <Button variant="outline" size="sm" onClick={onCreateCollection}>
+                  <p className="text-white/60 mb-2">No collections yet</p>
+                  <Button variant="outline" size="sm" onClick={onCreateCollection} className="border-white/20 text-white/70 hover:text-white hover:bg-white/10">
                     <FolderPlus className="w-4 h-4 mr-2" />
                     Create Collection
                   </Button>
@@ -166,7 +166,7 @@ export function AddToCollectionDialog({
           {collections.length > 0 && (
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full border-white/20 text-white/70 hover:text-white hover:bg-white/10"
               onClick={onCreateCollection}
             >
               <FolderPlus className="w-4 h-4 mr-2" />
@@ -183,15 +183,16 @@ export function AddToCollectionDialog({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={2}
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
             />
           </div>
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleClose}>
+          <Button variant="outline" onClick={handleClose} className="border-white/20 text-white/70 hover:text-white hover:bg-white/10">
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={!selectedCollectionId}>
+          <Button onClick={handleSave} disabled={!selectedCollectionId} className="bg-emerald-500 text-white hover:bg-emerald-600 disabled:bg-emerald-500/50">
             Save to Collection
           </Button>
         </DialogFooter>

@@ -40,8 +40,8 @@ function formatRelativeTime(date: Date): string {
 function CollectionThumbnail({ collection }: { collection: Collection }) {
   if (collection.components.length === 0) {
     return (
-      <div className="w-full h-32 rounded-t-lg bg-gradient-to-br from-muted/50 to-muted flex items-center justify-center">
-        <Package className="w-10 h-10 text-muted-foreground/50" />
+      <div className="w-full h-32 rounded-t-lg bg-gradient-to-br from-white/5 to-white/10 flex items-center justify-center">
+        <Package className="w-10 h-10 text-white/30" />
       </div>
     );
   }
@@ -69,7 +69,7 @@ function CollectionThumbnail({ collection }: { collection: Collection }) {
           />
         ))}
         {collection.components.length > 3 && (
-          <div className="w-8 h-8 rounded-md bg-muted flex items-center justify-center text-xs font-medium">
+          <div className="w-8 h-8 rounded-md bg-white/10 flex items-center justify-center text-xs font-medium">
             +{collection.components.length - 3}
           </div>
         )}
@@ -91,7 +91,7 @@ export function CollectionCard({
       className="group"
     >
       <Link href={`/collections/${collection.id}`}>
-        <div className="bg-card border rounded-lg overflow-hidden cursor-pointer hover:border-primary/50 transition-colors">
+        <div className="bg-zinc-900/50 border border-white/10 rounded-lg overflow-hidden cursor-pointer hover:border-emerald-500/50 transition-colors">
           <CollectionThumbnail collection={collection} />
 
           <div className="p-4">
@@ -142,7 +142,7 @@ export function CollectionCard({
             </div>
 
             {collection.description && (
-              <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+              <p className="text-sm text-white/60 line-clamp-2 mb-3">
                 {collection.description}
               </p>
             )}
@@ -162,7 +162,7 @@ export function CollectionCard({
               </div>
             )}
 
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <div className="flex items-center gap-4 text-xs text-white/50">
               <span className="flex items-center gap-1">
                 <Package className="w-3 h-3" />
                 {collection.components.length} component
