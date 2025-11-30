@@ -28,18 +28,17 @@ export function PricingCard({ customization }: PricingCardProps) {
 
   return (
     <div className="w-full max-w-xs relative" style={baseStyle}>
-      {/* Popular badge - outside overflow container */}
+      {/* Hot badge - outside overflow container */}
       <motion.div
-        className="absolute -top-1 right-0 px-10 py-1 text-xs font-bold text-white transform rotate-45 origin-top-right z-10"
+        className="absolute top-3 -right-6 px-6 py-1 text-xs font-bold text-white transform rotate-45 z-10"
         style={{
           background: `linear-gradient(135deg, ${customization.primaryColor}, ${customization.secondaryColor})`,
-          transform: 'rotate(45deg) translateX(25%)',
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
-        POPULAR
+        HOT
       </motion.div>
 
       <motion.div
