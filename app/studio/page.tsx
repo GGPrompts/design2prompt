@@ -10,9 +10,10 @@ import { ExportMenu } from '@/components/studio/ExportMenu';
 import { AddToCollectionDialog } from '@/components/collections/AddToCollectionDialog';
 import { CreateCollectionDialog } from '@/components/collections/CreateCollectionDialog';
 import { ComponentDefinition, getComponentById } from '@/lib/component-registry';
-import { Customization, defaultCustomization } from '@/types/customization';
+import { defaultCustomization } from '@/types/customization';
 import { Collection, SavedComponent } from '@/types/collection';
 import { useCollectionStore } from '@/lib/stores/collection-store';
+import { useCustomizationStore } from '@/lib/stores/customization-store';
 import { Button } from '@/components/ui/button';
 import { MobileDrawer, MobileDrawerHeader, MobileDrawerContent } from '@/components/ui/mobile-drawer';
 import { useIsMobile, useIsTablet } from '@/lib/hooks';
@@ -60,8 +61,15 @@ function StudioContent() {
     getAllTags,
   } = useCollectionStore();
 
-  const [selectedComponent, setSelectedComponent] = useState<ComponentDefinition | null>(null);
-  const [customization, setCustomization] = useState<Customization>(defaultCustomization);
+  // Use Zustand store for customization (persists theme across component switches)
+  const {
+    selectedComponent,
+    customization,
+    setComponent,
+    updateCustomization,
+    resetCustomization,
+  } = useCustomizationStore();
+
   const [showExport, setShowExport] = useState(false);
   const [addToCollectionOpen, setAddToCollectionOpen] = useState(false);
   const [createCollectionOpen, setCreateCollectionOpen] = useState(false);
@@ -95,53 +103,32 @@ function StudioContent() {
     if (componentId) {
       const component = getComponentById(componentId);
       if (component) {
-        setSelectedComponent(component);
+        // Set the component (this preserves global theme settings)
+        setComponent(component);
 
+        // If there's a full customization in URL params, apply it (overrides theme)
         if (customizationParam) {
           try {
             const parsedCustomization = JSON.parse(decodeURIComponent(customizationParam));
-            setCustomization({
-              ...defaultCustomization,
-              ...parsedCustomization,
-            });
+            updateCustomization(parsedCustomization);
           } catch {
-            setCustomization({
-              ...defaultCustomization,
-              ...component.defaultCustomization,
-            });
+            // Invalid JSON, just use component defaults (already applied by setComponent)
           }
-        } else {
-          setCustomization({
-            ...defaultCustomization,
-            ...component.defaultCustomization,
-          });
         }
       }
     }
-  }, [searchParams]);
+  }, [searchParams, setComponent, updateCustomization]);
 
+  // Use store's setComponent - preserves global theme settings
   const handleSelectComponent = (component: ComponentDefinition) => {
-    setSelectedComponent(component);
-    setCustomization((prev) => ({
-      ...prev,
-      ...component.defaultCustomization,
-    }));
+    setComponent(component);
   };
 
-  const handleUpdateCustomization = (updates: Partial<Customization>) => {
-    setCustomization((prev) => ({ ...prev, ...updates }));
-  };
+  // Use store's updateCustomization
+  const handleUpdateCustomization = updateCustomization;
 
-  const handleResetCustomization = () => {
-    if (selectedComponent) {
-      setCustomization({
-        ...defaultCustomization,
-        ...selectedComponent.defaultCustomization,
-      });
-    } else {
-      setCustomization(defaultCustomization);
-    }
-  };
+  // Use store's resetCustomization (keeps globals, resets component-specific)
+  const handleResetCustomization = resetCustomization;
 
   const handleAddToCollection = (collectionId: string, component: SavedComponent) => {
     addComponentToCollection(collectionId, component);

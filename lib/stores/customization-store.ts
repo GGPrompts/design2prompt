@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { Component } from '@/types/component';
+import { ComponentDefinition } from '@/lib/component-registry';
 import { Customization, defaultCustomization } from '@/types/customization';
 
 // Global settings that persist across component switches
@@ -47,9 +47,9 @@ function extractGlobalSettings(customization: Customization): Partial<Customizat
 }
 
 type CustomizationStore = {
-  selectedComponent: Component | null;
+  selectedComponent: ComponentDefinition | null;
   customization: Customization;
-  setComponent: (component: Component | null) => void;
+  setComponent: (component: ComponentDefinition | null) => void;
   updateCustomization: (updates: Partial<Customization>) => void;
   resetCustomization: () => void;
   resetToDefaults: () => void; // Full reset including globals
@@ -64,15 +64,16 @@ export const useCustomizationStore = create<CustomizationStore>()(
 
         setComponent: (component) => {
           const currentGlobals = extractGlobalSettings(get().customization);
-          const componentDefaults = component?.defaultCustomization || defaultCustomization;
+          const componentDefaults = component?.defaultCustomization || {};
 
-          // Merge: component defaults + current global settings (globals win)
+          // Merge: defaults + component defaults + current global settings (globals win)
           set({
             selectedComponent: component,
             customization: {
+              ...defaultCustomization,
               ...componentDefaults,
               ...currentGlobals,
-            },
+            } as Customization,
           });
         },
 
