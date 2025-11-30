@@ -1,0 +1,181 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import { Collection } from '@/types/collection';
+import { getComponentById } from '@/lib/component-registry';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Package, Clock, MoreVertical, Edit2, Copy, Trash2 } from 'lucide-react';
+import Link from 'next/link';
+
+type CollectionCardProps = {
+  collection: Collection;
+  onEdit: (collection: Collection) => void;
+  onDuplicate: (collection: Collection) => void;
+  onDelete: (collection: Collection) => void;
+};
+
+function formatRelativeTime(date: Date): string {
+  const now = new Date();
+  const then = new Date(date);
+  const diffMs = now.getTime() - then.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffMins < 1) return 'Just now';
+  if (diffMins < 60) return `${diffMins}m ago`;
+  if (diffHours < 24) return `${diffHours}h ago`;
+  if (diffDays < 7) return `${diffDays}d ago`;
+  return then.toLocaleDateString();
+}
+
+function CollectionThumbnail({ collection }: { collection: Collection }) {
+  if (collection.components.length === 0) {
+    return (
+      <div className="w-full h-32 rounded-t-lg bg-gradient-to-br from-muted/50 to-muted flex items-center justify-center">
+        <Package className="w-10 h-10 text-muted-foreground/50" />
+      </div>
+    );
+  }
+
+  const firstComponent = collection.components[0];
+  const componentDef = getComponentById(firstComponent.componentId);
+
+  return (
+    <div
+      className="w-full h-32 rounded-t-lg flex items-center justify-center overflow-hidden"
+      style={{
+        background: `linear-gradient(135deg, ${firstComponent.customization.primaryColor}20, ${firstComponent.customization.secondaryColor}20)`,
+      }}
+    >
+      <div className="flex gap-1 scale-75">
+        {collection.components.slice(0, 3).map((comp, index) => (
+          <div
+            key={comp.id}
+            className="w-8 h-8 rounded-md"
+            style={{
+              backgroundColor: `${comp.customization.primaryColor}40`,
+              border: `1px solid ${comp.customization.primaryColor}60`,
+              transform: `translateX(${-index * 6}px)`,
+            }}
+          />
+        ))}
+        {collection.components.length > 3 && (
+          <div className="w-8 h-8 rounded-md bg-muted flex items-center justify-center text-xs font-medium">
+            +{collection.components.length - 3}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function CollectionCard({
+  collection,
+  onEdit,
+  onDuplicate,
+  onDelete,
+}: CollectionCardProps) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.02, y: -4 }}
+      transition={{ duration: 0.2 }}
+      className="group"
+    >
+      <Link href={`/collections/${collection.id}`}>
+        <div className="bg-card border rounded-lg overflow-hidden cursor-pointer hover:border-primary/50 transition-colors">
+          <CollectionThumbnail collection={collection} />
+
+          <div className="p-4">
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <h3 className="font-semibold truncate">{collection.name}</h3>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild onClick={(e) => e.preventDefault()}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <MoreVertical className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onEdit(collection);
+                    }}
+                  >
+                    <Edit2 className="w-4 h-4 mr-2" />
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onDuplicate(collection);
+                    }}
+                  >
+                    <Copy className="w-4 h-4 mr-2" />
+                    Duplicate
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onDelete(collection);
+                    }}
+                    className="text-destructive"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            {collection.description && (
+              <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+                {collection.description}
+              </p>
+            )}
+
+            {collection.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1 mb-3">
+                {collection.tags.slice(0, 3).map((tag) => (
+                  <Badge key={tag} variant="secondary" className="text-xs">
+                    {tag}
+                  </Badge>
+                ))}
+                {collection.tags.length > 3 && (
+                  <Badge variant="outline" className="text-xs">
+                    +{collection.tags.length - 3}
+                  </Badge>
+                )}
+              </div>
+            )}
+
+            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1">
+                <Package className="w-3 h-3" />
+                {collection.components.length} component
+                {collection.components.length !== 1 ? 's' : ''}
+              </span>
+              <span className="flex items-center gap-1">
+                <Clock className="w-3 h-3" />
+                {formatRelativeTime(collection.updatedAt)}
+              </span>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  );
+}

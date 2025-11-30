@@ -1,24 +1,92 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { ComponentLibrary } from '@/components/studio/ComponentLibrary';
 import { CustomizationPanel } from '@/components/studio/CustomizationPanel';
 import { LivePreview } from '@/components/studio/LivePreview';
 import { ExportMenu } from '@/components/studio/ExportMenu';
+import { AddToCollectionDialog } from '@/components/collections/AddToCollectionDialog';
+import { CreateCollectionDialog } from '@/components/collections/CreateCollectionDialog';
 import { ComponentDefinition, getComponentById } from '@/lib/component-registry';
 import { Customization, defaultCustomization } from '@/types/customization';
+import { Collection, SavedComponent } from '@/types/collection';
+import { useCollectionStore } from '@/lib/stores/collection-store';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Sparkles } from 'lucide-react';
+import { ArrowLeft, Sparkles, FolderPlus, FolderOpen } from 'lucide-react';
 import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
 
 export default function StudioPage() {
+  return (
+    <Suspense fallback={<StudioLoading />}>
+      <StudioContent />
+    </Suspense>
+  );
+}
+
+function StudioLoading() {
+  return (
+    <div className="h-screen flex items-center justify-center bg-background">
+      <div className="flex items-center gap-2">
+        <Sparkles className="w-6 h-6 text-primary animate-pulse" />
+        <span className="text-lg font-medium">Loading Studio...</span>
+      </div>
+    </div>
+  );
+}
+
+function StudioContent() {
+  const searchParams = useSearchParams();
+  const { toast } = useToast();
+  const {
+    collections,
+    addCollection,
+    addComponentToCollection,
+    getAllTags,
+  } = useCollectionStore();
+
   const [selectedComponent, setSelectedComponent] = useState<ComponentDefinition | null>(null);
   const [customization, setCustomization] = useState<Customization>(defaultCustomization);
   const [showExport, setShowExport] = useState(false);
+  const [addToCollectionOpen, setAddToCollectionOpen] = useState(false);
+  const [createCollectionOpen, setCreateCollectionOpen] = useState(false);
+
+  // Handle URL params for loading component from collection
+  useEffect(() => {
+    const componentId = searchParams.get('component');
+    const customizationParam = searchParams.get('customization');
+
+    if (componentId) {
+      const component = getComponentById(componentId);
+      if (component) {
+        setSelectedComponent(component);
+
+        if (customizationParam) {
+          try {
+            const parsedCustomization = JSON.parse(decodeURIComponent(customizationParam));
+            setCustomization({
+              ...defaultCustomization,
+              ...parsedCustomization,
+            });
+          } catch {
+            setCustomization({
+              ...defaultCustomization,
+              ...component.defaultCustomization,
+            });
+          }
+        } else {
+          setCustomization({
+            ...defaultCustomization,
+            ...component.defaultCustomization,
+          });
+        }
+      }
+    }
+  }, [searchParams]);
 
   const handleSelectComponent = (component: ComponentDefinition) => {
     setSelectedComponent(component);
-    // Merge component-specific defaults with current customization
     setCustomization((prev) => ({
       ...prev,
       ...component.defaultCustomization,
@@ -40,6 +108,36 @@ export default function StudioPage() {
     }
   };
 
+  const handleAddToCollection = (collectionId: string, component: SavedComponent) => {
+    addComponentToCollection(collectionId, component);
+    toast({
+      title: 'Component saved',
+      description: 'Component has been added to your collection.',
+    });
+  };
+
+  const handleCreateCollection = (data: {
+    name: string;
+    description: string;
+    tags: string[];
+  }) => {
+    const newCollection: Collection = {
+      id: crypto.randomUUID(),
+      name: data.name,
+      description: data.description,
+      tags: data.tags,
+      components: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    addCollection(newCollection);
+    setCreateCollectionOpen(false);
+    toast({
+      title: 'Collection created',
+      description: `"${data.name}" has been created. You can now save components to it.`,
+    });
+  };
+
   return (
     <div className="h-screen flex flex-col bg-background">
       {/* Top Bar */}
@@ -58,6 +156,22 @@ export default function StudioPage() {
           </div>
         </div>
         <div className="flex items-center gap-2">
+          <Link href="/collections">
+            <Button variant="ghost" size="sm" className="gap-2">
+              <FolderOpen className="w-4 h-4" />
+              Collections
+            </Button>
+          </Link>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setAddToCollectionOpen(true)}
+            disabled={!selectedComponent}
+            className="gap-2"
+          >
+            <FolderPlus className="w-4 h-4" />
+            Save to Collection
+          </Button>
           <Button
             variant={showExport ? 'default' : 'outline'}
             onClick={() => setShowExport(!showExport)}
@@ -109,6 +223,28 @@ export default function StudioPage() {
           />
         </aside>
       </div>
+
+      {/* Add to Collection Dialog */}
+      <AddToCollectionDialog
+        open={addToCollectionOpen}
+        onOpenChange={setAddToCollectionOpen}
+        component={selectedComponent}
+        customization={customization}
+        collections={collections}
+        onAddToCollection={handleAddToCollection}
+        onCreateCollection={() => {
+          setAddToCollectionOpen(false);
+          setCreateCollectionOpen(true);
+        }}
+      />
+
+      {/* Create Collection Dialog */}
+      <CreateCollectionDialog
+        open={createCollectionOpen}
+        onOpenChange={setCreateCollectionOpen}
+        onSubmit={handleCreateCollection}
+        existingTags={getAllTags()}
+      />
     </div>
   );
 }

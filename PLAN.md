@@ -472,24 +472,28 @@ type AITarget =
 **Goal:** Save components, organize into collections, export design systems.
 
 **Tasks:**
-1. ⬜ Design collection data model
-2. ⬜ Implement LocalStorage persistence
-3. ⬜ Build Collection Manager
-   - Create/edit/delete collections
-   - Add/remove components
-   - Reorder components
-4. ⬜ Build Collection UI
-   - Collections page
-   - Collection cards
-   - Component thumbnails
-5. ⬜ Implement collection export
-   - Single mega-prompt
-   - Individual prompts
-   - Design tokens (JSON)
-6. ⬜ Add tagging system
-7. ⬜ Add favorites/starred components
+1. ✅ Design collection data model
+2. ✅ Implement LocalStorage persistence (Zustand middleware)
+3. ✅ Build Collection Manager
+   - ✅ Create/edit/delete collections
+   - ✅ Add/remove components
+   - ✅ Reorder components
+   - ✅ Duplicate collections
+4. ✅ Build Collection UI
+   - ✅ Collections page with grid layout
+   - ✅ Collection cards with thumbnails
+   - ✅ Component thumbnails
+   - ✅ Collection detail page
+5. ✅ Implement collection export
+   - ✅ Single mega-prompt
+   - ✅ Individual prompts
+   - ✅ Design tokens (JSON)
+6. ✅ Add tagging system
+7. ⬜ Add favorites/starred components (moved to backlog)
 
-**Deliverable:** Full collection management, save/load, export.
+**Deliverable:** ✅ Full collection management, save/load, export.
+
+**PHASE 2 COMPLETED: 2025-11-29**
 
 ### Phase 3: Canvas Mode (Week 4-5)
 
@@ -749,7 +753,7 @@ type AITarget =
 
 ## Next Steps
 
-### ✅ Completed
+### ✅ Phase 1 Complete
 1. ✅ Create project folder
 2. ✅ Draft this plan
 3. ✅ Initialize Next.js 16 project
@@ -760,20 +764,24 @@ type AITarget =
 8. ✅ Implement full customization panel
 9. ✅ Add Claude prompt generation
 
-### Phase 2: Collections (Next)
-1. ⬜ Design collection data model
-2. ⬜ Implement LocalStorage persistence with Zustand
-3. ⬜ Build Collection Manager (CRUD)
-4. ⬜ Build Collections page UI
-5. ⬜ Implement collection export
+### ✅ Phase 2 Complete
+1. ✅ Design collection data model
+2. ✅ Implement LocalStorage persistence with Zustand
+3. ✅ Build Collection Manager (CRUD)
+4. ✅ Build Collections page UI
+5. ✅ Implement collection export (mega-prompt, individual, design tokens)
+6. ✅ Add tagging system
+7. ✅ Integrate Save to Collection in Studio
 
-### Phase 3: Canvas Mode
+### Phase 3: Canvas Mode (Next)
 1. ⬜ Setup dnd-kit canvas
 2. ⬜ Build drag & drop layout builder
 3. ⬜ Implement grid system with snap
+4. ⬜ Add viewport selector (mobile/tablet/desktop)
+5. ⬜ Canvas export as screenshot/layout prompt
 
 ---
 
 **Last Updated:** 2025-11-29
-**Status:** Phase 1 Complete - Component Browser Working
+**Status:** Phase 2 Complete - Collections System Working
 **Target Launch:** Q1 2025

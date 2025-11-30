@@ -8,6 +8,43 @@ All notable changes and completed tasks for design2prompt.
 
 ## [Unreleased]
 
+### Phase 2: Collections System - 2025-11-29
+
+**Completed:**
+- ✅ Zustand collection store with localStorage persistence
+- ✅ Collection CRUD operations (create, update, delete, duplicate)
+- ✅ Save components to collections from Studio
+- ✅ Collections page with grid layout, search, and tag filtering
+- ✅ Collection detail page with component management
+- ✅ Add to Collection dialog with collection picker
+- ✅ Create/Edit Collection dialog with tag support
+- ✅ Collection export as mega-prompt (markdown)
+- ✅ Design tokens extraction from collections
+- ✅ View in Studio from collection (URL params)
+- ✅ Toast notifications for user feedback
+
+**UI Components Added (shadcn/ui):**
+- Dialog, AlertDialog, DropdownMenu, Badge, Card, Textarea, Toast, Toaster
+
+**Files Created:**
+- `lib/stores/collection-store.ts` - Zustand store with persistence
+- `types/collection.ts` - Collection and SavedComponent types
+- `app/collections/page.tsx` - Collections gallery page
+- `app/collections/[id]/page.tsx` - Collection detail page
+- `components/collections/CollectionCard.tsx` - Collection card with actions
+- `components/collections/CollectionGrid.tsx` - Responsive grid with filters
+- `components/collections/CreateCollectionDialog.tsx` - Create/edit dialog
+- `components/collections/AddToCollectionDialog.tsx` - Save component dialog
+- `components/collections/SavedComponentCard.tsx` - Saved component card
+- `components/collections/index.ts` - Component exports
+
+**Export Features:**
+- `generateCollectionPrompt()` - Full collection as markdown prompt
+- `generateIndividualPrompts()` - Array of individual component prompts
+- `exportDesignTokens()` - Extract colors, typography, spacing, effects
+
+---
+
 ### Phase 1: Component Browser - 2025-11-29
 
 **Completed:**

@@ -1,12 +1,201 @@
+'use client';
+
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useCollectionStore } from '@/lib/stores/collection-store';
+import { Collection } from '@/types/collection';
+import { CollectionGrid } from '@/components/collections/CollectionGrid';
+import { CreateCollectionDialog } from '@/components/collections/CreateCollectionDialog';
+import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { ArrowLeft, Sparkles, FolderOpen } from 'lucide-react';
+import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
+
 export default function CollectionsPage() {
+  const { toast } = useToast();
+  const {
+    collections,
+    addCollection,
+    updateCollection,
+    removeCollection,
+    duplicateCollection,
+    getAllTags,
+  } = useCollectionStore();
+
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editingCollection, setEditingCollection] = useState<Collection | null>(null);
+  const [deletingCollection, setDeletingCollection] = useState<Collection | null>(null);
+
+  const allTags = getAllTags();
+
+  const handleCreateCollection = (data: {
+    name: string;
+    description: string;
+    tags: string[];
+  }) => {
+    if (editingCollection) {
+      updateCollection(editingCollection.id, data);
+      toast({
+        title: 'Collection updated',
+        description: `"${data.name}" has been updated.`,
+      });
+      setEditingCollection(null);
+    } else {
+      const newCollection: Collection = {
+        id: crypto.randomUUID(),
+        name: data.name,
+        description: data.description,
+        tags: data.tags,
+        components: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      addCollection(newCollection);
+      toast({
+        title: 'Collection created',
+        description: `"${data.name}" has been created.`,
+      });
+    }
+  };
+
+  const handleEdit = (collection: Collection) => {
+    setEditingCollection(collection);
+    setCreateDialogOpen(true);
+  };
+
+  const handleDuplicate = (collection: Collection) => {
+    const newCollection = duplicateCollection(collection.id);
+    if (newCollection) {
+      toast({
+        title: 'Collection duplicated',
+        description: `"${newCollection.name}" has been created.`,
+      });
+    }
+  };
+
+  const handleDelete = (collection: Collection) => {
+    setDeletingCollection(collection);
+  };
+
+  const confirmDelete = () => {
+    if (deletingCollection) {
+      removeCollection(deletingCollection.id);
+      toast({
+        title: 'Collection deleted',
+        description: `"${deletingCollection.name}" has been deleted.`,
+      });
+      setDeletingCollection(null);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-4">Collections</h1>
-        <p className="text-gray-400">
-          Your saved component collections will appear here...
-        </p>
-      </div>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-50 h-14 border-b flex items-center justify-between px-4 bg-background/80 backdrop-blur">
+        <div className="flex items-center gap-4">
+          <Link href="/">
+            <Button variant="ghost" size="sm" className="gap-2">
+              <ArrowLeft className="w-4 h-4" />
+              Back
+            </Button>
+          </Link>
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-primary" />
+            <span className="font-bold">design2prompt</span>
+            <span className="text-muted-foreground">/ Collections</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Link href="/studio">
+            <Button variant="outline" size="sm">
+              Open Studio
+            </Button>
+          </Link>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {/* Page Header */}
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+              <FolderOpen className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">Collections</h1>
+              <p className="text-muted-foreground">
+                Organize your customized components into collections
+              </p>
+            </div>
+          </div>
+
+          {/* Collections Grid */}
+          <CollectionGrid
+            collections={collections}
+            allTags={allTags}
+            onCreateNew={() => {
+              setEditingCollection(null);
+              setCreateDialogOpen(true);
+            }}
+            onEdit={handleEdit}
+            onDuplicate={handleDuplicate}
+            onDelete={handleDelete}
+          />
+        </motion.div>
+      </main>
+
+      {/* Create/Edit Dialog */}
+      <CreateCollectionDialog
+        open={createDialogOpen}
+        onOpenChange={(open) => {
+          setCreateDialogOpen(open);
+          if (!open) setEditingCollection(null);
+        }}
+        onSubmit={handleCreateCollection}
+        existingTags={allTags}
+        editingCollection={editingCollection}
+      />
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog
+        open={!!deletingCollection}
+        onOpenChange={(open) => !open && setDeletingCollection(null)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Collection</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete "{deletingCollection?.name}"? This will
+              permanently remove the collection and all its saved components. This action
+              cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
