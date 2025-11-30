@@ -231,7 +231,7 @@ export default function CollectionDetailPage() {
         <div className="flex items-center gap-1 md:gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2 border-white/20 bg-transparent text-white hover:bg-white/10 px-2 md:px-3">
+              <Button variant="outline" size="sm" className="gap-2 border-white/20 bg-transparent text-white hover:text-white hover:bg-white/10 px-2 md:px-3">
                 <Download className="w-4 h-4" />
                 <span className="hidden md:inline">Export</span>
               </Button>
@@ -281,7 +281,7 @@ export default function CollectionDetailPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => setEditDialogOpen(true)}
-                className="gap-2 border-white/20 bg-transparent text-white hover:bg-white/10 self-start flex-shrink-0"
+                className="gap-2 border-white/20 bg-transparent text-white hover:text-white hover:bg-white/10 self-start flex-shrink-0"
               >
                 <Edit2 className="w-4 h-4" />
                 Edit

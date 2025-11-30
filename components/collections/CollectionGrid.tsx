@@ -164,7 +164,7 @@ function EmptyState({ hasFilters, onCreateNew, onClearFilters }: EmptyStateProps
             No collections match your current filters. Try adjusting your search or
             clearing the filters.
           </p>
-          <Button variant="outline" onClick={onClearFilters} className="border-white/20 bg-transparent text-white hover:bg-white/10">
+          <Button variant="outline" onClick={onClearFilters} className="border-white/20 bg-transparent text-white hover:text-white hover:bg-white/10">
             Clear Filters
           </Button>
         </>

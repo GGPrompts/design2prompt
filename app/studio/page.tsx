@@ -229,7 +229,7 @@ function StudioContent() {
             size="sm"
             onClick={() => setAddToCollectionOpen(true)}
             disabled={!selectedComponent}
-            className="gap-2 border-white/20 bg-transparent text-white hover:bg-white/10 disabled:opacity-50 disabled:text-white/50"
+            className="gap-2 border-white/20 bg-transparent text-white hover:text-white hover:bg-white/10 disabled:opacity-50 disabled:text-white/50"
           >
             <FolderPlus className="w-4 h-4" />
             Save to Collection
@@ -238,7 +238,7 @@ function StudioContent() {
             onClick={() => setShowExport(!showExport)}
             className={showExport
               ? "gap-2 bg-emerald-500 text-white hover:bg-emerald-600"
-              : "gap-2 border border-white/20 bg-transparent text-white hover:bg-white/10"
+              : "gap-2 border border-white/20 bg-transparent text-white hover:text-white hover:bg-white/10"
             }
           >
             <Sparkles className="w-4 h-4" />
