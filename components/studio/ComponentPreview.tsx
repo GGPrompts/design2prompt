@@ -54,6 +54,8 @@ import {
   MagneticElement,
   RevealOnScroll,
   TypewriterText,
+  CursorFollow,
+  ParallaxScroll,
   // Data Display
   StatCard,
   MetricTile,
@@ -237,6 +239,10 @@ export function ComponentPreview({ component, customization }: ComponentPreviewP
       return <RevealOnScroll customization={customization} />;
     case 'typewriter-text':
       return <TypewriterText customization={customization} />;
+    case 'cursor-follow':
+      return <CursorFollow customization={customization} />;
+    case 'parallax-scroll':
+      return <ParallaxScroll customization={customization} />;
 
     // Data Display
     case 'stat-card':

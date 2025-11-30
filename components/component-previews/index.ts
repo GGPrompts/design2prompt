@@ -54,6 +54,8 @@ export { GlowButton } from './effects/GlowButton';
 export { MagneticElement } from './effects/MagneticElement';
 export { RevealOnScroll } from './effects/RevealOnScroll';
 export { TypewriterText } from './effects/TypewriterText';
+export { CursorFollow } from './effects/CursorFollow';
+export { ParallaxScroll } from './effects/ParallaxScroll';
 
 // Data Display components
 export { StatCard } from './data-display/StatCard';

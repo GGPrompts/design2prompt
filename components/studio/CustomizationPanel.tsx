@@ -881,6 +881,79 @@ function ComponentSpecificOptions({
     );
   }
 
+  // Cursor Follow Effect
+  if (component.id === 'cursor-follow') {
+    controls.push(
+      <SliderControl
+        key="trailLength"
+        label="Trail Length"
+        value={parseInt(customization.trailLength) || 8}
+        min={1}
+        max={15}
+        unit=""
+        onChange={(v) => onUpdate('trailLength', v.toString())}
+      />,
+      <SliderControl
+        key="cursorSize"
+        label="Cursor Size"
+        value={parseInt(customization.cursorSize) || 20}
+        min={10}
+        max={40}
+        unit="px"
+        onChange={(v) => onUpdate('cursorSize', v.toString())}
+      />,
+      <div key="cursorBlendMode">
+        <Label className="text-xs font-mono">Blend Mode</Label>
+        <select
+          value={customization.cursorBlendMode || 'screen'}
+          onChange={(e) => onUpdate('cursorBlendMode', e.target.value)}
+          className="w-full mt-1 px-3 py-2 rounded-md border border-white/10 bg-white/5 text-sm text-white"
+        >
+          <option value="normal">Normal</option>
+          <option value="screen">Screen</option>
+          <option value="multiply">Multiply</option>
+          <option value="overlay">Overlay</option>
+          <option value="difference">Difference</option>
+        </select>
+      </div>
+    );
+  }
+
+  // Parallax Scroll Effect
+  if (component.id === 'parallax-scroll') {
+    controls.push(
+      <SliderControl
+        key="parallaxSpeed"
+        label="Parallax Speed"
+        value={Math.round((parseFloat(customization.parallaxSpeed) || 0.5) * 100)}
+        min={10}
+        max={100}
+        unit="%"
+        onChange={(v) => onUpdate('parallaxSpeed', (v / 100).toString())}
+      />,
+      <SliderControl
+        key="layerCount"
+        label="Layer Count"
+        value={parseInt(customization.layerCount) || 3}
+        min={2}
+        max={5}
+        unit=""
+        onChange={(v) => onUpdate('layerCount', v.toString())}
+      />,
+      <div key="parallaxDirection">
+        <Label className="text-xs font-mono">Direction</Label>
+        <select
+          value={customization.parallaxDirection || 'vertical'}
+          onChange={(e) => onUpdate('parallaxDirection', e.target.value)}
+          className="w-full mt-1 px-3 py-2 rounded-md border border-white/10 bg-white/5 text-sm text-white"
+        >
+          <option value="vertical">Vertical</option>
+          <option value="horizontal">Horizontal</option>
+        </select>
+      </div>
+    );
+  }
+
   // Return controls or default message
   if (controls.length > 0) {
     return <div className="space-y-3">{controls}</div>;
