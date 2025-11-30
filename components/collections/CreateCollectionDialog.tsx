@@ -176,10 +176,10 @@ export function CreateCollectionDialog({
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-white/20 text-white/70 hover:text-white hover:bg-white/10">
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-white/20 bg-transparent text-white hover:bg-white/10">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} disabled={!name.trim()} className="bg-emerald-500 text-white hover:bg-emerald-600 disabled:bg-emerald-500/50">
+          <Button onClick={handleSubmit} disabled={!name.trim()} className="bg-emerald-500 text-white hover:bg-emerald-600 disabled:opacity-50">
             {isEditing ? 'Save Changes' : 'Create Collection'}
           </Button>
         </DialogFooter>

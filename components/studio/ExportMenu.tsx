@@ -77,7 +77,7 @@ export function ExportMenu({ component, customization }: ExportMenuProps) {
               variant="outline"
               size="sm"
               onClick={handleCopy}
-              className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10"
+              className="gap-2 border-white/20 bg-transparent text-white hover:bg-white/10"
             >
               {copied ? (
                 <>
@@ -95,7 +95,7 @@ export function ExportMenu({ component, customization }: ExportMenuProps) {
               variant="outline"
               size="sm"
               onClick={handleDownload}
-              className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10"
+              className="gap-2 border-white/20 bg-transparent text-white hover:bg-white/10"
             >
               <Download className="w-3 h-3" />
               Download
@@ -104,7 +104,7 @@ export function ExportMenu({ component, customization }: ExportMenuProps) {
               variant="outline"
               size="sm"
               onClick={() => window.open('https://claude.ai/new', '_blank')}
-              className="gap-2 border-white/20 text-white/70 hover:text-white hover:bg-white/10"
+              className="gap-2 border-white/20 bg-transparent text-white hover:bg-white/10"
             >
               <ExternalLink className="w-3 h-3" />
               Open Claude

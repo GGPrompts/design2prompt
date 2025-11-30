@@ -229,7 +229,7 @@ function StudioContent() {
             size="sm"
             onClick={() => setAddToCollectionOpen(true)}
             disabled={!selectedComponent}
-            className="gap-2 border-white/20 text-white hover:bg-white/10 disabled:text-white/30 disabled:border-white/10"
+            className="gap-2 border-white/20 bg-transparent text-white hover:bg-white/10 disabled:opacity-50 disabled:text-white/50"
           >
             <FolderPlus className="w-4 h-4" />
             Save to Collection

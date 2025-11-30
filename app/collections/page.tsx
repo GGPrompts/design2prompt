@@ -117,7 +117,7 @@ export default function CollectionsPage() {
         </div>
         <div className="flex items-center gap-2">
           <Link href="/studio">
-            <Button variant="outline" size="sm" className="border-white/20 text-white/70 hover:text-white hover:bg-white/10 px-2 md:px-3">
+            <Button variant="outline" size="sm" className="border-white/20 bg-transparent text-white hover:bg-white/10 px-2 md:px-3">
               <Sparkles className="w-4 h-4 md:hidden" />
               <span className="hidden md:inline">Open Studio</span>
             </Button>

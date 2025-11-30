@@ -153,7 +153,7 @@ export function AddToCollectionDialog({
               <div className="h-48 rounded-md border border-white/10 flex items-center justify-center">
                 <div className="text-center">
                   <p className="text-white/60 mb-2">No collections yet</p>
-                  <Button variant="outline" size="sm" onClick={onCreateCollection} className="border-white/20 text-white/70 hover:text-white hover:bg-white/10">
+                  <Button variant="outline" size="sm" onClick={onCreateCollection} className="border-white/20 bg-transparent text-white hover:bg-white/10">
                     <FolderPlus className="w-4 h-4 mr-2" />
                     Create Collection
                   </Button>
@@ -166,7 +166,7 @@ export function AddToCollectionDialog({
           {collections.length > 0 && (
             <Button
               variant="outline"
-              className="w-full border-white/20 text-white/70 hover:text-white hover:bg-white/10"
+              className="w-full border-white/20 bg-transparent text-white hover:bg-white/10"
               onClick={onCreateCollection}
             >
               <FolderPlus className="w-4 h-4 mr-2" />
@@ -189,10 +189,10 @@ export function AddToCollectionDialog({
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleClose} className="border-white/20 text-white/70 hover:text-white hover:bg-white/10">
+          <Button variant="outline" onClick={handleClose} className="border-white/20 bg-transparent text-white hover:bg-white/10">
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={!selectedCollectionId} className="bg-emerald-500 text-white hover:bg-emerald-600 disabled:bg-emerald-500/50">
+          <Button onClick={handleSave} disabled={!selectedCollectionId} className="bg-emerald-500 text-white hover:bg-emerald-600 disabled:opacity-50">
             Save to Collection
           </Button>
         </DialogFooter>
