@@ -86,3 +86,19 @@
     @apply border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)];
   }
 }
+
+/* Dark mode native select styling */
+.dark select {
+  background-color: #18181b;
+  color: #fff;
+}
+
+.dark select option {
+  background-color: #18181b;
+  color: #fff;
+}
+
+.dark select option:hover,
+.dark select option:checked {
+  background-color: #27272a;
+}
