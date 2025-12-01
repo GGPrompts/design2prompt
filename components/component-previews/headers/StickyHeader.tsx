@@ -2,8 +2,9 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useState, useRef } from 'react';
-import { Menu, X, ChevronDown, Search, Bell, User } from 'lucide-react';
+import { ChevronDown, Search, Bell } from 'lucide-react';
 import { Customization } from '@/types/customization';
+import { ThemedScrollArea } from '@/components/ui/themed-scroll-area';
 
 type StickyHeaderProps = {
   customization: Customization;
@@ -36,10 +37,11 @@ export function StickyHeader({ customization }: StickyHeaderProps) {
   ];
 
   return (
-    <div className="w-full max-w-2xl" style={baseStyle}>
-      <div
+    <div className="w-full max-w-4xl overflow-hidden" style={baseStyle}>
+      <ThemedScrollArea
         ref={containerRef}
-        className="relative h-64 overflow-y-auto rounded-xl border"
+        primaryColor={customization.primaryColor}
+        className="relative h-52 rounded-xl border"
         style={{
           backgroundColor: customization.backgroundColor,
           borderColor: `${customization.primaryColor}30`,
@@ -186,7 +188,7 @@ export function StickyHeader({ customization }: StickyHeaderProps) {
             </motion.div>
           ))}
         </div>
-      </div>
+      </ThemedScrollArea>
 
       <div className="mt-3 text-center">
         <p className="text-sm font-medium" style={{ color: customization.primaryColor }}>

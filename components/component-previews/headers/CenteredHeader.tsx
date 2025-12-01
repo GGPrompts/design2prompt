@@ -22,7 +22,7 @@ export function CenteredHeader({ customization }: CenteredHeaderProps) {
   const rightNavItems = ['About', 'Journal', 'Contact'];
 
   return (
-    <div className="w-full max-w-2xl" style={baseStyle}>
+    <div className="w-full max-w-4xl" style={baseStyle}>
       <motion.header
         className="relative w-full py-4 px-6"
         style={{

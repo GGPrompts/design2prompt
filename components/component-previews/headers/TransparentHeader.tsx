@@ -28,7 +28,7 @@ export function TransparentHeader({ customization }: TransparentHeaderProps) {
   ];
 
   return (
-    <div className="w-full max-w-2xl" style={baseStyle}>
+    <div className="w-full max-w-4xl" style={baseStyle}>
       {/* Background with gradient for context */}
       <div
         className="relative rounded-xl overflow-hidden"

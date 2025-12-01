@@ -1,5 +1,6 @@
 export type Customization = {
   // Colors
+  colorPreset?: string; // Track which preset is active (e.g., 'terminal', 'ocean')
   primaryColor: string;
   secondaryColor: string;
   backgroundColor: string;

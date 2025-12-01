@@ -40,6 +40,7 @@ export function CustomizationPanel({
   const applyPreset = (presetKey: PresetKey) => {
     const preset = colorPresets[presetKey];
     onUpdateCustomization({
+      colorPreset: presetKey,
       primaryColor: preset.primaryColor,
       secondaryColor: preset.secondaryColor,
       backgroundColor: preset.backgroundColor,
@@ -95,7 +96,12 @@ export function CustomizationPanel({
                   <button
                     key={key}
                     onClick={() => applyPreset(key)}
-                    className="p-2 rounded-md border border-white/10 hover:border-emerald-500/50 bg-white/5 transition-colors"
+                    className={cn(
+                      "p-2 rounded-md border transition-colors",
+                      customization.colorPreset === key
+                        ? "border-emerald-500 bg-emerald-500/10"
+                        : "border-white/10 hover:border-emerald-500/50 bg-white/5"
+                    )}
                   >
                     <div className="flex gap-1 mb-1">
                       <div
@@ -119,28 +125,28 @@ export function CustomizationPanel({
             <ColorPicker
               label="Primary Color"
               value={customization.primaryColor}
-              onChange={(v) => updateValue('primaryColor', v)}
+              onChange={(v) => onUpdateCustomization({ primaryColor: v, colorPreset: undefined })}
             />
 
             {/* Secondary Color */}
             <ColorPicker
               label="Secondary Color"
               value={customization.secondaryColor}
-              onChange={(v) => updateValue('secondaryColor', v)}
+              onChange={(v) => onUpdateCustomization({ secondaryColor: v, colorPreset: undefined })}
             />
 
             {/* Background Color */}
             <ColorPicker
               label="Background"
               value={customization.backgroundColor}
-              onChange={(v) => updateValue('backgroundColor', v)}
+              onChange={(v) => onUpdateCustomization({ backgroundColor: v, colorPreset: undefined })}
             />
 
             {/* Text Color */}
             <ColorPicker
               label="Text Color"
               value={customization.textColor}
-              onChange={(v) => updateValue('textColor', v)}
+              onChange={(v) => onUpdateCustomization({ textColor: v, colorPreset: undefined })}
             />
           </TabsContent>
 

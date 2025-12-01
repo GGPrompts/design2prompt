@@ -7,6 +7,7 @@ import { Customization, defaultCustomization } from '@/types/customization';
 // These are the "theme" - colors, typography, spacing, effects, code prefs
 const GLOBAL_KEYS: (keyof Customization)[] = [
   // Colors
+  'colorPreset',
   'primaryColor',
   'secondaryColor',
   'backgroundColor',

@@ -93,9 +93,9 @@ export function MegaMenuHeader({ customization }: MegaMenuHeaderProps) {
   ];
 
   return (
-    <div className="w-full max-w-2xl" style={baseStyle}>
+    <div className="w-full max-w-4xl" style={baseStyle}>
       <div
-        className="relative rounded-xl overflow-visible border"
+        className="relative rounded-xl border"
         style={{
           backgroundColor: customization.backgroundColor,
           borderColor: `${customization.primaryColor}20`,
@@ -103,7 +103,7 @@ export function MegaMenuHeader({ customization }: MegaMenuHeaderProps) {
       >
         {/* Header */}
         <motion.header
-          className="relative z-20 px-6 py-4 border-b"
+          className="relative z-20 px-4 py-3 border-b overflow-visible"
           style={{ borderColor: `${customization.primaryColor}15` }}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -134,7 +134,7 @@ export function MegaMenuHeader({ customization }: MegaMenuHeaderProps) {
                   onMouseLeave={() => setOpenMenu(null)}
                 >
                   <motion.button
-                    className="flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                    className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                     style={{
                       color:
                         openMenu === item.label

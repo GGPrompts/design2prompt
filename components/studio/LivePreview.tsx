@@ -69,9 +69,9 @@ function getPreviewAlignment(component: ComponentDefinition | null): string {
 
   const { category, id } = component;
 
-  // Headers go at top
+  // Headers go at top with minimal padding
   if (category === 'headers') {
-    return 'items-start justify-center pt-0';
+    return 'items-start justify-center p-4';
   }
 
   // Footers go at bottom

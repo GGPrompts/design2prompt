@@ -46,7 +46,7 @@ export function DataTable({ customization }: DataTableProps) {
   };
 
   return (
-    <div className="w-full max-w-2xl" style={baseStyle}>
+    <div className="w-full max-w-4xl" style={baseStyle}>
       <motion.div
         className="border overflow-hidden"
         style={{

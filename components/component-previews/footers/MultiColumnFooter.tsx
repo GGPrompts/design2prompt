@@ -50,7 +50,7 @@ export function MultiColumnFooter({ customization }: MultiColumnFooterProps) {
   };
 
   return (
-    <div className="w-full max-w-2xl" style={baseStyle}>
+    <div className="w-full max-w-4xl" style={baseStyle}>
       <motion.footer
         className="relative overflow-hidden rounded-xl border"
         style={{
