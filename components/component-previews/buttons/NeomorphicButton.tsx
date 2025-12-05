@@ -5,13 +5,16 @@ import { Customization } from '@/types/customization';
 
 type NeomorphicButtonProps = {
   customization: Customization;
+  textContent?: Record<string, string>;
 };
 
-export function NeomorphicButton({ customization }: NeomorphicButtonProps) {
+export function NeomorphicButton({ customization, textContent }: NeomorphicButtonProps) {
   const bgColor = customization.backgroundColor;
   const neoDepth = parseInt(customization.neoDepth) || 8;
   const softShadowIntensity = parseInt(customization.softShadowIntensity) || 20;
   const duration = parseInt(customization.duration) || 300;
+
+  const buttonText = textContent?.buttonText ?? 'Press Me';
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -38,7 +41,7 @@ export function NeomorphicButton({ customization }: NeomorphicButtonProps) {
         }}
         transition={{ duration: duration / 1000 }}
       >
-        Neomorphic Button
+        {buttonText}
       </motion.button>
       <p className="text-xs opacity-60" style={{ color: customization.textColor }}>
         Click to see pressed state · {neoDepth}px depth

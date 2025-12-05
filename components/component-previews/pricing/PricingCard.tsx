@@ -6,13 +6,20 @@ import { Customization } from '@/types/customization';
 
 type PricingCardProps = {
   customization: Customization;
+  textContent?: Record<string, string>;
 };
 
-export function PricingCard({ customization }: PricingCardProps) {
+export function PricingCard({ customization, textContent }: PricingCardProps) {
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
   const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
   const blurAmount = parseInt(customization.blurAmount || '12') || 12;
   const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
+
+  const planName = textContent?.planName ?? 'Pro';
+  const price = textContent?.price ?? '$29';
+  const period = textContent?.period ?? '/month';
+  const description = textContent?.description ?? 'Perfect for growing teams';
+  const buttonText = textContent?.buttonText ?? 'Get Started';
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -79,7 +86,7 @@ export function PricingCard({ customization }: PricingCardProps) {
               <span>Best Value</span>
             </div>
             <h3 className="text-xl font-bold mb-1" style={{ color: customization.textColor }}>
-              Pro Plan
+              {planName} Plan
             </h3>
             <div className="flex items-baseline justify-center gap-1">
               <span
@@ -90,9 +97,9 @@ export function PricingCard({ customization }: PricingCardProps) {
                   WebkitTextFillColor: 'transparent',
                 }}
               >
-                $29
+                {price}
               </span>
-              <span style={{ color: `${customization.textColor}60` }}>/month</span>
+              <span style={{ color: `${customization.textColor}60` }}>{period}</span>
             </div>
           </div>
 
@@ -143,7 +150,7 @@ export function PricingCard({ customization }: PricingCardProps) {
               }}
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
             />
-            <span className="relative z-10">Get Started</span>
+            <span className="relative z-10">{buttonText}</span>
           </motion.button>
 
           <p className="text-xs text-center mt-3" style={{ color: `${customization.textColor}50` }}>

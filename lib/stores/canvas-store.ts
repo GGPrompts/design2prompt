@@ -67,6 +67,7 @@ type CanvasStore = {
   removeComponent: (id: string) => void;
   updateComponentPosition: (id: string, position: Partial<CanvasPosition>) => void;
   updateComponent: (id: string, updates: Partial<CanvasComponent>) => void;
+  updateComponentText: (id: string, slotKey: string, value: string) => void;
   toggleComponentLock: (id: string) => void;
   toggleComponentVisibility: (id: string) => void;
   bringToFront: (id: string) => void;
@@ -166,6 +167,21 @@ export const useCanvasStore = create<CanvasStore>()(
           set((state) => ({
             components: state.components.map((c) =>
               c.id === id ? { ...c, ...updates } : c
+            ),
+          })),
+
+        updateComponentText: (id, slotKey, value) =>
+          set((state) => ({
+            components: state.components.map((c) =>
+              c.id === id
+                ? {
+                    ...c,
+                    textContent: {
+                      ...c.textContent,
+                      [slotKey]: value,
+                    },
+                  }
+                : c
             ),
           })),
 

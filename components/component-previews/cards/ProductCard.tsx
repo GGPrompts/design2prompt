@@ -7,9 +7,10 @@ import { Customization } from '@/types/customization';
 
 type ProductCardProps = {
   customization: Customization;
+  textContent?: Record<string, string>;
 };
 
-export function ProductCard({ customization }: ProductCardProps) {
+export function ProductCard({ customization, textContent }: ProductCardProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
@@ -17,6 +18,10 @@ export function ProductCard({ customization }: ProductCardProps) {
   const showRating = customization.showRating !== 'false';
   const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
   const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+
+  const productName = textContent?.productName ?? 'Premium Headphones';
+  const price = textContent?.price ?? '$299';
+  const buttonText = textContent?.buttonText ?? 'Add to Cart';
 
   // Convert percentage to hex for opacity values
   const borderOpacityHex = Math.round(glassOpacity * 1.3 * 2.55).toString(16).padStart(2, '0');
@@ -170,7 +175,7 @@ export function ProductCard({ customization }: ProductCardProps) {
 
         {/* Title */}
         <h3 className="text-lg font-bold mb-2 line-clamp-2">
-          Designer Wireless Headphones Pro
+          {productName}
         </h3>
 
         {/* Rating */}
@@ -216,10 +221,7 @@ export function ProductCard({ customization }: ProductCardProps) {
         {/* Price */}
         <div className="flex items-baseline gap-3 mb-4">
           <span className="text-2xl font-bold" style={{ color: customization.primaryColor }}>
-            ${salePrice}
-          </span>
-          <span className="text-sm line-through opacity-50">
-            ${originalPrice}
+            {price}
           </span>
         </div>
 
@@ -238,7 +240,7 @@ export function ProductCard({ customization }: ProductCardProps) {
           whileTap={{ scale: 0.98 }}
         >
           <ShoppingCart className="w-5 h-5" />
-          Add to Cart
+          {buttonText}
         </motion.button>
 
         {/* Stock Status */}

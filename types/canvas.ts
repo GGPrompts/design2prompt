@@ -30,4 +30,5 @@ export type CanvasComponent = SavedComponent & {
   position: CanvasPosition;
   locked: boolean;
   hidden: boolean;
+  textContent?: Record<string, string>;  // { title: "My Title", buttonText: "Click Me" }
 };

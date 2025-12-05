@@ -7,9 +7,10 @@ import { Customization } from '@/types/customization';
 
 type BlogCardProps = {
   customization: Customization;
+  textContent?: Record<string, string>;
 };
 
-export function BlogCard({ customization }: BlogCardProps) {
+export function BlogCard({ customization, textContent }: BlogCardProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
@@ -17,6 +18,10 @@ export function BlogCard({ customization }: BlogCardProps) {
   const showAuthor = customization.showAuthor !== 'false';
   const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
   const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+
+  const title = textContent?.title ?? 'Getting Started with AI';
+  const excerpt = textContent?.excerpt ?? 'Learn how to leverage AI tools to boost your productivity and build amazing products.';
+  const author = textContent?.author ?? 'Sarah Miller';
 
   // Convert percentage to hex for opacity values
   const borderOpacityHex = Math.round(glassOpacity * 1.3 * 2.55).toString(16).padStart(2, '0');
@@ -151,7 +156,7 @@ export function BlogCard({ customization }: BlogCardProps) {
               WebkitTextFillColor: isHovered ? 'transparent' : customization.textColor,
             }}
           >
-            Building the Future: How AI is Transforming Modern Development
+            {title}
           </motion.span>
         </h2>
 
@@ -165,8 +170,7 @@ export function BlogCard({ customization }: BlogCardProps) {
             overflow: 'hidden',
           }}
         >
-          Discover how artificial intelligence is revolutionizing the way we build software,
-          from automated code generation to intelligent debugging and beyond.
+          {excerpt}
         </p>
 
         {/* Tags */}
@@ -212,7 +216,7 @@ export function BlogCard({ customization }: BlogCardProps) {
                   SJ
                 </motion.div>
                 <div>
-                  <p className="text-sm font-semibold">Sarah Johnson</p>
+                  <p className="text-sm font-semibold">{author}</p>
                   <p className="text-xs opacity-60">Tech Writer</p>
                 </div>
               </div>

@@ -5,12 +5,15 @@ import { Customization } from '@/types/customization';
 
 type GradientButtonProps = {
   customization: Customization;
+  textContent?: Record<string, string>;
 };
 
-export function GradientButton({ customization }: GradientButtonProps) {
+export function GradientButton({ customization, textContent }: GradientButtonProps) {
   const gradientAngle = parseInt(customization.gradientAngle) || 135;
   const hoverScale = parseFloat(customization.hoverScale) || 1.05;
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+
+  const buttonText = textContent?.buttonText ?? 'Get Started';
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -34,7 +37,7 @@ export function GradientButton({ customization }: GradientButtonProps) {
         }}
         whileTap={{ scale: 0.95 }}
       >
-        Gradient Button
+        {buttonText}
       </motion.button>
       <motion.button
         className="px-8 py-3 rounded-lg font-bold border-2 transition-all"

@@ -1,6 +1,14 @@
 import { ComponentCategory } from '@/types/component';
 import { Customization, defaultCustomization } from '@/types/customization';
 
+// Text slot definition for inline editing
+export type TextSlot = {
+  key: string;           // e.g., 'title', 'description', 'buttonText'
+  label: string;         // Display name for UI
+  defaultValue: string;  // Placeholder text
+  multiline?: boolean;   // textarea vs input
+};
+
 // Component definition for the registry
 export type ComponentDefinition = {
   id: string;
@@ -10,6 +18,7 @@ export type ComponentDefinition = {
   tags: string[];
   customizableProps: string[];
   defaultCustomization: Partial<Customization>;
+  textSlots?: TextSlot[]; // Editable text elements within component
 };
 
 // Component Library - All components across categories
@@ -29,6 +38,10 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
         blurAmount: '12',
         shadowIntensity: '50',
       },
+      textSlots: [
+        { key: 'title', label: 'Title', defaultValue: 'Glass Card' },
+        { key: 'description', label: 'Description', defaultValue: 'A beautiful frosted glass effect with customizable blur.', multiline: true },
+      ],
     },
     {
       id: 'floating-card',
@@ -73,6 +86,11 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
         avatarSize: '80',
         showSocialLinks: 'true',
       },
+      textSlots: [
+        { key: 'name', label: 'Name', defaultValue: 'Alex Chen' },
+        { key: 'role', label: 'Role', defaultValue: 'Senior Developer' },
+        { key: 'bio', label: 'Bio', defaultValue: 'Building the future of web development.', multiline: true },
+      ],
     },
     {
       id: 'product-card',
@@ -87,6 +105,11 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
         imageHeight: '200',
         showRating: 'true',
       },
+      textSlots: [
+        { key: 'productName', label: 'Product Name', defaultValue: 'Premium Headphones' },
+        { key: 'price', label: 'Price', defaultValue: '$299' },
+        { key: 'buttonText', label: 'Button Text', defaultValue: 'Add to Cart' },
+      ],
     },
     {
       id: 'blog-card',
@@ -101,6 +124,11 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
         excerptLines: '3',
         showAuthor: 'true',
       },
+      textSlots: [
+        { key: 'title', label: 'Title', defaultValue: 'Getting Started with AI' },
+        { key: 'excerpt', label: 'Excerpt', defaultValue: 'Learn how to leverage AI tools to boost your productivity and build amazing products.', multiline: true },
+        { key: 'author', label: 'Author', defaultValue: 'Sarah Miller' },
+      ],
     },
     {
       id: 'pricing-card-alt',
@@ -141,6 +169,9 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
         hoverScale: '1.05',
         shadowIntensity: '50',
       },
+      textSlots: [
+        { key: 'buttonText', label: 'Button Text', defaultValue: 'Get Started' },
+      ],
     },
     {
       id: 'neo-btn',
@@ -155,6 +186,9 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
         softShadowIntensity: '20',
         duration: '300',
       },
+      textSlots: [
+        { key: 'buttonText', label: 'Button Text', defaultValue: 'Press Me' },
+      ],
     },
     {
       id: 'particle-btn',
@@ -181,6 +215,9 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
         ...defaultCustomization,
         hoverScale: '1.05',
       },
+      textSlots: [
+        { key: 'buttonText', label: 'Button Text', defaultValue: 'Learn More' },
+      ],
     },
     {
       id: 'icon-btn',
@@ -1097,6 +1134,13 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
         heroHeight: '600',
         showBadge: 'true',
       },
+      textSlots: [
+        { key: 'badge', label: 'Badge', defaultValue: 'New Release' },
+        { key: 'headline', label: 'Headline', defaultValue: 'Build Beautiful Interfaces' },
+        { key: 'subheadline', label: 'Subheadline', defaultValue: 'Create stunning, modern UI components with our powerful design system.', multiline: true },
+        { key: 'primaryCta', label: 'Primary CTA', defaultValue: 'Get Started' },
+        { key: 'secondaryCta', label: 'Secondary CTA', defaultValue: 'Learn More' },
+      ],
     },
     {
       id: 'bento-hero',
@@ -1156,6 +1200,13 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
         showPopular: 'true',
         columnCount: '3',
       },
+      textSlots: [
+        { key: 'planName', label: 'Plan Name', defaultValue: 'Pro' },
+        { key: 'price', label: 'Price', defaultValue: '$29' },
+        { key: 'period', label: 'Period', defaultValue: '/month' },
+        { key: 'description', label: 'Description', defaultValue: 'Perfect for growing teams', multiline: true },
+        { key: 'buttonText', label: 'Button Text', defaultValue: 'Get Started' },
+      ],
     },
     {
       id: 'feature-grid',
@@ -1249,6 +1300,12 @@ export const componentLibrary: Record<ComponentCategory, ComponentDefinition[]> 
         sectionPadding: '80',
         showDecorations: 'true',
       },
+      textSlots: [
+        { key: 'headline', label: 'Headline', defaultValue: 'Ready to Get Started?' },
+        { key: 'subtext', label: 'Subtext', defaultValue: 'Join thousands of developers building amazing products.', multiline: true },
+        { key: 'primaryCta', label: 'Primary CTA', defaultValue: 'Start Free Trial' },
+        { key: 'secondaryCta', label: 'Secondary CTA', defaultValue: 'Schedule Demo' },
+      ],
     },
     {
       id: 'feature-showcase',

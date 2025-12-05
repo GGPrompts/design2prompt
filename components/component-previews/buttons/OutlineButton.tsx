@@ -5,11 +5,14 @@ import { Customization } from '@/types/customization';
 
 type OutlineButtonProps = {
   customization: Customization;
+  textContent?: Record<string, string>;
 };
 
-export function OutlineButton({ customization }: OutlineButtonProps) {
+export function OutlineButton({ customization, textContent }: OutlineButtonProps) {
   const hoverScale = parseFloat(customization.hoverScale) || 1.05;
   const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+
+  const buttonText = textContent?.buttonText ?? 'Learn More';
 
   // Convert percentage to hex for opacity values
   const borderOpacityHex = Math.round(glassOpacity * 4 * 2.55).toString(16).padStart(2, '0');
@@ -41,7 +44,7 @@ export function OutlineButton({ customization }: OutlineButtonProps) {
         whileTap={{ scale: 0.95 }}
         transition={{ duration: 0.2 }}
       >
-        Outline Button
+        {buttonText}
       </motion.button>
 
       {/* Secondary Outline */}

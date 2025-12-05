@@ -6,13 +6,20 @@ import { Customization } from '@/types/customization';
 
 type GradientHeroProps = {
   customization: Customization;
+  textContent?: Record<string, string>;
 };
 
-export function GradientHero({ customization }: GradientHeroProps) {
+export function GradientHero({ customization, textContent }: GradientHeroProps) {
   const gradientAngle = parseInt(customization.gradientAngle) || 135;
   const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
   const blurAmount = parseInt(customization.blurAmount || '12') || 12;
   const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
+
+  const badge = textContent?.badge ?? 'New Release';
+  const headline = textContent?.headline ?? 'Build Beautiful Interfaces';
+  const subheadline = textContent?.subheadline ?? 'Create stunning, modern UI components with our powerful design system.';
+  const primaryCta = textContent?.primaryCta ?? 'Get Started';
+  const secondaryCta = textContent?.secondaryCta ?? 'Learn More';
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -75,7 +82,7 @@ export function GradientHero({ customization }: GradientHeroProps) {
             transition={{ delay: 0.2 }}
           >
             <Sparkles className="w-3 h-3" />
-            <span>New Release</span>
+            <span>{badge}</span>
           </motion.div>
 
           <motion.h1
@@ -89,7 +96,7 @@ export function GradientHero({ customization }: GradientHeroProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            Build Beautiful UIs
+            {headline}
           </motion.h1>
 
           <motion.p
@@ -99,8 +106,7 @@ export function GradientHero({ customization }: GradientHeroProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            Create stunning interfaces with customizable components and export
-            perfect prompts for any AI assistant.
+            {subheadline}
           </motion.p>
 
           <motion.div
@@ -118,7 +124,7 @@ export function GradientHero({ customization }: GradientHeroProps) {
               whileHover={{ scale: 1.05, boxShadow: `0 8px 30px ${customization.primaryColor}60` }}
               whileTap={{ scale: 0.95 }}
             >
-              Get Started
+              {primaryCta}
               <ArrowRight className="w-4 h-4" />
             </motion.button>
 
@@ -131,7 +137,7 @@ export function GradientHero({ customization }: GradientHeroProps) {
               whileHover={{ backgroundColor: `${customization.primaryColor}15` }}
               whileTap={{ scale: 0.95 }}
             >
-              Learn More
+              {secondaryCta}
             </motion.button>
           </motion.div>
         </div>

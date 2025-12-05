@@ -5,12 +5,16 @@ import { Customization } from '@/types/customization';
 
 type GlassCardProps = {
   customization: Customization;
+  textContent?: Record<string, string>;
 };
 
-export function GlassCard({ customization }: GlassCardProps) {
+export function GlassCard({ customization, textContent }: GlassCardProps) {
   const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
   const borderOpacity = parseInt(customization.glassBorderOpacity) || 40;
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+
+  const title = textContent?.title ?? 'Glass Card';
+  const description = textContent?.description ?? 'A beautiful frosted glass effect with customizable blur.';
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -39,12 +43,12 @@ export function GlassCard({ customization }: GlassCardProps) {
           <Sparkles className="w-6 h-6" style={{ color: customization.primaryColor }} />
         </div>
         <div>
-          <h3 className="font-bold">Glassmorphic Card</h3>
+          <h3 className="font-bold">{title}</h3>
           <p className="text-sm opacity-70">Frosted glass effect</p>
         </div>
       </div>
       <p className="opacity-80 text-sm">
-        Beautiful frosted glass aesthetic with customizable blur and transparency.
+        {description}
       </p>
     </div>
   );

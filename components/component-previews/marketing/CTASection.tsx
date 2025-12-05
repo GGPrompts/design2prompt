@@ -6,13 +6,19 @@ import { Customization } from '@/types/customization';
 
 type CTASectionProps = {
   customization: Customization;
+  textContent?: Record<string, string>;
 };
 
-export function CTASection({ customization }: CTASectionProps) {
+export function CTASection({ customization, textContent }: CTASectionProps) {
   const gradientAngle = parseInt(customization.gradientAngle) || 135;
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
   const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
   const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
+
+  const headline = textContent?.headline ?? 'Ready to Get Started?';
+  const subtext = textContent?.subtext ?? 'Join thousands of developers building amazing products.';
+  const primaryCta = textContent?.primaryCta ?? 'Start Free Trial';
+  const secondaryCta = textContent?.secondaryCta ?? 'Schedule Demo';
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -93,7 +99,6 @@ export function CTASection({ customization }: CTASectionProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <span style={{ color: customization.textColor }}>Ready to </span>
             <span
               style={{
                 background: `linear-gradient(${gradientAngle}deg, ${customization.primaryColor}, ${customization.secondaryColor})`,
@@ -101,9 +106,8 @@ export function CTASection({ customization }: CTASectionProps) {
                 WebkitTextFillColor: 'transparent',
               }}
             >
-              Transform
+              {headline}
             </span>
-            <span style={{ color: customization.textColor }}> Your Workflow?</span>
           </motion.h2>
 
           {/* Subtext */}
@@ -114,8 +118,7 @@ export function CTASection({ customization }: CTASectionProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            Join thousands of teams already using our platform to build
-            amazing products. Start your free trial today.
+            {subtext}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -153,7 +156,7 @@ export function CTASection({ customization }: CTASectionProps) {
                 }}
               />
               <Zap className="w-4 h-4" />
-              <span className="relative z-10">Get Started Free</span>
+              <span className="relative z-10">{primaryCta}</span>
               <ArrowRight className="w-4 h-4" />
             </motion.button>
 
@@ -170,7 +173,7 @@ export function CTASection({ customization }: CTASectionProps) {
               }}
               whileTap={{ scale: 0.95 }}
             >
-              Schedule a Demo
+              {secondaryCta}
             </motion.button>
           </motion.div>
 

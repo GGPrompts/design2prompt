@@ -6,14 +6,19 @@ import { Customization } from '@/types/customization';
 
 type ProfileCardProps = {
   customization: Customization;
+  textContent?: Record<string, string>;
 };
 
-export function ProfileCard({ customization }: ProfileCardProps) {
+export function ProfileCard({ customization, textContent }: ProfileCardProps) {
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
   const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
   const blurAmount = parseInt(customization.blurAmount || '12') || 12;
   const avatarSize = parseInt(customization.avatarSize) || 80;
   const showSocialLinks = customization.showSocialLinks !== 'false';
+
+  const name = textContent?.name ?? 'Alex Chen';
+  const role = textContent?.role ?? 'Senior Developer';
+  const bio = textContent?.bio ?? 'Building the future of web development.';
 
   // Convert percentage to hex for opacity values
   const borderOpacityHex = Math.round(glassOpacity * 2 * 2.55).toString(16).padStart(2, '0');
@@ -103,7 +108,7 @@ export function ProfileCard({ customization }: ProfileCardProps) {
       {/* Content */}
       <div className="px-6 pb-6" style={{ paddingTop: avatarSize / 2 + 8 }}>
         <div className="flex items-center gap-2">
-          <h3 className="text-xl font-bold">Alex Johnson</h3>
+          <h3 className="text-xl font-bold">{name}</h3>
           <motion.div
             className="w-5 h-5 rounded-full flex items-center justify-center text-xs"
             style={{ backgroundColor: customization.primaryColor }}
@@ -114,11 +119,10 @@ export function ProfileCard({ customization }: ProfileCardProps) {
           </motion.div>
         </div>
 
-        <p className="text-sm opacity-60 mt-1">Senior Product Designer</p>
+        <p className="text-sm opacity-60 mt-1">{role}</p>
 
         <p className="mt-3 text-sm opacity-80 leading-relaxed">
-          Crafting digital experiences that blend beauty with functionality.
-          Passionate about design systems and user-centered design.
+          {bio}
         </p>
 
         {/* Location & Website */}

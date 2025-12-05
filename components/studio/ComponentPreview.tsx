@@ -123,9 +123,10 @@ import { Settings } from 'lucide-react';
 type ComponentPreviewProps = {
   component: ComponentDefinition | null;
   customization: Customization;
+  textContent?: Record<string, string>;
 };
 
-export function ComponentPreview({ component, customization }: ComponentPreviewProps) {
+export function ComponentPreview({ component, customization, textContent }: ComponentPreviewProps) {
   if (!component) {
     return (
       <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
@@ -140,17 +141,17 @@ export function ComponentPreview({ component, customization }: ComponentPreviewP
   switch (component.id) {
     // Cards
     case 'glass-card':
-      return <GlassCard customization={customization} />;
+      return <GlassCard customization={customization} textContent={textContent} />;
     case 'floating-card':
       return <FloatingCard customization={customization} />;
     case 'neon-card':
       return <NeonCard customization={customization} />;
     case 'profile-card':
-      return <ProfileCard customization={customization} />;
+      return <ProfileCard customization={customization} textContent={textContent} />;
     case 'product-card':
-      return <ProductCard customization={customization} />;
+      return <ProductCard customization={customization} textContent={textContent} />;
     case 'blog-card':
-      return <BlogCard customization={customization} />;
+      return <BlogCard customization={customization} textContent={textContent} />;
     case 'pricing-card-alt':
       return <PricingCardAlt customization={customization} />;
     case 'team-member-card':
@@ -158,13 +159,13 @@ export function ComponentPreview({ component, customization }: ComponentPreviewP
 
     // Buttons
     case 'gradient-btn':
-      return <GradientButton customization={customization} />;
+      return <GradientButton customization={customization} textContent={textContent} />;
     case 'neo-btn':
-      return <NeomorphicButton customization={customization} />;
+      return <NeomorphicButton customization={customization} textContent={textContent} />;
     case 'particle-btn':
       return <ParticleButton customization={customization} />;
     case 'outline-btn':
-      return <OutlineButton customization={customization} />;
+      return <OutlineButton customization={customization} textContent={textContent} />;
     case 'icon-btn':
       return <IconButton customization={customization} />;
     case 'split-btn':
@@ -294,7 +295,7 @@ export function ComponentPreview({ component, customization }: ComponentPreviewP
 
     // Heroes
     case 'gradient-hero':
-      return <GradientHero customization={customization} />;
+      return <GradientHero customization={customization} textContent={textContent} />;
     case 'bento-hero':
       return <BentoHero customization={customization} />;
     case 'terminal-hero':
@@ -328,7 +329,7 @@ export function ComponentPreview({ component, customization }: ComponentPreviewP
 
     // Pricing
     case 'pricing-card':
-      return <PricingCard customization={customization} />;
+      return <PricingCard customization={customization} textContent={textContent} />;
     case 'feature-grid':
       return <FeatureGrid customization={customization} />;
 
@@ -346,7 +347,7 @@ export function ComponentPreview({ component, customization }: ComponentPreviewP
 
     // Marketing
     case 'cta-section':
-      return <CTASection customization={customization} />;
+      return <CTASection customization={customization} textContent={textContent} />;
     case 'feature-showcase':
       return <FeatureShowcase customization={customization} />;
     case 'logo-cloud':
