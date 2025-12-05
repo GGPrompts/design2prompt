@@ -12,7 +12,9 @@ type CommandPaletteProps = {
 export function CommandPalette({ customization }: CommandPaletteProps) {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const glassOpacity = parseInt(customization.glassOpacity) || 15;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -60,7 +62,7 @@ export function CommandPalette({ customization }: CommandPaletteProps) {
         borderColor: `${customization.primaryColor}30`,
         borderRadius: `${Number(customization.borderRadius) * 1.5}px`,
         boxShadow: `0 25px 50px -12px ${customization.primaryColor}30`,
-        backdropFilter: 'blur(20px)',
+        backdropFilter: `blur(${blurAmount}px)`,
       }}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}

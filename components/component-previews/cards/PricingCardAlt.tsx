@@ -12,6 +12,17 @@ type PricingCardAltProps = {
 export function PricingCardAlt({ customization }: PricingCardAltProps) {
   const [isAnnual, setIsAnnual] = useState(true);
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+
+  // Convert percentage to hex for opacity values
+  const opacityHex = Math.round(glassOpacity * 2.55).toString(16).padStart(2, '0');
+  const shadowOpacityHex = Math.round(glassOpacity * 3.3 * 2.55).toString(16).padStart(2, '0');
+  const toggleBgOpacityHex = Math.round(glassOpacity * 2 * 2.55).toString(16).padStart(2, '0');
+  const iconBgOpacityHex = Math.round(glassOpacity * 1.3 * 2.55).toString(16).padStart(2, '0');
+  const featureBgOpacityHex = Math.round(glassOpacity * 1.3 * 2.55).toString(16).padStart(2, '0');
+  const featureDisabledOpacityHex = Math.round(glassOpacity * 0.7 * 2.55).toString(16).padStart(2, '0');
+  const buttonShadowOpacityHex = Math.round(glassOpacity * 2.7 * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -73,7 +84,7 @@ export function PricingCardAlt({ customization }: PricingCardAltProps) {
           style={{
             background: `linear-gradient(135deg, ${customization.primaryColor}, ${customization.secondaryColor})`,
             color: customization.backgroundColor,
-            boxShadow: `0 4px 20px ${customization.primaryColor}50`,
+            boxShadow: `0 4px 20px ${customization.primaryColor}${shadowOpacityHex}`,
           }}
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -88,7 +99,7 @@ export function PricingCardAlt({ customization }: PricingCardAltProps) {
           <motion.div
             className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4"
             style={{
-              background: `linear-gradient(135deg, ${customization.primaryColor}20, ${customization.secondaryColor}20)`,
+              background: `linear-gradient(135deg, ${customization.primaryColor}${iconBgOpacityHex}, ${customization.secondaryColor}${iconBgOpacityHex})`,
             }}
             whileHover={{ scale: 1.1, rotate: 5 }}
           >
@@ -109,7 +120,7 @@ export function PricingCardAlt({ customization }: PricingCardAltProps) {
           <motion.button
             className="relative w-14 h-7 rounded-full p-1"
             style={{
-              backgroundColor: `${customization.primaryColor}30`,
+              backgroundColor: `${customization.primaryColor}${toggleBgOpacityHex}`,
             }}
             onClick={() => setIsAnnual(!isAnnual)}
             whileTap={{ scale: 0.95 }}
@@ -118,7 +129,7 @@ export function PricingCardAlt({ customization }: PricingCardAltProps) {
               className="w-5 h-5 rounded-full"
               style={{
                 background: `linear-gradient(135deg, ${customization.primaryColor}, ${customization.secondaryColor})`,
-                boxShadow: `0 2px 8px ${customization.primaryColor}50`,
+                boxShadow: `0 2px 8px ${customization.primaryColor}${shadowOpacityHex}`,
               }}
               animate={{ x: isAnnual ? 26 : 0 }}
               transition={{ type: 'spring', stiffness: 500, damping: 30 }}
@@ -175,8 +186,8 @@ export function PricingCardAlt({ customization }: PricingCardAltProps) {
                 className="w-5 h-5 rounded-full flex items-center justify-center"
                 style={{
                   backgroundColor: feature.included
-                    ? `${customization.primaryColor}20`
-                    : `${customization.textColor}10`,
+                    ? `${customization.primaryColor}${featureBgOpacityHex}`
+                    : `${customization.textColor}${featureDisabledOpacityHex}`,
                 }}
               >
                 {feature.included ? (
@@ -187,7 +198,7 @@ export function PricingCardAlt({ customization }: PricingCardAltProps) {
                 ) : (
                   <X
                     className="w-3 h-3"
-                    style={{ color: `${customization.textColor}40` }}
+                    style={{ color: `${customization.textColor}${buttonShadowOpacityHex}` }}
                   />
                 )}
               </div>
@@ -206,11 +217,11 @@ export function PricingCardAlt({ customization }: PricingCardAltProps) {
           style={{
             background: `linear-gradient(135deg, ${customization.primaryColor}, ${customization.secondaryColor})`,
             color: customization.backgroundColor,
-            boxShadow: `0 10px 30px ${customization.primaryColor}40`,
+            boxShadow: `0 10px 30px ${customization.primaryColor}${buttonShadowOpacityHex}`,
           }}
           whileHover={{
             scale: 1.02,
-            boxShadow: `0 15px 40px ${customization.primaryColor}60`,
+            boxShadow: `0 15px 40px ${customization.primaryColor}${Math.round(glassOpacity * 4 * 2.55).toString(16).padStart(2, '0')}`,
           }}
           whileTap={{ scale: 0.98 }}
         >

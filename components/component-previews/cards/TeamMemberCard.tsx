@@ -12,6 +12,16 @@ type TeamMemberCardProps = {
 export function TeamMemberCard({ customization }: TeamMemberCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+
+  // Convert percentage to hex for opacity values
+  const borderOpacityHex = Math.round(glassOpacity * 2 * 2.55).toString(16).padStart(2, '0');
+  const gradientOpacityHex = Math.round(glassOpacity * 2.7 * 2.55).toString(16).padStart(2, '0');
+  const avatarShadowOpacityHex = Math.round(glassOpacity * 2.7 * 2.55).toString(16).padStart(2, '0');
+  const skillBgOpacityHex = Math.round(glassOpacity * 1 * 2.55).toString(16).padStart(2, '0');
+  const socialBorderOpacityHex = Math.round(glassOpacity * 2 * 2.55).toString(16).padStart(2, '0');
+  const socialBgOpacityHex = Math.round(glassOpacity * 0.5 * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -46,7 +56,7 @@ export function TeamMemberCard({ customization }: TeamMemberCardProps) {
       <motion.div
         className="relative border overflow-hidden"
         style={{
-          borderColor: `${customization.primaryColor}30`,
+          borderColor: `${customization.primaryColor}${borderOpacityHex}`,
           borderRadius: `${customization.borderRadius}px`,
           boxShadow: `0 20px 50px ${customization.primaryColor}${Math.round(shadowIntensity * 0.3).toString(16).padStart(2, '0')}`,
         }}
@@ -58,7 +68,7 @@ export function TeamMemberCard({ customization }: TeamMemberCardProps) {
           <motion.div
             className="h-32"
             style={{
-              background: `linear-gradient(135deg, ${customization.primaryColor}40, ${customization.secondaryColor}40)`,
+              background: `linear-gradient(135deg, ${customization.primaryColor}${gradientOpacityHex}, ${customization.secondaryColor}${gradientOpacityHex})`,
             }}
             animate={{ scale: isHovered ? 1.05 : 1 }}
           />
@@ -66,12 +76,12 @@ export function TeamMemberCard({ customization }: TeamMemberCardProps) {
           {/* Decorative circles */}
           <motion.div
             className="absolute top-4 right-4 w-16 h-16 rounded-full"
-            style={{ backgroundColor: `${customization.primaryColor}30` }}
+            style={{ backgroundColor: `${customization.primaryColor}${borderOpacityHex}` }}
             animate={{ scale: isHovered ? 1.2 : 1, x: isHovered ? 10 : 0 }}
           />
           <motion.div
             className="absolute top-8 right-12 w-8 h-8 rounded-full"
-            style={{ backgroundColor: `${customization.secondaryColor}40` }}
+            style={{ backgroundColor: `${customization.secondaryColor}${gradientOpacityHex}` }}
             animate={{ scale: isHovered ? 1.3 : 1, y: isHovered ? -5 : 0 }}
           />
 
@@ -81,7 +91,7 @@ export function TeamMemberCard({ customization }: TeamMemberCardProps) {
               className="relative w-24 h-24 rounded-full border-4"
               style={{
                 borderColor: customization.backgroundColor,
-                boxShadow: `0 8px 25px ${customization.primaryColor}40`,
+                boxShadow: `0 8px 25px ${customization.primaryColor}${avatarShadowOpacityHex}`,
               }}
               whileHover={{ scale: 1.1 }}
             >
@@ -130,7 +140,7 @@ export function TeamMemberCard({ customization }: TeamMemberCardProps) {
                 key={skill}
                 className="px-3 py-1 text-xs rounded-full"
                 style={{
-                  backgroundColor: `${customization.primaryColor}15`,
+                  backgroundColor: `${customization.primaryColor}${skillBgOpacityHex}`,
                   color: customization.primaryColor,
                 }}
                 initial={{ opacity: 0, scale: 0 }}
@@ -161,8 +171,8 @@ export function TeamMemberCard({ customization }: TeamMemberCardProps) {
                   href={social.href}
                   className="w-9 h-9 rounded-lg flex items-center justify-center border"
                   style={{
-                    borderColor: `${customization.primaryColor}30`,
-                    backgroundColor: `${customization.primaryColor}08`,
+                    borderColor: `${customization.primaryColor}${socialBorderOpacityHex}`,
+                    backgroundColor: `${customization.primaryColor}${socialBgOpacityHex}`,
                   }}
                   whileHover={{
                     scale: 1.1,

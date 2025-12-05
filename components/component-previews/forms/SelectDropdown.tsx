@@ -27,6 +27,9 @@ export function SelectDropdown({ customization }: SelectDropdownProps) {
   const [selected, setSelected] = useState<Option | null>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -63,7 +66,7 @@ export function SelectDropdown({ customization }: SelectDropdownProps) {
         style={{
           borderColor: isOpen ? customization.primaryColor : `${customization.textColor}30`,
           borderRadius: `${customization.borderRadius}px`,
-          backgroundColor: `${customization.backgroundColor}80`,
+          backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 3.4)}`,
           color: selected ? customization.textColor : `${customization.textColor}60`,
         }}
         onClick={() => setIsOpen(!isOpen)}
@@ -80,7 +83,7 @@ export function SelectDropdown({ customization }: SelectDropdownProps) {
           className="absolute inset-0 pointer-events-none"
           style={{
             borderRadius: `${customization.borderRadius}px`,
-            boxShadow: `0 0 20px ${customization.primaryColor}40`,
+            boxShadow: `0 0 20px ${customization.primaryColor}${opacityToHex(glassOpacity * 2.7)}`,
           }}
           animate={{ opacity: isOpen ? 1 : 0 }}
           transition={{ duration: 0.2 }}
@@ -90,9 +93,10 @@ export function SelectDropdown({ customization }: SelectDropdownProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute mt-2 w-full max-w-xs overflow-hidden border backdrop-blur-xl z-50"
+            className="absolute mt-2 w-full max-w-xs overflow-hidden border z-50"
             style={{
-              backgroundColor: `${customization.backgroundColor}95`,
+              backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 4)}`,
+              backdropFilter: `blur(${blurAmount}px)`,
               borderColor: `${customization.primaryColor}40`,
               borderRadius: `${customization.borderRadius}px`,
               boxShadow: `0 10px 40px ${customization.primaryColor}20`,
@@ -112,7 +116,7 @@ export function SelectDropdown({ customization }: SelectDropdownProps) {
                     key={option.value}
                     className="flex items-center justify-between px-4 py-2.5 cursor-pointer"
                     style={{
-                      backgroundColor: isHighlighted ? `${customization.primaryColor}20` : 'transparent',
+                      backgroundColor: isHighlighted ? `${customization.primaryColor}${opacityToHex(glassOpacity * 1.3)}` : 'transparent',
                       color: customization.textColor,
                     }}
                     onMouseEnter={() => setHighlightedIndex(index)}

@@ -11,6 +11,10 @@ type ConfirmDialogProps = {
 
 export function ConfirmDialog({ customization }: ConfirmDialogProps) {
   const [isOpen, setIsOpen] = useState(true);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const backdropOpacity = parseInt(customization.backdropOpacity || '50') || 50;
+  const backdropHex = Math.round(backdropOpacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -44,8 +48,8 @@ export function ConfirmDialog({ customization }: ConfirmDialogProps) {
             <motion.div
               className="absolute inset-0 rounded-xl"
               style={{
-                backgroundColor: `${customization.backgroundColor}90`,
-                backdropFilter: 'blur(4px)',
+                backgroundColor: `${customization.backgroundColor}${backdropHex}`,
+                backdropFilter: `blur(${blurAmount}px)`,
               }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

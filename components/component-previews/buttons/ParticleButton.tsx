@@ -11,6 +11,10 @@ export function ParticleButton({ customization }: ParticleButtonProps) {
   const particleCount = parseInt(customization.particleCount) || 20;
   const explosionRadius = parseInt(customization.explosionRadius) || 50;
   const duration = parseInt(customization.duration) || 300;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+
+  // Convert percentage to hex for opacity values
+  const gradientOpacityHex = Math.round(glassOpacity * 2.7 * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -34,7 +38,7 @@ export function ParticleButton({ customization }: ParticleButtonProps) {
         <motion.div
           className="absolute inset-0"
           style={{
-            background: `radial-gradient(circle at 50% 50%, ${customization.primaryColor}40 0%, transparent ${explosionRadius}%)`,
+            background: `radial-gradient(circle at 50% 50%, ${customization.primaryColor}${gradientOpacityHex} 0%, transparent ${explosionRadius}%)`,
           }}
           animate={{
             scale: [1, 1 + explosionRadius / 50, 1],

@@ -11,8 +11,9 @@ type TransparentHeaderProps = {
 
 export function TransparentHeader({ customization }: TransparentHeaderProps) {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  const glassOpacity = parseInt(customization.glassOpacity) || 15;
-  const blurAmount = parseInt(customization.blurAmount) || 12;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -38,8 +39,11 @@ export function TransparentHeader({ customization }: TransparentHeaderProps) {
       >
         {/* Animated gradient orbs */}
         <motion.div
-          className="absolute top-10 left-10 w-32 h-32 rounded-full blur-3xl"
-          style={{ backgroundColor: `${customization.primaryColor}30` }}
+          className="absolute top-10 left-10 w-32 h-32 rounded-full"
+          style={{
+            backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity * 2)}`,
+            filter: `blur(${blurAmount * 2}px)`,
+          }}
           animate={{
             x: [0, 30, 0],
             y: [0, -20, 0],
@@ -47,8 +51,11 @@ export function TransparentHeader({ customization }: TransparentHeaderProps) {
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute top-20 right-20 w-40 h-40 rounded-full blur-3xl"
-          style={{ backgroundColor: `${customization.secondaryColor}25` }}
+          className="absolute top-20 right-20 w-40 h-40 rounded-full"
+          style={{
+            backgroundColor: `${customization.secondaryColor}${opacityToHex(glassOpacity * 1.6)}`,
+            filter: `blur(${blurAmount * 2}px)`,
+          }}
           animate={{
             x: [0, -20, 0],
             y: [0, 30, 0],

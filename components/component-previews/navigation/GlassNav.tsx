@@ -11,8 +11,8 @@ type GlassNavProps = {
 
 export function GlassNav({ customization }: GlassNavProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const glassOpacity = parseInt(customization.glassOpacity) || 15;
-  const blurAmount = parseInt(customization.blurAmount) || 12;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
 
   const baseStyle = {
     fontFamily: customization.fontFamily,

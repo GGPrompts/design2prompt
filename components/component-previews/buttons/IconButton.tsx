@@ -11,6 +11,10 @@ type IconButtonProps = {
 export function IconButton({ customization }: IconButtonProps) {
   const hoverScale = parseFloat(customization.hoverScale) || 1.1;
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+
+  // Convert percentage to hex for opacity values
+  const squareBgOpacityHex = Math.round(glassOpacity * 1.3 * 2.55).toString(16).padStart(2, '0');
 
   const icons = [
     { Icon: Plus, label: 'Add' },
@@ -76,7 +80,7 @@ export function IconButton({ customization }: IconButtonProps) {
             key={`square-${label}`}
             className="w-10 h-10 flex items-center justify-center transition-all"
             style={{
-              backgroundColor: `${customization.primaryColor}20`,
+              backgroundColor: `${customization.primaryColor}${squareBgOpacityHex}`,
               color: customization.primaryColor,
               borderRadius: `${customization.borderRadius}px`,
             }}

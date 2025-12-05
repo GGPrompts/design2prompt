@@ -9,6 +9,11 @@ type OutlineButtonProps = {
 
 export function OutlineButton({ customization }: OutlineButtonProps) {
   const hoverScale = parseFloat(customization.hoverScale) || 1.05;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+
+  // Convert percentage to hex for opacity values
+  const borderOpacityHex = Math.round(glassOpacity * 4 * 2.55).toString(16).padStart(2, '0');
+  const glowOpacityHex = Math.round(glassOpacity * 2.7 * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -64,14 +69,14 @@ export function OutlineButton({ customization }: OutlineButtonProps) {
         className="px-8 py-3 border font-semibold transition-all"
         style={{
           ...baseStyle,
-          borderColor: `${customization.primaryColor}60`,
+          borderColor: `${customization.primaryColor}${borderOpacityHex}`,
           color: customization.textColor,
           backgroundColor: 'transparent',
         }}
         whileHover={{
           scale: hoverScale,
           borderColor: customization.primaryColor,
-          boxShadow: `0 0 20px ${customization.primaryColor}40`,
+          boxShadow: `0 0 20px ${customization.primaryColor}${glowOpacityHex}`,
         }}
         whileTap={{ scale: 0.95 }}
         transition={{ duration: 0.2 }}

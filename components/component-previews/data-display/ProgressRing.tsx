@@ -8,6 +8,9 @@ type ProgressRingProps = {
 };
 
 export function ProgressRing({ customization }: ProgressRingProps) {
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityHex = Math.round(glassOpacity * 2.55).toString(16).padStart(2, '0');
+
   const baseStyle = {
     fontFamily: customization.fontFamily,
     fontSize: `${customization.fontSize}px`,
@@ -32,7 +35,7 @@ export function ProgressRing({ customization }: ProgressRingProps) {
       <motion.div
         className="p-6 border text-center"
         style={{
-          backgroundColor: `${customization.backgroundColor}95`,
+          backgroundColor: `${customization.backgroundColor}${opacityHex}`,
           borderColor: `${customization.primaryColor}30`,
           borderRadius: `${customization.borderRadius}px`,
           boxShadow: `0 8px 32px ${customization.primaryColor}20`,

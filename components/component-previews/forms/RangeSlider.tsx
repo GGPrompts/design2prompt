@@ -33,6 +33,8 @@ export function RangeSlider({ customization }: RangeSliderProps) {
     discount: 20,
   });
   const [dragging, setDragging] = useState<string | null>(null);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -79,7 +81,7 @@ export function RangeSlider({ customization }: RangeSliderProps) {
                 <motion.div
                   className="px-3 py-1 rounded-full text-sm font-medium"
                   style={{
-                    backgroundColor: isDragging ? customization.primaryColor : `${customization.primaryColor}20`,
+                    backgroundColor: isDragging ? customization.primaryColor : `${customization.primaryColor}${opacityToHex(glassOpacity * 1.3)}`,
                     color: isDragging ? '#fff' : customization.primaryColor,
                   }}
                   animate={{ scale: isDragging ? 1.1 : 1 }}

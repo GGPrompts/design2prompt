@@ -12,6 +12,8 @@ type FAQAccordionProps = {
 export function FAQAccordion({ customization }: FAQAccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const gradientAngle = parseInt(customization.gradientAngle) || 135;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,

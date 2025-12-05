@@ -12,6 +12,10 @@ export function PillButton({ customization }: PillButtonProps) {
   const hoverScale = parseFloat(customization.hoverScale) || 1.05;
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
   const gradientAngle = parseInt(customization.gradientAngle) || 135;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+
+  // Convert percentage to hex for opacity values
+  const badgeBgOpacityHex = Math.round(glassOpacity * 1.3 * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -100,7 +104,7 @@ export function PillButton({ customization }: PillButtonProps) {
           style={{
             ...baseStyle,
             fontSize: '14px',
-            backgroundColor: `${customization.secondaryColor}20`,
+            backgroundColor: `${customization.secondaryColor}${badgeBgOpacityHex}`,
             color: customization.secondaryColor,
           }}
           whileHover={{

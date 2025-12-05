@@ -13,6 +13,7 @@ export function GlowButton({ customization }: GlowButtonProps) {
   const [hoveredButton, setHoveredButton] = useState<number | null>(null);
   const glowIntensity = parseInt(customization.glowIntensity) || 60;
   const glowSpread = parseInt(customization.glowSpread) || 40;
+  const blurAmount = parseInt(customization.blurAmount) || 12;
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -192,7 +193,7 @@ export function GlowButton({ customization }: GlowButtonProps) {
             style={{
               backgroundImage: `linear-gradient(90deg, ${customization.primaryColor}, ${customization.secondaryColor}, #f59e0b, #ef4444, ${customization.primaryColor})`,
               backgroundSize: '200% 100%',
-              filter: 'blur(4px)',
+              filter: `blur(${blurAmount}px)`,
             }}
             animate={{
               backgroundPosition: ['0% 50%', '200% 50%'],

@@ -33,6 +33,8 @@ function AnimatedNumber({ value, suffix = '' }: { value: number; suffix?: string
 export function StatsCounter({ customization }: StatsCounterProps) {
   const gradientAngle = parseInt(customization.gradientAngle) || 135;
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -61,13 +63,13 @@ export function StatsCounter({ customization }: StatsCounterProps) {
       >
         {/* Animated background gradient */}
         <motion.div
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0"
           style={{
-            background: `radial-gradient(circle at 20% 50%, ${customization.primaryColor}40, transparent 50%),
-                        radial-gradient(circle at 80% 50%, ${customization.secondaryColor}40, transparent 50%)`,
+            background: `radial-gradient(circle at 20% 50%, ${customization.primaryColor}${opacityToHex(glassOpacity * 2.6)}, transparent 50%),
+                        radial-gradient(circle at 80% 50%, ${customization.secondaryColor}${opacityToHex(glassOpacity * 2.6)}, transparent 50%)`,
           }}
           animate={{
-            opacity: [0.05, 0.15, 0.05],
+            opacity: [glassOpacity / 100 * 0.3, glassOpacity / 100 * 1, glassOpacity / 100 * 0.3],
           }}
           transition={{ duration: 5, repeat: Infinity }}
         />

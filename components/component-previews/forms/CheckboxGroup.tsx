@@ -29,6 +29,8 @@ export function CheckboxGroup({ customization }: CheckboxGroupProps) {
     marketing: false,
     analytics: true,
   });
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -60,7 +62,7 @@ export function CheckboxGroup({ customization }: CheckboxGroupProps) {
               transition={{ delay: index * 0.1 }}
               className="flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-colors"
               style={{
-                backgroundColor: isChecked ? `${customization.primaryColor}10` : 'transparent',
+                backgroundColor: isChecked ? `${customization.primaryColor}${opacityToHex(glassOpacity * 0.7)}` : 'transparent',
                 borderRadius: `${customization.borderRadius}px`,
               }}
               onClick={() => toggleCheckbox(option.id)}
@@ -107,7 +109,7 @@ export function CheckboxGroup({ customization }: CheckboxGroupProps) {
       <motion.div
         className="mt-4 p-3 rounded-lg"
         style={{
-          backgroundColor: `${customization.primaryColor}10`,
+          backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity * 0.7)}`,
           borderRadius: `${customization.borderRadius}px`,
         }}
       >

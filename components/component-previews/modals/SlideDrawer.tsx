@@ -12,6 +12,9 @@ type SlideDrawerProps = {
 export function SlideDrawer({ customization }: SlideDrawerProps) {
   const [isOpen, setIsOpen] = useState(true);
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityHex = Math.round(glassOpacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -77,7 +80,8 @@ export function SlideDrawer({ customization }: SlideDrawerProps) {
             <motion.div
               className="absolute left-0 top-0 bottom-0 w-52 border-r"
               style={{
-                backgroundColor: `${customization.backgroundColor}f8`,
+                backgroundColor: `${customization.backgroundColor}${opacityHex}`,
+                backdropFilter: `blur(${blurAmount}px)`,
                 borderColor: `${customization.primaryColor}20`,
                 boxShadow: `4px 0 20px ${customization.primaryColor}${Math.round(shadowIntensity * 0.3).toString(16).padStart(2, '0')}`,
               }}

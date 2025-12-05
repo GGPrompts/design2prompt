@@ -14,6 +14,13 @@ export function SplitButton({ customization }: SplitButtonProps) {
   const [isOpenSecondary, setIsOpenSecondary] = useState(false);
   const hoverScale = parseFloat(customization.hoverScale) || 1.02;
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+
+  // Convert percentage to hex for opacity values
+  const dividerOpacityHex = Math.round(glassOpacity * 5.3 * 2.55).toString(16).padStart(2, '0');
+  const dropdownBorderOpacityHex = Math.round(glassOpacity * 2 * 2.55).toString(16).padStart(2, '0');
+  const hoverBgOpacityHex = Math.round(glassOpacity * 1.3 * 2.55).toString(16).padStart(2, '0');
+  const hoverBgLightOpacityHex = Math.round(glassOpacity * 0.7 * 2.55).toString(16).padStart(2, '0');
 
   const dropdownOptions = [
     { Icon: Share, label: 'Share' },
@@ -52,7 +59,7 @@ export function SplitButton({ customization }: SplitButtonProps) {
           </motion.button>
           <div
             className="w-px"
-            style={{ backgroundColor: `${customization.primaryColor}80` }}
+            style={{ backgroundColor: `${customization.primaryColor}${dividerOpacityHex}` }}
           />
           <motion.button
             className="px-3 py-3 text-white"
@@ -79,7 +86,7 @@ export function SplitButton({ customization }: SplitButtonProps) {
               className="absolute top-full mt-2 right-0 z-10 min-w-[160px] py-2 rounded-lg shadow-xl"
               style={{
                 backgroundColor: customization.surfaceColor,
-                border: `1px solid ${customization.primaryColor}30`,
+                border: `1px solid ${customization.primaryColor}${dropdownBorderOpacityHex}`,
               }}
             >
               {dropdownOptions.map(({ Icon, label }) => (
@@ -91,7 +98,7 @@ export function SplitButton({ customization }: SplitButtonProps) {
                     color: customization.textColor,
                   }}
                   whileHover={{
-                    backgroundColor: `${customization.primaryColor}20`,
+                    backgroundColor: `${customization.primaryColor}${hoverBgOpacityHex}`,
                   }}
                 >
                   <Icon className="w-4 h-4" style={{ color: customization.primaryColor }} />
@@ -121,7 +128,7 @@ export function SplitButton({ customization }: SplitButtonProps) {
               backgroundColor: 'transparent',
             }}
             whileHover={{
-              backgroundColor: `${customization.secondaryColor}10`,
+              backgroundColor: `${customization.secondaryColor}${hoverBgLightOpacityHex}`,
             }}
             whileTap={{ scale: 0.98 }}
           >
@@ -139,7 +146,7 @@ export function SplitButton({ customization }: SplitButtonProps) {
               backgroundColor: 'transparent',
             }}
             whileHover={{
-              backgroundColor: `${customization.secondaryColor}10`,
+              backgroundColor: `${customization.secondaryColor}${hoverBgLightOpacityHex}`,
             }}
             onClick={() => setIsOpenSecondary(!isOpenSecondary)}
             whileTap={{ scale: 0.95 }}
@@ -163,7 +170,7 @@ export function SplitButton({ customization }: SplitButtonProps) {
               className="absolute top-full mt-2 right-0 z-10 min-w-[160px] py-2 rounded-lg shadow-xl border"
               style={{
                 backgroundColor: customization.surfaceColor,
-                borderColor: `${customization.secondaryColor}30`,
+                borderColor: `${customization.secondaryColor}${dropdownBorderOpacityHex}`,
               }}
             >
               {dropdownOptions.map(({ Icon, label }) => (
@@ -175,7 +182,7 @@ export function SplitButton({ customization }: SplitButtonProps) {
                     color: customization.textColor,
                   }}
                   whileHover={{
-                    backgroundColor: `${customization.secondaryColor}20`,
+                    backgroundColor: `${customization.secondaryColor}${hoverBgOpacityHex}`,
                   }}
                 >
                   <Icon className="w-4 h-4" style={{ color: customization.secondaryColor }} />

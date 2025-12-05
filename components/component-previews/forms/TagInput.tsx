@@ -14,6 +14,9 @@ export function TagInput({ customization }: TagInputProps) {
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -65,7 +68,7 @@ export function TagInput({ customization }: TagInputProps) {
         style={{
           borderColor: isFocused ? customization.primaryColor : `${customization.textColor}30`,
           borderRadius: `${customization.borderRadius}px`,
-          backgroundColor: `${customization.backgroundColor}80`,
+          backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 3.4)}`,
         }}
         onClick={() => inputRef.current?.focus()}
         animate={{
@@ -84,7 +87,7 @@ export function TagInput({ customization }: TagInputProps) {
                 exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.15 } }}
                 className="flex items-center gap-1.5 px-3 py-1 rounded-full text-sm"
                 style={{
-                  background: `linear-gradient(135deg, ${customization.primaryColor}20, ${customization.secondaryColor}20)`,
+                  background: `linear-gradient(135deg, ${customization.primaryColor}${opacityToHex(glassOpacity * 1.3)}, ${customization.secondaryColor}${opacityToHex(glassOpacity * 1.3)})`,
                   border: `1px solid ${customization.primaryColor}40`,
                 }}
               >
@@ -127,10 +130,11 @@ export function TagInput({ customization }: TagInputProps) {
         <AnimatePresence>
           {filteredSuggestions.length > 0 && isFocused && (
             <motion.div
-              className="absolute left-0 right-0 mt-2 border backdrop-blur-xl overflow-hidden z-50"
+              className="absolute left-0 right-0 mt-2 border overflow-hidden z-50"
               style={{
                 top: '100%',
-                backgroundColor: `${customization.backgroundColor}95`,
+                backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 4)}`,
+                backdropFilter: `blur(${blurAmount}px)`,
                 borderColor: `${customization.primaryColor}40`,
                 borderRadius: `${customization.borderRadius}px`,
                 boxShadow: `0 10px 40px ${customization.primaryColor}20`,
@@ -144,7 +148,7 @@ export function TagInput({ customization }: TagInputProps) {
                   key={suggestion}
                   className="px-4 py-2 cursor-pointer flex items-center gap-2"
                   style={{ color: customization.textColor }}
-                  whileHover={{ backgroundColor: `${customization.primaryColor}20` }}
+                  whileHover={{ backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity * 1.3)}` }}
                   onMouseDown={(e) => {
                     e.preventDefault();
                     addTag(suggestion);

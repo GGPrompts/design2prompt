@@ -17,6 +17,12 @@ const statusConfig: Record<StatusType, { color: string; label: string; animation
 };
 
 export function StatusBadge({ customization }: StatusBadgeProps) {
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+
+  // Convert percentage to hex for opacity values
+  const badgeBgOpacityHex = Math.round(glassOpacity * 1 * 2.55).toString(16).padStart(2, '0');
+  const badgeBorderOpacityHex = Math.round(glassOpacity * 2.7 * 2.55).toString(16).padStart(2, '0');
+
   const baseStyle = {
     fontFamily: customization.fontFamily,
     fontSize: `${customization.fontSize}px`,
@@ -36,8 +42,8 @@ export function StatusBadge({ customization }: StatusBadgeProps) {
               key={status}
               className="flex items-center gap-2 px-4 py-2 rounded-full"
               style={{
-                backgroundColor: `${config.color}15`,
-                border: `1px solid ${config.color}40`,
+                backgroundColor: `${config.color}${badgeBgOpacityHex}`,
+                border: `1px solid ${config.color}${badgeBorderOpacityHex}`,
               }}
               whileHover={{ scale: 1.05 }}
             >
@@ -148,8 +154,8 @@ export function StatusBadge({ customization }: StatusBadgeProps) {
         <motion.div
           className="flex items-center gap-2 px-4 py-2 rounded-full"
           style={{
-            backgroundColor: `${customization.primaryColor}15`,
-            border: `1px solid ${customization.primaryColor}40`,
+            backgroundColor: `${customization.primaryColor}${badgeBgOpacityHex}`,
+            border: `1px solid ${customization.primaryColor}${badgeBorderOpacityHex}`,
           }}
           whileHover={{ scale: 1.05 }}
         >
@@ -167,8 +173,8 @@ export function StatusBadge({ customization }: StatusBadgeProps) {
         <motion.div
           className="flex items-center gap-2 px-4 py-2 rounded-full"
           style={{
-            backgroundColor: `${customization.secondaryColor}15`,
-            border: `1px solid ${customization.secondaryColor}40`,
+            backgroundColor: `${customization.secondaryColor}${badgeBgOpacityHex}`,
+            border: `1px solid ${customization.secondaryColor}${badgeBorderOpacityHex}`,
           }}
           whileHover={{ scale: 1.05 }}
         >

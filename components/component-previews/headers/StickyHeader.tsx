@@ -16,8 +16,9 @@ export function StickyHeader({ customization }: StickyHeaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll({ container: containerRef });
 
-  const glassOpacity = parseInt(customization.glassOpacity) || 15;
-  const blurAmount = parseInt(customization.blurAmount) || 12;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const headerHeight = useTransform(scrollY, [0, 100], [80, 60]);
   const logoScale = useTransform(scrollY, [0, 100], [1, 0.85]);

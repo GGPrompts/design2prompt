@@ -23,6 +23,8 @@ const radioOptions: RadioOption[] = [
 
 export function RadioGroup({ customization }: RadioGroupProps) {
   const [selected, setSelected] = useState('business');
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -52,7 +54,7 @@ export function RadioGroup({ customization }: RadioGroupProps) {
               style={{
                 borderColor: isSelected ? customization.primaryColor : `${customization.textColor}20`,
                 borderRadius: `${customization.borderRadius}px`,
-                backgroundColor: isSelected ? `${customization.primaryColor}10` : 'transparent',
+                backgroundColor: isSelected ? `${customization.primaryColor}${opacityToHex(glassOpacity * 0.7)}` : 'transparent',
               }}
               onClick={() => setSelected(option.value)}
               whileHover={{ scale: 1.02 }}

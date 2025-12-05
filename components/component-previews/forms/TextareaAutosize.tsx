@@ -16,6 +16,8 @@ export function TextareaAutosize({ customization }: TextareaAutosizeProps) {
   const [value, setValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -64,7 +66,7 @@ export function TextareaAutosize({ customization }: TextareaAutosizeProps) {
         style={{
           borderColor: isFocused ? customization.primaryColor : `${customization.textColor}30`,
           borderRadius: `${customization.borderRadius}px`,
-          backgroundColor: `${customization.backgroundColor}80`,
+          backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 3.4)}`,
         }}
         animate={{
           boxShadow: isFocused ? `0 0 20px ${customization.primaryColor}30` : 'none',

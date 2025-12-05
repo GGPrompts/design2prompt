@@ -10,6 +10,8 @@ type ComparisonTableProps = {
 
 export function ComparisonTable({ customization }: ComparisonTableProps) {
   const gradientAngle = parseInt(customization.gradientAngle) || 135;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,

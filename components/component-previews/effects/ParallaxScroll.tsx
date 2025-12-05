@@ -12,6 +12,9 @@ export function ParallaxScroll({ customization }: ParallaxScrollProps) {
   const parallaxSpeed = parseFloat(customization.parallaxSpeed) || 0.5;
   const layerCount = parseInt(customization.layerCount) || 3;
   const parallaxDirection = customization.parallaxDirection || 'vertical';
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityHex = Math.round(glassOpacity * 2.55).toString(16).padStart(2, '0');
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -48,7 +51,7 @@ export function ParallaxScroll({ customization }: ParallaxScrollProps) {
       }}
     >
       {/* Info overlay */}
-      <div className="absolute top-4 left-4 z-20 p-3 rounded-lg bg-black/30 backdrop-blur-sm">
+      <div className="absolute top-4 left-4 z-20 p-3 rounded-lg" style={{ backgroundColor: `${customization.backgroundColor}${opacityHex}`, backdropFilter: `blur(${blurAmount}px)` }}>
         <p className="text-xs" style={{ color: customization.textColor }}>
           Speed: {(parallaxSpeed * 100).toFixed(0)}% | Layers: {layerCount} | Direction: {parallaxDirection}
         </p>
@@ -128,9 +131,10 @@ export function ParallaxScroll({ customization }: ParallaxScrollProps) {
       {/* Center content - fixed position */}
       <div className="absolute inset-0 flex items-center justify-center z-10">
         <div
-          className="text-center p-8 rounded-2xl backdrop-blur-sm"
+          className="text-center p-8 rounded-2xl"
           style={{
-            backgroundColor: `${customization.backgroundColor}80`,
+            backgroundColor: `${customization.backgroundColor}${opacityHex}`,
+            backdropFilter: `blur(${blurAmount}px)`,
             border: `1px solid ${customization.primaryColor}30`,
           }}
         >

@@ -11,6 +11,8 @@ type FloatingLabelInputProps = {
 export function FloatingLabelInput({ customization }: FloatingLabelInputProps) {
   const [values, setValues] = useState({ email: '', password: '' });
   const [focused, setFocused] = useState<string | null>(null);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -63,7 +65,7 @@ export function FloatingLabelInput({ customization }: FloatingLabelInputProps) {
                   className="absolute inset-0 rounded-lg pointer-events-none"
                   style={{
                     borderRadius: `${customization.borderRadius}px`,
-                    boxShadow: `0 0 20px ${customization.primaryColor}40`,
+                    boxShadow: `0 0 20px ${customization.primaryColor}${opacityToHex(glassOpacity * 2.7)}`,
                   }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -80,7 +82,7 @@ export function FloatingLabelInput({ customization }: FloatingLabelInputProps) {
           background: `linear-gradient(135deg, ${customization.primaryColor}, ${customization.secondaryColor})`,
           borderRadius: `${customization.borderRadius}px`,
         }}
-        whileHover={{ scale: 1.02, boxShadow: `0 8px 30px ${customization.primaryColor}50` }}
+        whileHover={{ scale: 1.02, boxShadow: `0 8px 30px ${customization.primaryColor}${opacityToHex(glassOpacity * 3.4)}` }}
         whileTap={{ scale: 0.98 }}
       >
         Continue

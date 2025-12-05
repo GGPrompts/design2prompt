@@ -12,10 +12,16 @@ export function NeonCard({ customization }: NeonCardProps) {
   const glowSpread = parseInt(customization.glowSpread) || 40;
   const pulseSpeed = parseFloat(customization.pulseSpeed) || 2;
   const enablePulse = customization.animations;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
 
   const baseGlow = Math.round(glowIntensity * 0.6);
   const midGlow = Math.round(glowIntensity * 0.4);
   const outerGlow = Math.round(glowIntensity * 0.2);
+
+  // Convert percentage to hex for opacity values
+  const tagOpacityHex = Math.round(glassOpacity * 1.3 * 2.55).toString(16).padStart(2, '0');
+  const innerGlowOpacityHex = Math.round(glassOpacity * 0.7 * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -23,7 +29,7 @@ export function NeonCard({ customization }: NeonCardProps) {
     fontWeight: customization.fontWeight,
   };
 
-  const boxShadowBase = `0 0 ${glowSpread * 0.5}px ${customization.primaryColor}${baseGlow.toString(16).padStart(2, '0')}, 0 0 ${glowSpread}px ${customization.primaryColor}${midGlow.toString(16).padStart(2, '0')}, 0 0 ${glowSpread * 1.5}px ${customization.primaryColor}${outerGlow.toString(16).padStart(2, '0')}, inset 0 0 20px ${customization.primaryColor}10`;
+  const boxShadowBase = `0 0 ${glowSpread * 0.5}px ${customization.primaryColor}${baseGlow.toString(16).padStart(2, '0')}, 0 0 ${glowSpread}px ${customization.primaryColor}${midGlow.toString(16).padStart(2, '0')}, 0 0 ${glowSpread * 1.5}px ${customization.primaryColor}${outerGlow.toString(16).padStart(2, '0')}, inset 0 0 20px ${customization.primaryColor}${innerGlowOpacityHex}`;
 
   const boxShadowPulse = `0 0 ${glowSpread * 0.75}px ${customization.primaryColor}${Math.min(255, baseGlow + 30).toString(16).padStart(2, '0')}, 0 0 ${glowSpread * 1.5}px ${customization.primaryColor}${Math.min(255, midGlow + 20).toString(16).padStart(2, '0')}, 0 0 ${glowSpread * 2.25}px ${customization.primaryColor}${Math.min(255, outerGlow + 10).toString(16).padStart(2, '0')}`;
 
@@ -59,14 +65,14 @@ export function NeonCard({ customization }: NeonCardProps) {
       <div className="mt-3 flex gap-2 text-xs">
         <span
           className="px-2 py-1 rounded"
-          style={{ backgroundColor: `${customization.primaryColor}20` }}
+          style={{ backgroundColor: `${customization.primaryColor}${tagOpacityHex}` }}
         >
           {glowIntensity}% glow
         </span>
         {enablePulse && (
           <span
             className="px-2 py-1 rounded"
-            style={{ backgroundColor: `${customization.primaryColor}20` }}
+            style={{ backgroundColor: `${customization.primaryColor}${tagOpacityHex}` }}
           >
             {pulseSpeed}s pulse
           </span>

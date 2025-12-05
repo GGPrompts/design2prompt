@@ -12,6 +12,8 @@ type AnimatedInputProps = {
 export function AnimatedInput({ customization }: AnimatedInputProps) {
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const duration = parseInt(customization.duration) || 300;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -42,7 +44,7 @@ export function AnimatedInput({ customization }: AnimatedInputProps) {
             <motion.div
               className="absolute inset-0 rounded-lg opacity-0"
               style={{
-                background: `linear-gradient(135deg, ${customization.primaryColor}30, ${customization.secondaryColor}30)`,
+                background: `linear-gradient(135deg, ${customization.primaryColor}${opacityToHex(glassOpacity * 2)}, ${customization.secondaryColor}${opacityToHex(glassOpacity * 2)})`,
                 borderRadius: `${customization.borderRadius}px`,
               }}
               animate={{ opacity: isFocused ? 1 : 0 }}
@@ -53,7 +55,7 @@ export function AnimatedInput({ customization }: AnimatedInputProps) {
               style={{
                 borderColor: isFocused ? customization.primaryColor : `${customization.textColor}20`,
                 borderRadius: `${customization.borderRadius}px`,
-                backgroundColor: `${customization.backgroundColor}80`,
+                backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 3.4)}`,
               }}
             >
               <motion.div

@@ -25,6 +25,9 @@ type MobileMenuNavProps = {
 export function MobileMenuNav({ customization }: MobileMenuNavProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeItem, setActiveItem] = useState('home');
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -77,7 +80,7 @@ export function MobileMenuNav({ customization }: MobileMenuNavProps) {
         <motion.button
           className="relative w-10 h-10 rounded-lg flex items-center justify-center"
           style={{
-            backgroundColor: `${customization.primaryColor}15`,
+            backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity)}`,
             color: customization.primaryColor,
           }}
           onClick={() => setIsOpen(true)}
@@ -118,7 +121,7 @@ export function MobileMenuNav({ customization }: MobileMenuNavProps) {
       <div
         className="relative h-96 border border-t-0 rounded-b-xl overflow-hidden"
         style={{
-          backgroundColor: `${customization.backgroundColor}50`,
+          backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 2)}`,
           borderColor: `${customization.primaryColor}20`,
         }}
       >
@@ -126,7 +129,8 @@ export function MobileMenuNav({ customization }: MobileMenuNavProps) {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm z-10"
+              className="absolute inset-0 bg-black/50 z-10"
+              style={{ backdropFilter: `blur(${blurAmount / 3}px)` }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -152,7 +156,7 @@ export function MobileMenuNav({ customization }: MobileMenuNavProps) {
               {/* Drawer Header */}
               <div
                 className="flex items-center justify-between p-4 border-b"
-                style={{ borderColor: `${customization.primaryColor}15` }}
+                style={{ borderColor: `${customization.primaryColor}${opacityToHex(glassOpacity)}` }}
               >
                 <div className="flex items-center gap-3">
                   <div
@@ -176,7 +180,7 @@ export function MobileMenuNav({ customization }: MobileMenuNavProps) {
                 <motion.button
                   className="w-8 h-8 rounded-lg flex items-center justify-center"
                   style={{
-                    backgroundColor: `${customization.primaryColor}10`,
+                    backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity * 0.7)}`,
                     color: customization.primaryColor,
                   }}
                   onClick={() => setIsOpen(false)}
@@ -199,7 +203,7 @@ export function MobileMenuNav({ customization }: MobileMenuNavProps) {
                       className="relative w-full flex items-center gap-3 px-4 py-3 rounded-xl"
                       style={{
                         backgroundColor: isActive
-                          ? `${customization.primaryColor}15`
+                          ? `${customization.primaryColor}${opacityToHex(glassOpacity)}`
                           : 'transparent',
                         color: isActive
                           ? customization.primaryColor
@@ -213,8 +217,8 @@ export function MobileMenuNav({ customization }: MobileMenuNavProps) {
                       }}
                       whileHover={{
                         backgroundColor: isActive
-                          ? `${customization.primaryColor}15`
-                          : `${customization.primaryColor}08`,
+                          ? `${customization.primaryColor}${opacityToHex(glassOpacity)}`
+                          : `${customization.primaryColor}${opacityToHex(glassOpacity * 0.5)}`,
                         x: 5,
                       }}
                       whileTap={{ scale: 0.98 }}
@@ -223,8 +227,8 @@ export function MobileMenuNav({ customization }: MobileMenuNavProps) {
                         className="w-10 h-10 rounded-lg flex items-center justify-center"
                         style={{
                           backgroundColor: isActive
-                            ? `${customization.primaryColor}20`
-                            : `${customization.primaryColor}08`,
+                            ? `${customization.primaryColor}${opacityToHex(glassOpacity * 1.3)}`
+                            : `${customization.primaryColor}${opacityToHex(glassOpacity * 0.5)}`,
                         }}
                       >
                         <Icon className="w-5 h-5" />
@@ -250,14 +254,14 @@ export function MobileMenuNav({ customization }: MobileMenuNavProps) {
               {/* Drawer Footer */}
               <motion.div
                 className="p-4 border-t"
-                style={{ borderColor: `${customization.primaryColor}15` }}
+                style={{ borderColor: `${customization.primaryColor}${opacityToHex(glassOpacity)}` }}
                 variants={itemVariants}
                 custom={menuItems.length}
               >
                 <motion.button
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-xl"
                   style={{
-                    backgroundColor: `${customization.primaryColor}08`,
+                    backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity * 0.5)}`,
                     color: `${customization.textColor}70`,
                   }}
                   whileHover={{

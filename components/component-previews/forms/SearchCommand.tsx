@@ -12,6 +12,9 @@ type SearchCommandProps = {
 export function SearchCommand({ customization }: SearchCommandProps) {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -32,10 +35,11 @@ export function SearchCommand({ customization }: SearchCommandProps) {
 
   return (
     <motion.div
-      className="w-full max-w-md overflow-hidden border backdrop-blur-xl"
+      className="w-full max-w-md overflow-hidden border"
       style={{
         ...baseStyle,
-        backgroundColor: `${customization.backgroundColor}95`,
+        backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 4)}`,
+        backdropFilter: `blur(${blurAmount}px)`,
         borderColor: `${customization.primaryColor}40`,
         borderRadius: `${customization.borderRadius}px`,
         boxShadow: `0 20px 60px ${customization.primaryColor}20, inset 0 1px 0 ${customization.primaryColor}20`,
@@ -58,7 +62,7 @@ export function SearchCommand({ customization }: SearchCommandProps) {
         />
         <div
           className="flex items-center gap-1 px-2 py-1 text-xs rounded"
-          style={{ backgroundColor: `${customization.primaryColor}20`, color: customization.textColor }}
+          style={{ backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity * 1.3)}`, color: customization.textColor }}
         >
           <span>Cmd</span>
           <span>K</span>
@@ -74,7 +78,7 @@ export function SearchCommand({ customization }: SearchCommandProps) {
               key={item.label}
               className="flex items-center justify-between px-4 py-2 cursor-pointer"
               style={{
-                backgroundColor: isSelected ? `${customization.primaryColor}20` : 'transparent',
+                backgroundColor: isSelected ? `${customization.primaryColor}${opacityToHex(glassOpacity * 1.3)}` : 'transparent',
               }}
               onMouseEnter={() => setSelectedIndex(index)}
               animate={{ x: isSelected ? 4 : 0 }}

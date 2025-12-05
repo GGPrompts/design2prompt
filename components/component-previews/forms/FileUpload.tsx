@@ -22,6 +22,8 @@ export function FileUpload({ customization }: FileUploadProps) {
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -109,8 +111,8 @@ export function FileUpload({ customization }: FileUploadProps) {
           borderColor: isDragging ? customization.primaryColor : `${customization.textColor}30`,
           borderRadius: `${customization.borderRadius}px`,
           backgroundColor: isDragging
-            ? `${customization.primaryColor}10`
-            : `${customization.backgroundColor}50`,
+            ? `${customization.primaryColor}${opacityToHex(glassOpacity * 0.7)}`
+            : `${customization.backgroundColor}${opacityToHex(glassOpacity * 2)}`,
         }}
         onDragOver={(e) => {
           e.preventDefault();
@@ -137,7 +139,7 @@ export function FileUpload({ customization }: FileUploadProps) {
         <motion.div
           className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-4"
           style={{
-            background: `linear-gradient(135deg, ${customization.primaryColor}20, ${customization.secondaryColor}20)`,
+            background: `linear-gradient(135deg, ${customization.primaryColor}${opacityToHex(glassOpacity * 1.3)}, ${customization.secondaryColor}${opacityToHex(glassOpacity * 1.3)})`,
           }}
           animate={{
             y: isDragging ? -5 : 0,
@@ -165,7 +167,7 @@ export function FileUpload({ customization }: FileUploadProps) {
             <motion.div
               className="absolute inset-0 flex items-center justify-center"
               style={{
-                backgroundColor: `${customization.primaryColor}10`,
+                backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity * 0.7)}`,
                 borderRadius: `${customization.borderRadius}px`,
               }}
               initial={{ opacity: 0 }}
@@ -212,7 +214,7 @@ export function FileUpload({ customization }: FileUploadProps) {
                   {/* File Icon */}
                   <div
                     className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: `${customization.primaryColor}15` }}
+                    style={{ backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity)}` }}
                   >
                     <FileIcon className="w-5 h-5" style={{ color: customization.primaryColor }} />
                   </div>

@@ -10,6 +10,8 @@ type SparklineCardProps = {
 
 export function SparklineCard({ customization }: SparklineCardProps) {
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityHex = Math.round(glassOpacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -70,7 +72,7 @@ export function SparklineCard({ customization }: SparklineCardProps) {
               key={card.label}
               className="relative p-4 border overflow-hidden"
               style={{
-                backgroundColor: `${customization.backgroundColor}90`,
+                backgroundColor: `${customization.backgroundColor}${opacityHex}`,
                 borderColor: `${card.color}30`,
                 borderRadius: `${customization.borderRadius}px`,
                 boxShadow: `0 4px 20px ${card.color}${Math.round(shadowIntensity * 0.3).toString(16).padStart(2, '0')}`,

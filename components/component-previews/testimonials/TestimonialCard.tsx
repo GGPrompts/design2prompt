@@ -10,7 +10,9 @@ type TestimonialCardProps = {
 
 export function TestimonialCard({ customization }: TestimonialCardProps) {
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
-  const glassOpacity = parseInt(customization.glassOpacity) || 15;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -23,10 +25,10 @@ export function TestimonialCard({ customization }: TestimonialCardProps) {
       <motion.div
         className="relative p-6 border overflow-hidden"
         style={{
-          backgroundColor: `${customization.primaryColor}${Math.round(glassOpacity * 2.55).toString(16).padStart(2, '0')}`,
-          borderColor: `${customization.primaryColor}30`,
+          backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity)}`,
+          borderColor: `${customization.primaryColor}${opacityToHex(glassOpacity * 2)}`,
           borderRadius: `${Number(customization.borderRadius) * 1.5}px`,
-          backdropFilter: 'blur(12px)',
+          backdropFilter: `blur(${blurAmount}px)`,
           boxShadow: `0 8px 32px ${customization.primaryColor}${Math.round(shadowIntensity * 0.3).toString(16).padStart(2, '0')}`,
         }}
         initial={{ opacity: 0, y: 20 }}

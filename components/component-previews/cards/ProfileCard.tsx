@@ -10,9 +10,20 @@ type ProfileCardProps = {
 
 export function ProfileCard({ customization }: ProfileCardProps) {
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
-  const glassOpacity = parseInt(customization.glassOpacity) || 15;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
   const avatarSize = parseInt(customization.avatarSize) || 80;
   const showSocialLinks = customization.showSocialLinks !== 'false';
+
+  // Convert percentage to hex for opacity values
+  const borderOpacityHex = Math.round(glassOpacity * 2 * 2.55).toString(16).padStart(2, '0');
+  const shadowOpacityHex = Math.round(glassOpacity * 2.7 * 2.55).toString(16).padStart(2, '0');
+  const avatarShadowOpacityHex = Math.round(glassOpacity * 2.7 * 2.55).toString(16).padStart(2, '0');
+  const avatarBgOpacityHex = Math.round(glassOpacity * 4 * 2.55).toString(16).padStart(2, '0');
+  const dividerOpacityHex = Math.round(glassOpacity * 1.3 * 2.55).toString(16).padStart(2, '0');
+  const socialBorderOpacityHex = Math.round(glassOpacity * 2 * 2.55).toString(16).padStart(2, '0');
+  const socialBgOpacityHex = Math.round(glassOpacity * 0.7 * 2.55).toString(16).padStart(2, '0');
+  const buttonShadowOpacityHex = Math.round(glassOpacity * 3.3 * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -33,7 +44,7 @@ export function ProfileCard({ customization }: ProfileCardProps) {
       style={{
         ...baseStyle,
         backgroundColor: customization.backgroundColor,
-        borderColor: `${customization.primaryColor}30`,
+        borderColor: `${customization.primaryColor}${borderOpacityHex}`,
         borderRadius: `${customization.borderRadius}px`,
         color: customization.textColor,
         boxShadow: `0 20px 60px ${customization.primaryColor}${Math.round(shadowIntensity * 0.4).toString(16).padStart(2, '0')}`,
@@ -72,14 +83,14 @@ export function ProfileCard({ customization }: ProfileCardProps) {
             height: avatarSize,
             top: -avatarSize / 2,
             borderColor: customization.backgroundColor,
-            boxShadow: `0 8px 20px ${customization.primaryColor}40`,
+            boxShadow: `0 8px 20px ${customization.primaryColor}${avatarShadowOpacityHex}`,
           }}
           whileHover={{ scale: 1.05 }}
         >
           <div
             className="w-full h-full flex items-center justify-center font-bold"
             style={{
-              background: `linear-gradient(135deg, ${customization.primaryColor}60, ${customization.secondaryColor}60)`,
+              background: `linear-gradient(135deg, ${customization.primaryColor}${avatarBgOpacityHex}, ${customization.secondaryColor}${avatarBgOpacityHex})`,
               color: customization.textColor,
               fontSize: `${avatarSize * 0.3}px`,
             }}
@@ -130,7 +141,7 @@ export function ProfileCard({ customization }: ProfileCardProps) {
         {/* Stats */}
         <div
           className="flex justify-between mt-5 pt-5 border-t"
-          style={{ borderColor: `${customization.primaryColor}20` }}
+          style={{ borderColor: `${customization.primaryColor}${dividerOpacityHex}` }}
         >
           {[
             { label: 'Projects', value: '142' },
@@ -162,8 +173,8 @@ export function ProfileCard({ customization }: ProfileCardProps) {
                   key={social.label}
                   className="w-10 h-10 rounded-full flex items-center justify-center border"
                   style={{
-                    borderColor: `${customization.primaryColor}30`,
-                    backgroundColor: `${customization.primaryColor}10`,
+                    borderColor: `${customization.primaryColor}${socialBorderOpacityHex}`,
+                    backgroundColor: `${customization.primaryColor}${socialBgOpacityHex}`,
                   }}
                   whileHover={{
                     scale: 1.1,
@@ -188,7 +199,7 @@ export function ProfileCard({ customization }: ProfileCardProps) {
             background: `linear-gradient(135deg, ${customization.primaryColor}, ${customization.secondaryColor})`,
             color: customization.backgroundColor,
           }}
-          whileHover={{ scale: 1.02, boxShadow: `0 8px 25px ${customization.primaryColor}50` }}
+          whileHover={{ scale: 1.02, boxShadow: `0 8px 25px ${customization.primaryColor}${buttonShadowOpacityHex}` }}
           whileTap={{ scale: 0.98 }}
         >
           Follow

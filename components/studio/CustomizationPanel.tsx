@@ -257,9 +257,26 @@ export function CustomizationPanel({
               onChange={(v) => updateValue('shadowIntensity', v.toString())}
             />
 
+            <Separator />
+
+            {/* Universal Glass/Transparency Controls */}
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles className="w-3 h-3 text-emerald-400" />
+              <span className="text-xs font-mono text-white/70">Glass & Blur</span>
+            </div>
+
+            <SliderControl
+              label="Glass Opacity"
+              value={parseInt(customization.glassOpacity || '15') || 15}
+              min={0}
+              max={100}
+              unit="%"
+              onChange={(v) => updateValue('glassOpacity', v.toString())}
+            />
+
             <SliderControl
               label="Blur Amount"
-              value={parseInt(customization.blurAmount)}
+              value={parseInt(customization.blurAmount || '12') || 12}
               min={0}
               max={24}
               unit="px"
@@ -461,7 +478,11 @@ function ComponentSpecificOptions({
   customization,
   onUpdate,
 }: ComponentSpecificOptionsProps) {
+  // ============================================
   // Component ID arrays for shared controls
+  // ============================================
+
+  // Glass components - extended glass controls
   const glassComponentIds = [
     'glass-card',
     'glass-nav',
@@ -476,6 +497,7 @@ function ComponentSpecificOptions({
     'login-card',
   ];
 
+  // Gradient components
   const gradientComponentIds = [
     'gradient-btn',
     'pill-btn',
@@ -495,6 +517,7 @@ function ComponentSpecificOptions({
     'social-proof',
   ];
 
+  // Hover scale buttons
   const hoverScaleComponentIds = [
     'gradient-btn',
     'outline-btn',
@@ -504,24 +527,163 @@ function ComponentSpecificOptions({
     'animated-border-btn',
   ];
 
+  // Glow components
   const glowComponentIds = ['glow-button', 'neon-card'];
 
-  // Check which control sets apply to this component
+  // Form components - inputHeight, focusRingWidth
+  const formComponentIds = [
+    'animated-input',
+    'floating-label-input',
+    'search-command',
+    'select-dropdown',
+    'checkbox-group',
+    'radio-group',
+    'toggle-switch',
+    'range-slider',
+    'tag-input',
+    'password-input',
+    'otp-input',
+    'date-picker-input',
+    'file-upload',
+    'textarea-autosize',
+    'form-card',
+  ];
+
+  // Data display components - showGrid, dataPointSize
+  const dataDisplayComponentIds = [
+    'metric-tile',
+    'progress-ring',
+    'area-chart',
+    'bar-chart',
+    'donut-chart',
+    'sparkline-card',
+    'activity-feed',
+    'data-table',
+    'kpi-card',
+    'counter-card',
+    'heatmap-cell',
+    'timeline-vertical',
+  ];
+
+  // Modal components - backdropOpacity, modalScale
+  const modalComponentIds = [
+    'slide-drawer',
+    'confirm-dialog',
+    'image-lightbox',
+    'command-modal',
+    'bottom-sheet',
+  ];
+
+  // Feedback components - showIcon, animationSpeed
+  const feedbackComponentIds = [
+    'alert-banner',
+    'progress-loader',
+    'success-state',
+  ];
+
+  // Navigation components - indicatorSize, showLabels
+  const navigationComponentIds = [
+    'breadcrumb-nav',
+    'tabs-nav',
+    'pagination-nav',
+    'mobile-menu-nav',
+    'command-palette',
+  ];
+
+  // Header components - headerHeight, showDivider
+  const headerComponentIds = [
+    'centered-header',
+    'mega-menu-header',
+  ];
+
+  // Footer components - columnCount, showSocialLinks
+  const footerComponentIds = [
+    'multi-column-footer',
+    'minimal-footer',
+    'cta-footer',
+    'social-footer',
+  ];
+
+  // Hero components - heroHeight, showBadge
+  const heroComponentIds = [
+    'bento-hero',
+    'gradient-hero',
+    'terminal-hero',
+    'video-hero',
+  ];
+
+  // Marketing components - sectionPadding, showDecorations
+  const marketingComponentIds = [
+    'cta-section',
+    'feature-showcase',
+    'trust-badges',
+    'stats-counter',
+    'comparison-table',
+    'faq-accordion',
+    'newsletter-signup',
+    'announcement-banner',
+    'social-proof',
+    'logo-cloud',
+    'feature-grid',
+  ];
+
+  // Pricing components - showPopular, columnsCount
+  const pricingComponentIds = [
+    'pricing-card-alt',
+    'feature-grid',
+  ];
+
+  // Testimonial components - showAvatar, quoteSize
+  const testimonialComponentIds = [
+    'quote-card',
+  ];
+
+  // Auth components - showSocialLogin, formWidth
+  const authComponentIds = [
+    'signup-card',
+  ];
+
+  // Badge components - badgeSize, pulseAnimation
+  const badgeComponentIds = [
+    'status-badge',
+    'notification-badge',
+  ];
+
+  // ============================================
+  // Check which control sets apply
+  // ============================================
   const hasGlassControls = glassComponentIds.includes(component.id);
   const hasGradientControls = gradientComponentIds.includes(component.id);
   const hasHoverScaleControls = hoverScaleComponentIds.includes(component.id);
   const hasGlowControls = glowComponentIds.includes(component.id);
+  const hasFormControls = formComponentIds.includes(component.id);
+  const hasDataDisplayControls = dataDisplayComponentIds.includes(component.id);
+  const hasModalControls = modalComponentIds.includes(component.id);
+  const hasFeedbackControls = feedbackComponentIds.includes(component.id);
+  const hasNavigationControls = navigationComponentIds.includes(component.id);
+  const hasHeaderControls = headerComponentIds.includes(component.id);
+  const hasFooterControls = footerComponentIds.includes(component.id);
+  const hasHeroControls = heroComponentIds.includes(component.id);
+  const hasMarketingControls = marketingComponentIds.includes(component.id);
+  const hasPricingControls = pricingComponentIds.includes(component.id);
+  const hasTestimonialControls = testimonialComponentIds.includes(component.id);
+  const hasAuthControls = authComponentIds.includes(component.id);
+  const hasBadgeControls = badgeComponentIds.includes(component.id);
 
+  // ============================================
   // Build controls array
+  // ============================================
   const controls: React.ReactNode[] = [];
 
+  // --------------------------------------------
   // Glass Card specific: also has border opacity
+  // --------------------------------------------
   if (component.id === 'glass-card') {
     controls.push(
       <SliderControl
         key="glassOpacity"
         label="Glass Opacity"
-        value={parseInt(customization.glassOpacity) || 15}
+        value={parseInt(customization.glassOpacity || '15') || 15}
         min={5}
         max={50}
         unit="%"
@@ -544,7 +706,7 @@ function ComponentSpecificOptions({
       <SliderControl
         key="glassOpacity"
         label="Glass Opacity"
-        value={parseInt(customization.glassOpacity) || 15}
+        value={parseInt(customization.glassOpacity || '15') || 15}
         min={5}
         max={50}
         unit="%"
@@ -553,7 +715,7 @@ function ComponentSpecificOptions({
       <SliderControl
         key="blurAmount"
         label="Blur Amount"
-        value={parseInt(customization.blurAmount) || 12}
+        value={parseInt(customization.blurAmount || '12') || 12}
         min={4}
         max={24}
         unit="px"
@@ -562,7 +724,331 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
+  // Form Controls
+  // --------------------------------------------
+  if (hasFormControls) {
+    controls.push(
+      <SliderControl
+        key="inputHeight"
+        label="Input Height"
+        value={parseInt(customization.inputHeight || '40') || 40}
+        min={32}
+        max={56}
+        unit="px"
+        onChange={(v) => onUpdate('inputHeight', v.toString())}
+      />,
+      <SliderControl
+        key="focusRingWidth"
+        label="Focus Ring Width"
+        value={parseInt(customization.focusRingWidth || '2') || 2}
+        min={1}
+        max={4}
+        unit="px"
+        onChange={(v) => onUpdate('focusRingWidth', v.toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
+  // Data Display Controls
+  // --------------------------------------------
+  if (hasDataDisplayControls) {
+    controls.push(
+      <ToggleOption
+        key="showGrid"
+        label="Show Grid"
+        description="Display grid lines behind data"
+        checked={customization.showGrid !== 'false'}
+        onChange={(v) => onUpdate('showGrid', v.toString())}
+      />,
+      <SliderControl
+        key="dataPointSize"
+        label="Data Point Size"
+        value={parseInt(customization.dataPointSize || '6') || 6}
+        min={4}
+        max={12}
+        unit="px"
+        onChange={(v) => onUpdate('dataPointSize', v.toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
+  // Modal Controls
+  // --------------------------------------------
+  if (hasModalControls) {
+    controls.push(
+      <SliderControl
+        key="backdropOpacity"
+        label="Backdrop Opacity"
+        value={parseInt(customization.backdropOpacity || '50') || 50}
+        min={0}
+        max={100}
+        unit="%"
+        onChange={(v) => onUpdate('backdropOpacity', v.toString())}
+      />,
+      <SliderControl
+        key="modalScale"
+        label="Modal Scale"
+        value={parseInt(customization.modalScale || '100') || 100}
+        min={90}
+        max={100}
+        unit="%"
+        onChange={(v) => onUpdate('modalScale', v.toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
+  // Feedback Controls
+  // --------------------------------------------
+  if (hasFeedbackControls) {
+    controls.push(
+      <ToggleOption
+        key="showIcon"
+        label="Show Icon"
+        description="Display status icon"
+        checked={customization.showIcon !== 'false'}
+        onChange={(v) => onUpdate('showIcon', v.toString())}
+      />,
+      <SliderControl
+        key="animationSpeed"
+        label="Animation Speed"
+        value={Math.round((parseFloat(customization.animationSpeed || '1') || 1) * 10)}
+        min={5}
+        max={20}
+        unit="x"
+        onChange={(v) => onUpdate('animationSpeed', (v / 10).toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
+  // Navigation Controls
+  // --------------------------------------------
+  if (hasNavigationControls) {
+    controls.push(
+      <SliderControl
+        key="indicatorSize"
+        label="Indicator Size"
+        value={parseInt(customization.indicatorSize || '3') || 3}
+        min={2}
+        max={6}
+        unit="px"
+        onChange={(v) => onUpdate('indicatorSize', v.toString())}
+      />,
+      <ToggleOption
+        key="showLabels"
+        label="Show Labels"
+        description="Display text labels"
+        checked={customization.showLabels !== 'false'}
+        onChange={(v) => onUpdate('showLabels', v.toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
+  // Header Controls
+  // --------------------------------------------
+  if (hasHeaderControls) {
+    controls.push(
+      <SliderControl
+        key="headerHeight"
+        label="Header Height"
+        value={parseInt(customization.headerHeight || '64') || 64}
+        min={56}
+        max={96}
+        unit="px"
+        onChange={(v) => onUpdate('headerHeight', v.toString())}
+      />,
+      <ToggleOption
+        key="showDivider"
+        label="Show Divider"
+        description="Display bottom border"
+        checked={customization.showDivider !== 'false'}
+        onChange={(v) => onUpdate('showDivider', v.toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
+  // Footer Controls
+  // --------------------------------------------
+  if (hasFooterControls) {
+    controls.push(
+      <SliderControl
+        key="columnCount"
+        label="Column Count"
+        value={parseInt(customization.columnCount || '4') || 4}
+        min={2}
+        max={5}
+        unit=""
+        onChange={(v) => onUpdate('columnCount', v.toString())}
+      />,
+      <ToggleOption
+        key="showSocialLinks"
+        label="Show Social Links"
+        description="Display social media icons"
+        checked={customization.showSocialLinks !== 'false'}
+        onChange={(v) => onUpdate('showSocialLinks', v.toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
+  // Hero Controls
+  // --------------------------------------------
+  if (hasHeroControls) {
+    controls.push(
+      <SliderControl
+        key="heroHeight"
+        label="Hero Height"
+        value={parseInt(customization.heroHeight || '500') || 500}
+        min={400}
+        max={700}
+        step={20}
+        unit="px"
+        onChange={(v) => onUpdate('heroHeight', v.toString())}
+      />,
+      <ToggleOption
+        key="showBadge"
+        label="Show Badge"
+        description="Display announcement badge"
+        checked={customization.showBadge !== 'false'}
+        onChange={(v) => onUpdate('showBadge', v.toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
+  // Marketing Controls
+  // --------------------------------------------
+  if (hasMarketingControls) {
+    controls.push(
+      <SliderControl
+        key="sectionPadding"
+        label="Section Padding"
+        value={parseInt(customization.sectionPadding || '80') || 80}
+        min={40}
+        max={120}
+        step={10}
+        unit="px"
+        onChange={(v) => onUpdate('sectionPadding', v.toString())}
+      />,
+      <ToggleOption
+        key="showDecorations"
+        label="Show Decorations"
+        description="Display decorative elements"
+        checked={customization.showDecorations !== 'false'}
+        onChange={(v) => onUpdate('showDecorations', v.toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
+  // Pricing Controls
+  // --------------------------------------------
+  if (hasPricingControls) {
+    controls.push(
+      <ToggleOption
+        key="showPopular"
+        label="Show Popular Badge"
+        description="Highlight recommended plan"
+        checked={customization.showPopular !== 'false'}
+        onChange={(v) => onUpdate('showPopular', v.toString())}
+      />,
+      <SliderControl
+        key="columnsCount"
+        label="Columns Count"
+        value={parseInt(customization.columnsCount || '3') || 3}
+        min={2}
+        max={4}
+        unit=""
+        onChange={(v) => onUpdate('columnsCount', v.toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
+  // Testimonial Controls
+  // --------------------------------------------
+  if (hasTestimonialControls) {
+    controls.push(
+      <ToggleOption
+        key="showAvatar"
+        label="Show Avatar"
+        description="Display author photo"
+        checked={customization.showAvatar !== 'false'}
+        onChange={(v) => onUpdate('showAvatar', v.toString())}
+      />,
+      <SliderControl
+        key="quoteSize"
+        label="Quote Size"
+        value={parseInt(customization.quoteSize || '18') || 18}
+        min={16}
+        max={24}
+        unit="px"
+        onChange={(v) => onUpdate('quoteSize', v.toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
+  // Auth Controls
+  // --------------------------------------------
+  if (hasAuthControls) {
+    controls.push(
+      <ToggleOption
+        key="showSocialLogin"
+        label="Show Social Login"
+        description="Display OAuth buttons"
+        checked={customization.showSocialLogin !== 'false'}
+        onChange={(v) => onUpdate('showSocialLogin', v.toString())}
+      />,
+      <SliderControl
+        key="formWidth"
+        label="Form Width"
+        value={parseInt(customization.formWidth || '360') || 360}
+        min={300}
+        max={450}
+        step={10}
+        unit="px"
+        onChange={(v) => onUpdate('formWidth', v.toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
+  // Badge Controls
+  // --------------------------------------------
+  if (hasBadgeControls) {
+    controls.push(
+      <div key="badgeSize">
+        <Label className="text-xs font-mono">Badge Size</Label>
+        <select
+          value={customization.badgeSize || 'medium'}
+          onChange={(e) => onUpdate('badgeSize', e.target.value)}
+          className="w-full mt-1 px-3 py-2 rounded-md border border-white/10 bg-white/5 text-sm text-white"
+        >
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
+        </select>
+      </div>,
+      <ToggleOption
+        key="pulseAnimation"
+        label="Pulse Animation"
+        description="Add pulsing effect"
+        checked={customization.pulseAnimation === 'true'}
+        onChange={(v) => onUpdate('pulseAnimation', v.toString())}
+      />
+    );
+  }
+
+  // --------------------------------------------
   // Floating Card
+  // --------------------------------------------
   if (component.id === 'floating-card') {
     controls.push(
       <SliderControl
@@ -580,7 +1066,7 @@ function ComponentSpecificOptions({
         value={parseInt(customization.rotationX) || 5}
         min={0}
         max={15}
-        unit="°"
+        unit="deg"
         onChange={(v) => onUpdate('rotationX', v.toString())}
       />,
       <SliderControl
@@ -589,13 +1075,15 @@ function ComponentSpecificOptions({
         value={parseInt(customization.rotationY) || 5}
         min={0}
         max={15}
-        unit="°"
+        unit="deg"
         onChange={(v) => onUpdate('rotationY', v.toString())}
       />
     );
   }
 
+  // --------------------------------------------
   // Neon Card: glow controls + pulse speed
+  // --------------------------------------------
   if (component.id === 'neon-card') {
     controls.push(
       <SliderControl
@@ -628,7 +1116,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Glow Button: glow controls only (no pulse)
+  // --------------------------------------------
   if (component.id === 'glow-button') {
     controls.push(
       <SliderControl
@@ -652,7 +1142,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Sidebar Nav
+  // --------------------------------------------
   if (component.id === 'sidebar-nav') {
     controls.push(
       <SliderControl
@@ -676,7 +1168,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Profile Card
+  // --------------------------------------------
   if (component.id === 'profile-card') {
     controls.push(
       <SliderControl
@@ -698,7 +1192,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Product Card
+  // --------------------------------------------
   if (component.id === 'product-card') {
     controls.push(
       <SliderControl
@@ -720,7 +1216,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Blog Card
+  // --------------------------------------------
   if (component.id === 'blog-card') {
     controls.push(
       <SliderControl
@@ -742,7 +1240,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Stat Card
+  // --------------------------------------------
   if (component.id === 'stat-card') {
     controls.push(
       <SliderControl
@@ -764,7 +1264,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Toast Notification
+  // --------------------------------------------
   if (component.id === 'toast-notification') {
     controls.push(
       <SliderControl
@@ -786,7 +1288,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Loading Button
+  // --------------------------------------------
   if (component.id === 'loading-btn') {
     controls.push(
       <SliderControl
@@ -808,7 +1312,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Neomorphic Button
+  // --------------------------------------------
   if (component.id === 'neo-btn') {
     controls.push(
       <SliderControl
@@ -832,7 +1338,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Particle Button
+  // --------------------------------------------
   if (component.id === 'particle-btn') {
     controls.push(
       <SliderControl
@@ -856,7 +1364,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Gradient Angle (shared by many components)
+  // --------------------------------------------
   if (hasGradientControls) {
     controls.push(
       <SliderControl
@@ -866,13 +1376,15 @@ function ComponentSpecificOptions({
         min={0}
         max={360}
         step={15}
-        unit="°"
+        unit="deg"
         onChange={(v) => onUpdate('gradientAngle', v.toString())}
       />
     );
   }
 
+  // --------------------------------------------
   // Hover Scale (shared by button components)
+  // --------------------------------------------
   if (hasHoverScaleControls) {
     controls.push(
       <SliderControl
@@ -887,7 +1399,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Cursor Follow Effect
+  // --------------------------------------------
   if (component.id === 'cursor-follow') {
     controls.push(
       <SliderControl
@@ -925,7 +1439,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // --------------------------------------------
   // Parallax Scroll Effect
+  // --------------------------------------------
   if (component.id === 'parallax-scroll') {
     controls.push(
       <SliderControl
@@ -960,7 +1476,9 @@ function ComponentSpecificOptions({
     );
   }
 
+  // ============================================
   // Return controls or default message
+  // ============================================
   if (controls.length > 0) {
     return <div className="space-y-3">{controls}</div>;
   }

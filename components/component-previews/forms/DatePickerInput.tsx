@@ -21,6 +21,9 @@ export function DatePickerInput({ customization }: DatePickerInputProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -134,7 +137,7 @@ export function DatePickerInput({ customization }: DatePickerInputProps) {
           style={{
             borderColor: isOpen ? customization.primaryColor : `${customization.textColor}30`,
             borderRadius: `${customization.borderRadius}px`,
-            backgroundColor: `${customization.backgroundColor}80`,
+            backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 3.4)}`,
           }}
           onClick={() => setIsOpen(!isOpen)}
           onFocus={() => setIsFocused(true)}
@@ -158,9 +161,10 @@ export function DatePickerInput({ customization }: DatePickerInputProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute mt-2 p-4 border backdrop-blur-xl z-50"
+            className="absolute mt-2 p-4 border z-50"
             style={{
-              backgroundColor: `${customization.backgroundColor}98`,
+              backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 4)}`,
+              backdropFilter: `blur(${blurAmount}px)`,
               borderColor: `${customization.primaryColor}40`,
               borderRadius: `${customization.borderRadius}px`,
               boxShadow: `0 20px 60px ${customization.primaryColor}20`,
@@ -272,13 +276,13 @@ export function DatePickerInput({ customization }: DatePickerInputProps) {
                 className="flex-1 py-1.5 text-sm font-medium rounded-lg"
                 style={{
                   color: customization.primaryColor,
-                  backgroundColor: `${customization.primaryColor}10`,
+                  backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity * 0.7)}`,
                 }}
                 onClick={() => {
                   setSelectedDate(new Date());
                   setIsOpen(false);
                 }}
-                whileHover={{ backgroundColor: `${customization.primaryColor}20` }}
+                whileHover={{ backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity * 1.3)}` }}
                 whileTap={{ scale: 0.98 }}
               >
                 Today
@@ -288,13 +292,13 @@ export function DatePickerInput({ customization }: DatePickerInputProps) {
                 className="flex-1 py-1.5 text-sm font-medium rounded-lg"
                 style={{
                   color: `${customization.textColor}70`,
-                  backgroundColor: `${customization.textColor}10`,
+                  backgroundColor: `${customization.textColor}${opacityToHex(glassOpacity * 0.7)}`,
                 }}
                 onClick={() => {
                   setSelectedDate(null);
                   setIsOpen(false);
                 }}
-                whileHover={{ backgroundColor: `${customization.textColor}20` }}
+                whileHover={{ backgroundColor: `${customization.textColor}${opacityToHex(glassOpacity * 1.3)}` }}
                 whileTap={{ scale: 0.98 }}
               >
                 Clear

@@ -30,6 +30,9 @@ export function FormCard({ customization }: FormCardProps) {
   const [focused, setFocused] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -60,10 +63,11 @@ export function FormCard({ customization }: FormCardProps) {
 
   return (
     <motion.div
-      className="w-full max-w-md p-6 border backdrop-blur-xl"
+      className="w-full max-w-md p-6 border"
       style={{
         ...baseStyle,
-        backgroundColor: `${customization.backgroundColor}95`,
+        backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 4)}`,
+        backdropFilter: `blur(${blurAmount}px)`,
         borderColor: `${customization.primaryColor}30`,
         borderRadius: `${customization.borderRadius}px`,
         boxShadow: `0 20px 60px ${customization.primaryColor}15`,
@@ -220,7 +224,7 @@ export function FormCard({ customization }: FormCardProps) {
                             ? `${customization.primaryColor}50`
                             : `${customization.textColor}20`,
                           borderRadius: `${customization.borderRadius}px`,
-                          backgroundColor: `${customization.backgroundColor}60`,
+                          backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 2.5)}`,
                           color: customization.textColor,
                         }}
                         required={field.required}
@@ -261,7 +265,7 @@ export function FormCard({ customization }: FormCardProps) {
                     style={{
                       borderColor: `${customization.textColor}20`,
                       borderRadius: `${customization.borderRadius}px`,
-                      backgroundColor: `${customization.backgroundColor}60`,
+                      backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 2.5)}`,
                       color: customization.textColor,
                     }}
                   />
@@ -273,7 +277,7 @@ export function FormCard({ customization }: FormCardProps) {
                   style={{
                     borderColor: `${customization.textColor}20`,
                     borderRadius: `${customization.borderRadius}px`,
-                    backgroundColor: `${customization.backgroundColor}60`,
+                    backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 2.5)}`,
                     color: customization.textColor,
                   }}
                 />
@@ -284,7 +288,7 @@ export function FormCard({ customization }: FormCardProps) {
                   style={{
                     borderColor: `${customization.textColor}20`,
                     borderRadius: `${customization.borderRadius}px`,
-                    backgroundColor: `${customization.backgroundColor}60`,
+                    backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 2.5)}`,
                     color: customization.textColor,
                   }}
                 />

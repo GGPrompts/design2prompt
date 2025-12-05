@@ -31,6 +31,10 @@ export function CommandModal({ customization }: CommandModalProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [search, setSearch] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const backdropOpacity = parseInt(customization.backdropOpacity || '50') || 50;
+  const backdropHex = Math.round(backdropOpacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -92,7 +96,7 @@ export function CommandModal({ customization }: CommandModalProps) {
             {/* Backdrop */}
             <motion.div
               className="absolute inset-0 rounded-xl"
-              style={{ backgroundColor: `${customization.backgroundColor}90` }}
+              style={{ backgroundColor: `${customization.backgroundColor}${backdropHex}`, backdropFilter: `blur(${blurAmount}px)` }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

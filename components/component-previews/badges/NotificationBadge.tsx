@@ -18,6 +18,11 @@ export function NotificationBadge({ customization }: NotificationBadgeProps) {
     heart: 128,
     settings: 0,
   });
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+
+  // Convert percentage to hex for opacity values
+  const iconBgOpacityHex = Math.round(glassOpacity * 1 * 2.55).toString(16).padStart(2, '0');
+  const textBadgeBgOpacityHex = Math.round(glassOpacity * 1.3 * 2.55).toString(16).padStart(2, '0');
 
   const incrementCount = (key: keyof typeof counts) => {
     setCounts((prev) => ({ ...prev, [key]: prev[key] + 1 }));
@@ -40,7 +45,7 @@ export function NotificationBadge({ customization }: NotificationBadgeProps) {
         {/* Bell with count */}
         <motion.button
           className="relative p-3 rounded-full"
-          style={{ backgroundColor: `${customization.primaryColor}15` }}
+          style={{ backgroundColor: `${customization.primaryColor}${iconBgOpacityHex}` }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => incrementCount('bell')}
@@ -65,7 +70,7 @@ export function NotificationBadge({ customization }: NotificationBadgeProps) {
         {/* Mail with count */}
         <motion.button
           className="relative p-3 rounded-full"
-          style={{ backgroundColor: `${customization.secondaryColor}15` }}
+          style={{ backgroundColor: `${customization.secondaryColor}${iconBgOpacityHex}` }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => incrementCount('mail')}
@@ -90,7 +95,7 @@ export function NotificationBadge({ customization }: NotificationBadgeProps) {
         {/* Messages with 99+ */}
         <motion.button
           className="relative p-3 rounded-full"
-          style={{ backgroundColor: `${customization.primaryColor}15` }}
+          style={{ backgroundColor: `${customization.primaryColor}${iconBgOpacityHex}` }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => incrementCount('messages')}
@@ -179,7 +184,7 @@ export function NotificationBadge({ customization }: NotificationBadgeProps) {
         <span
           className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"
           style={{
-            backgroundColor: `${customization.primaryColor}20`,
+            backgroundColor: `${customization.primaryColor}${textBadgeBgOpacityHex}`,
             color: customization.primaryColor,
           }}
         >

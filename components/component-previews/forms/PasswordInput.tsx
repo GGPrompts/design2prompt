@@ -26,6 +26,8 @@ export function PasswordInput({ customization }: PasswordInputProps) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -79,7 +81,7 @@ export function PasswordInput({ customization }: PasswordInputProps) {
           style={{
             borderColor: isFocused ? customization.primaryColor : `${customization.textColor}30`,
             borderRadius: `${customization.borderRadius}px`,
-            backgroundColor: `${customization.backgroundColor}80`,
+            backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 3.4)}`,
           }}
         >
           <Lock
@@ -155,7 +157,7 @@ export function PasswordInput({ customization }: PasswordInputProps) {
                   <motion.div
                     className="w-4 h-4 rounded-full flex items-center justify-center"
                     style={{
-                      backgroundColor: passed ? `${customization.primaryColor}20` : `${customization.textColor}10`,
+                      backgroundColor: passed ? `${customization.primaryColor}${opacityToHex(glassOpacity * 1.3)}` : `${customization.textColor}${opacityToHex(glassOpacity * 0.7)}`,
                     }}
                     animate={{ scale: passed ? [1, 1.2, 1] : 1 }}
                     transition={{ duration: 0.2 }}

@@ -28,6 +28,8 @@ export function ToggleSwitch({ customization }: ToggleSwitchProps) {
     notifications: false,
     autoSync: true,
   });
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -154,8 +156,8 @@ export function ToggleSwitch({ customization }: ToggleSwitchProps) {
       <motion.div
         className="mt-4 p-3 rounded-lg border"
         style={{
-          borderColor: `${customization.primaryColor}30`,
-          backgroundColor: `${customization.primaryColor}10`,
+          borderColor: `${customization.primaryColor}${opacityToHex(glassOpacity * 2)}`,
+          backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity * 0.7)}`,
           borderRadius: `${customization.borderRadius}px`,
         }}
       >

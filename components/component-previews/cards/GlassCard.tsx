@@ -8,7 +8,7 @@ type GlassCardProps = {
 };
 
 export function GlassCard({ customization }: GlassCardProps) {
-  const glassOpacity = parseInt(customization.glassOpacity) || 15;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
   const borderOpacity = parseInt(customization.glassBorderOpacity) || 40;
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
 

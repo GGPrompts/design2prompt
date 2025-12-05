@@ -15,6 +15,19 @@ export function BlogCard({ customization }: BlogCardProps) {
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
   const excerptLines = parseInt(customization.excerptLines) || 3;
   const showAuthor = customization.showAuthor !== 'false';
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+
+  // Convert percentage to hex for opacity values
+  const borderOpacityHex = Math.round(glassOpacity * 1.3 * 2.55).toString(16).padStart(2, '0');
+  const gradientOpacityHex = Math.round(glassOpacity * 2.7 * 2.55).toString(16).padStart(2, '0');
+  const categoryBgOpacityHex = Math.round(glassOpacity * 6 * 2.55).toString(16).padStart(2, '0');
+  const bookmarkBgOpacityHex = Math.round(glassOpacity * 5.3 * 2.55).toString(16).padStart(2, '0');
+  const bookmarkBorderOpacityHex = Math.round(glassOpacity * 2 * 2.55).toString(16).padStart(2, '0');
+  const timeBgOpacityHex = Math.round(glassOpacity * 5.3 * 2.55).toString(16).padStart(2, '0');
+  const metaTextOpacityHex = Math.round(glassOpacity * 4.7 * 2.55).toString(16).padStart(2, '0');
+  const tagBgOpacityHex = Math.round(glassOpacity * 1 * 2.55).toString(16).padStart(2, '0');
+  const dividerOpacityHex = Math.round(glassOpacity * 1 * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -28,7 +41,7 @@ export function BlogCard({ customization }: BlogCardProps) {
       style={{
         ...baseStyle,
         backgroundColor: customization.backgroundColor,
-        borderColor: `${customization.primaryColor}20`,
+        borderColor: `${customization.primaryColor}${borderOpacityHex}`,
         borderRadius: `${customization.borderRadius}px`,
         color: customization.textColor,
         boxShadow: `0 15px 40px ${customization.primaryColor}${Math.round(shadowIntensity * 0.25).toString(16).padStart(2, '0')}`,
@@ -44,7 +57,7 @@ export function BlogCard({ customization }: BlogCardProps) {
         <motion.div
           className="absolute inset-0"
           style={{
-            background: `linear-gradient(135deg, ${customization.primaryColor}40, ${customization.secondaryColor}40)`,
+            background: `linear-gradient(135deg, ${customization.primaryColor}${gradientOpacityHex}, ${customization.secondaryColor}${gradientOpacityHex})`,
           }}
           animate={{ scale: isHovered ? 1.08 : 1 }}
           transition={{ duration: 0.5 }}
@@ -53,7 +66,7 @@ export function BlogCard({ customization }: BlogCardProps) {
         {/* Animated decorative shapes */}
         <motion.div
           className="absolute top-10 right-10 w-20 h-20 rounded-full"
-          style={{ backgroundColor: `${customization.primaryColor}40` }}
+          style={{ backgroundColor: `${customization.primaryColor}${gradientOpacityHex}` }}
           animate={{
             y: isHovered ? -10 : 0,
             scale: isHovered ? 1.1 : 1,
@@ -61,7 +74,7 @@ export function BlogCard({ customization }: BlogCardProps) {
         />
         <motion.div
           className="absolute bottom-10 left-10 w-14 h-14 rounded-lg rotate-45"
-          style={{ backgroundColor: `${customization.secondaryColor}40` }}
+          style={{ backgroundColor: `${customization.secondaryColor}${gradientOpacityHex}` }}
           animate={{
             rotate: isHovered ? 90 : 45,
             scale: isHovered ? 1.1 : 1,
@@ -72,8 +85,9 @@ export function BlogCard({ customization }: BlogCardProps) {
         <motion.div
           className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm"
           style={{
-            backgroundColor: `${customization.primaryColor}90`,
+            backgroundColor: `${customization.primaryColor}${categoryBgOpacityHex}`,
             color: customization.backgroundColor,
+            backdropFilter: `blur(${blurAmount}px)`,
           }}
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -85,8 +99,9 @@ export function BlogCard({ customization }: BlogCardProps) {
         <motion.button
           className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-sm"
           style={{
-            backgroundColor: `${customization.backgroundColor}80`,
-            border: `1px solid ${customization.primaryColor}30`,
+            backgroundColor: `${customization.backgroundColor}${bookmarkBgOpacityHex}`,
+            border: `1px solid ${customization.primaryColor}${bookmarkBorderOpacityHex}`,
+            backdropFilter: `blur(${blurAmount}px)`,
           }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
@@ -105,7 +120,8 @@ export function BlogCard({ customization }: BlogCardProps) {
         <div
           className="absolute bottom-4 right-4 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs backdrop-blur-sm"
           style={{
-            backgroundColor: `${customization.backgroundColor}80`,
+            backgroundColor: `${customization.backgroundColor}${timeBgOpacityHex}`,
+            backdropFilter: `blur(${blurAmount}px)`,
           }}
         >
           <Clock className="w-3.5 h-3.5" />
@@ -116,7 +132,7 @@ export function BlogCard({ customization }: BlogCardProps) {
       {/* Content */}
       <div className="p-5">
         {/* Meta Info */}
-        <div className="flex items-center gap-4 text-xs mb-3" style={{ color: `${customization.textColor}70` }}>
+        <div className="flex items-center gap-4 text-xs mb-3" style={{ color: `${customization.textColor}${metaTextOpacityHex}` }}>
           <span>November 28, 2024</span>
           <span className="flex items-center gap-1">
             <BookOpen className="w-3.5 h-3.5" />
@@ -160,7 +176,7 @@ export function BlogCard({ customization }: BlogCardProps) {
               key={tag}
               className="px-2.5 py-1 text-xs rounded-full"
               style={{
-                backgroundColor: `${customization.primaryColor}15`,
+                backgroundColor: `${customization.primaryColor}${tagBgOpacityHex}`,
                 color: customization.primaryColor,
               }}
               whileHover={{
@@ -179,7 +195,7 @@ export function BlogCard({ customization }: BlogCardProps) {
         {/* Author & Actions Divider */}
         <div
           className="pt-4 border-t"
-          style={{ borderColor: `${customization.primaryColor}15` }}
+          style={{ borderColor: `${customization.primaryColor}${dividerOpacityHex}` }}
         >
           <div className="flex items-center justify-between">
             {/* Author */}
@@ -214,9 +230,9 @@ export function BlogCard({ customization }: BlogCardProps) {
                   <motion.button
                     key={i}
                     className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs"
-                    style={{ color: `${customization.textColor}70` }}
+                    style={{ color: `${customization.textColor}${metaTextOpacityHex}` }}
                     whileHover={{
-                      backgroundColor: `${customization.primaryColor}15`,
+                      backgroundColor: `${customization.primaryColor}${tagBgOpacityHex}`,
                       color: customization.primaryColor,
                     }}
                     whileTap={{ scale: 0.95 }}

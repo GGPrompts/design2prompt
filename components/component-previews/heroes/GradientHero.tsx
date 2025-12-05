@@ -10,6 +10,9 @@ type GradientHeroProps = {
 
 export function GradientHero({ customization }: GradientHeroProps) {
   const gradientAngle = parseInt(customization.gradientAngle) || 135;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -31,26 +34,30 @@ export function GradientHero({ customization }: GradientHeroProps) {
       >
         {/* Animated gradient orbs */}
         <motion.div
-          className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-60"
+          className="absolute -top-20 -right-20 w-40 h-40 rounded-full"
           style={{
             background: `radial-gradient(circle, ${customization.primaryColor}, transparent)`,
+            filter: `blur(${blurAmount * 2}px)`,
           }}
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 20, 0],
             y: [0, -10, 0],
+            opacity: [glassOpacity / 100 * 4, glassOpacity / 100 * 4.8, glassOpacity / 100 * 4],
           }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute -bottom-10 -left-10 w-32 h-32 rounded-full blur-3xl opacity-50"
+          className="absolute -bottom-10 -left-10 w-32 h-32 rounded-full"
           style={{
             background: `radial-gradient(circle, ${customization.secondaryColor}, transparent)`,
+            filter: `blur(${blurAmount * 2}px)`,
           }}
           animate={{
             scale: [1, 1.3, 1],
             x: [0, -15, 0],
             y: [0, 15, 0],
+            opacity: [glassOpacity / 100 * 3.3, glassOpacity / 100 * 4, glassOpacity / 100 * 3.3],
           }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
         />

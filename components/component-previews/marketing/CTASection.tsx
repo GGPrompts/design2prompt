@@ -11,6 +11,8 @@ type CTASectionProps = {
 export function CTASection({ customization }: CTASectionProps) {
   const gradientAngle = parseInt(customization.gradientAngle) || 135;
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -33,13 +35,13 @@ export function CTASection({ customization }: CTASectionProps) {
       >
         {/* Animated gradient background */}
         <motion.div
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0"
           style={{
-            background: `radial-gradient(ellipse at top, ${customization.primaryColor}30, transparent 50%),
-                        radial-gradient(ellipse at bottom, ${customization.secondaryColor}20, transparent 50%)`,
+            background: `radial-gradient(ellipse at top, ${customization.primaryColor}${opacityToHex(glassOpacity * 2)}, transparent 50%),
+                        radial-gradient(ellipse at bottom, ${customization.secondaryColor}${opacityToHex(glassOpacity * 1.3)}, transparent 50%)`,
           }}
           animate={{
-            opacity: [0.2, 0.4, 0.2],
+            opacity: [glassOpacity / 100 * 1.3, glassOpacity / 100 * 2.6, glassOpacity / 100 * 1.3],
           }}
           transition={{ duration: 4, repeat: Infinity }}
         />

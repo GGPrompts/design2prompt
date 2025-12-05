@@ -10,6 +10,8 @@ type KPICardProps = {
 
 export function KPICard({ customization }: KPICardProps) {
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityHex = Math.round(glassOpacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -73,7 +75,7 @@ export function KPICard({ customization }: KPICardProps) {
               key={kpi.label}
               className="relative p-4 border overflow-hidden"
               style={{
-                backgroundColor: `${customization.backgroundColor}90`,
+                backgroundColor: `${customization.backgroundColor}${opacityHex}`,
                 borderColor: `${kpi.color}30`,
                 borderRadius: `${customization.borderRadius}px`,
                 boxShadow: `0 4px 20px ${kpi.color}${Math.round(shadowIntensity * 0.3).toString(16).padStart(2, '0')}`,

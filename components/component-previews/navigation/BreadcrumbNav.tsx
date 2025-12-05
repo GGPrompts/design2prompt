@@ -11,6 +11,9 @@ type BreadcrumbNavProps = {
 
 export function BreadcrumbNav({ customization }: BreadcrumbNavProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -29,9 +32,10 @@ export function BreadcrumbNav({ customization }: BreadcrumbNavProps) {
     <div className="w-full max-w-lg" style={baseStyle}>
       {/* Main Breadcrumb */}
       <motion.nav
-        className="flex items-center p-3 rounded-xl border backdrop-blur-sm"
+        className="flex items-center p-3 rounded-xl border"
         style={{
-          backgroundColor: `${customization.backgroundColor}90`,
+          backgroundColor: `${customization.backgroundColor}${opacityToHex(glassOpacity * 3.8)}`,
+          backdropFilter: `blur(${blurAmount}px)`,
           borderColor: `${customization.primaryColor}20`,
           boxShadow: `0 4px 20px ${customization.primaryColor}10`,
         }}
@@ -58,7 +62,7 @@ export function BreadcrumbNav({ customization }: BreadcrumbNavProps) {
                   className="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-colors"
                   style={{
                     backgroundColor: isHovered || isLast
-                      ? `${customization.primaryColor}15`
+                      ? `${customization.primaryColor}${opacityToHex(glassOpacity)}`
                       : 'transparent',
                     color: isLast
                       ? customization.primaryColor
@@ -154,7 +158,7 @@ export function BreadcrumbNav({ customization }: BreadcrumbNavProps) {
         <motion.span
           className="px-2 py-0.5 rounded-md font-medium"
           style={{
-            backgroundColor: `${customization.primaryColor}15`,
+            backgroundColor: `${customization.primaryColor}${opacityToHex(glassOpacity)}`,
             color: customization.primaryColor,
           }}
         >

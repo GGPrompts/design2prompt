@@ -14,6 +14,9 @@ export function NewsletterSignup({ customization }: NewsletterSignupProps) {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const gradientAngle = parseInt(customization.gradientAngle) || 135;
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -43,13 +46,14 @@ export function NewsletterSignup({ customization }: NewsletterSignupProps) {
       >
         {/* Background decoration */}
         <motion.div
-          className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-20"
+          className="absolute -top-20 -right-20 w-40 h-40 rounded-full"
           style={{
             background: `radial-gradient(circle, ${customization.primaryColor}, transparent)`,
+            filter: `blur(${blurAmount * 2}px)`,
           }}
           animate={{
             scale: [1, 1.2, 1],
-            opacity: [0.2, 0.3, 0.2],
+            opacity: [glassOpacity / 100 * 1.3, glassOpacity / 100 * 2, glassOpacity / 100 * 1.3],
           }}
           transition={{ duration: 4, repeat: Infinity }}
         />

@@ -17,6 +17,8 @@ export function OTPInput({ customization }: OTPInputProps) {
   const [isVerified, setIsVerified] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -153,8 +155,8 @@ export function OTPInput({ customization }: OTPInputProps) {
                   backgroundColor: isVerified
                     ? '#22c55e10'
                     : isFilled
-                    ? `${customization.primaryColor}10`
-                    : `${customization.backgroundColor}80`,
+                    ? `${customization.primaryColor}${opacityToHex(glassOpacity * 0.7)}`
+                    : `${customization.backgroundColor}${opacityToHex(glassOpacity * 3.4)}`,
                   color: customization.textColor,
                 }}
                 animate={{
@@ -169,7 +171,7 @@ export function OTPInput({ customization }: OTPInputProps) {
                   className="absolute inset-0 pointer-events-none"
                   style={{
                     borderRadius: `${customization.borderRadius}px`,
-                    boxShadow: `0 0 20px ${customization.primaryColor}40`,
+                    boxShadow: `0 0 20px ${customization.primaryColor}${opacityToHex(glassOpacity * 2.7)}`,
                   }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}

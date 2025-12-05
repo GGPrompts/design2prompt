@@ -15,6 +15,20 @@ export function ProductCard({ customization }: ProductCardProps) {
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
   const imageHeight = parseInt(customization.imageHeight) || 200;
   const showRating = customization.showRating !== 'false';
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+
+  // Convert percentage to hex for opacity values
+  const borderOpacityHex = Math.round(glassOpacity * 1.3 * 2.55).toString(16).padStart(2, '0');
+  const gradientOpacityHex = Math.round(glassOpacity * 2 * 2.55).toString(16).padStart(2, '0');
+  const productBgOpacityHex = Math.round(glassOpacity * 4 * 2.55).toString(16).padStart(2, '0');
+  const productShadowOpacityHex = Math.round(glassOpacity * 3.3 * 2.55).toString(16).padStart(2, '0');
+  const likeBtnBgOpacityHex = Math.round(glassOpacity * 5.3 * 2.55).toString(16).padStart(2, '0');
+  const likeBtnBorderOpacityHex = Math.round(glassOpacity * 2 * 2.55).toString(16).padStart(2, '0');
+  const quickViewBgOpacityHex = Math.round(glassOpacity * 6 * 2.55).toString(16).padStart(2, '0');
+  const quickViewBorderOpacityHex = Math.round(glassOpacity * 2.7 * 2.55).toString(16).padStart(2, '0');
+  const buttonShadowOpacityHex = Math.round(glassOpacity * 2.7 * 2.55).toString(16).padStart(2, '0');
+  const starFadedOpacityHex = Math.round(glassOpacity * 2 * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -34,7 +48,7 @@ export function ProductCard({ customization }: ProductCardProps) {
       style={{
         ...baseStyle,
         backgroundColor: customization.backgroundColor,
-        borderColor: `${customization.primaryColor}20`,
+        borderColor: `${customization.primaryColor}${borderOpacityHex}`,
         borderRadius: `${customization.borderRadius}px`,
         color: customization.textColor,
         boxShadow: `0 15px 40px ${customization.primaryColor}${Math.round(shadowIntensity * 0.3).toString(16).padStart(2, '0')}`,
@@ -51,7 +65,7 @@ export function ProductCard({ customization }: ProductCardProps) {
         <motion.div
           className="absolute inset-0"
           style={{
-            background: `linear-gradient(135deg, ${customization.primaryColor}30, ${customization.secondaryColor}30)`,
+            background: `linear-gradient(135deg, ${customization.primaryColor}${gradientOpacityHex}, ${customization.secondaryColor}${gradientOpacityHex})`,
           }}
           animate={{ scale: isHovered ? 1.1 : 1 }}
           transition={{ duration: 0.4 }}
@@ -62,8 +76,8 @@ export function ProductCard({ customization }: ProductCardProps) {
           <motion.div
             className="w-32 h-32 rounded-2xl flex items-center justify-center"
             style={{
-              background: `linear-gradient(135deg, ${customization.primaryColor}60, ${customization.secondaryColor}60)`,
-              boxShadow: `0 20px 40px ${customization.primaryColor}50`,
+              background: `linear-gradient(135deg, ${customization.primaryColor}${productBgOpacityHex}, ${customization.secondaryColor}${productBgOpacityHex})`,
+              boxShadow: `0 20px 40px ${customization.primaryColor}${productShadowOpacityHex}`,
             }}
             animate={{ rotate: isHovered ? 5 : 0, scale: isHovered ? 1.05 : 1 }}
           >
@@ -102,8 +116,9 @@ export function ProductCard({ customization }: ProductCardProps) {
         <motion.button
           className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm"
           style={{
-            backgroundColor: `${customization.backgroundColor}80`,
-            border: `1px solid ${customization.primaryColor}30`,
+            backgroundColor: `${customization.backgroundColor}${likeBtnBgOpacityHex}`,
+            border: `1px solid ${customization.primaryColor}${likeBtnBorderOpacityHex}`,
+            backdropFilter: `blur(${blurAmount}px)`,
           }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
@@ -131,8 +146,9 @@ export function ProductCard({ customization }: ProductCardProps) {
           <motion.button
             className="flex-1 py-2.5 rounded-lg flex items-center justify-center gap-2 text-sm font-medium backdrop-blur-sm"
             style={{
-              backgroundColor: `${customization.backgroundColor}90`,
-              border: `1px solid ${customization.primaryColor}40`,
+              backgroundColor: `${customization.backgroundColor}${quickViewBgOpacityHex}`,
+              border: `1px solid ${customization.primaryColor}${quickViewBorderOpacityHex}`,
+              backdropFilter: `blur(${blurAmount}px)`,
             }}
             whileHover={{ backgroundColor: customization.primaryColor }}
           >
@@ -166,7 +182,7 @@ export function ProductCard({ customization }: ProductCardProps) {
                   key={i}
                   className="w-4 h-4"
                   style={{
-                    color: i < Math.floor(rating) ? '#fbbf24' : `${customization.textColor}30`,
+                    color: i < Math.floor(rating) ? '#fbbf24' : `${customization.textColor}${starFadedOpacityHex}`,
                     fill: i < Math.floor(rating) ? '#fbbf24' : 'transparent',
                   }}
                 />
@@ -213,11 +229,11 @@ export function ProductCard({ customization }: ProductCardProps) {
           style={{
             background: `linear-gradient(135deg, ${customization.primaryColor}, ${customization.secondaryColor})`,
             color: customization.backgroundColor,
-            boxShadow: `0 8px 25px ${customization.primaryColor}40`,
+            boxShadow: `0 8px 25px ${customization.primaryColor}${buttonShadowOpacityHex}`,
           }}
           whileHover={{
             scale: 1.02,
-            boxShadow: `0 12px 35px ${customization.primaryColor}60`,
+            boxShadow: `0 12px 35px ${customization.primaryColor}${Math.round(glassOpacity * 4 * 2.55).toString(16).padStart(2, '0')}`,
           }}
           whileTap={{ scale: 0.98 }}
         >

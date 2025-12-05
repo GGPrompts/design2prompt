@@ -12,6 +12,8 @@ type ProgressLoaderProps = {
 export function ProgressLoader({ customization }: ProgressLoaderProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityHex = Math.round(glassOpacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
@@ -59,7 +61,7 @@ export function ProgressLoader({ customization }: ProgressLoaderProps) {
             key="loading"
             className="absolute inset-0 flex flex-col items-center justify-center"
             style={{
-              backgroundColor: `${customization.backgroundColor}f8`,
+              backgroundColor: `${customization.backgroundColor}${opacityHex}`,
               borderRadius: `${customization.borderRadius}px`,
             }}
             initial={{ opacity: 0 }}

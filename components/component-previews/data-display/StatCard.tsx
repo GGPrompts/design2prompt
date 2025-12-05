@@ -10,7 +10,8 @@ type StatCardProps = {
 
 export function StatCard({ customization }: StatCardProps) {
   const shadowIntensity = parseInt(customization.shadowIntensity) || 50;
-  const glassOpacity = parseInt(customization.glassOpacity) || 15;
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const opacityHex = Math.round(glassOpacity * 2.55).toString(16).padStart(2, '0');
   const iconSize = parseInt(customization.iconSize) || 24;
   const showTrend = customization.showTrend !== 'false';
 
@@ -39,7 +40,7 @@ export function StatCard({ customization }: StatCardProps) {
               key={stat.label}
               className="relative p-4 border overflow-hidden"
               style={{
-                backgroundColor: `${customization.backgroundColor}90`,
+                backgroundColor: `${customization.backgroundColor}${opacityHex}`,
                 borderColor: `${customization.primaryColor}30`,
                 borderRadius: `${customization.borderRadius}px`,
                 boxShadow: `0 4px 20px ${customization.primaryColor}${Math.round(shadowIntensity * 0.3).toString(16).padStart(2, '0')}`,

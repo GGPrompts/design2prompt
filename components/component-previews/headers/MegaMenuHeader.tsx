@@ -36,6 +36,9 @@ type MegaMenu = {
 
 export function MegaMenuHeader({ customization }: MegaMenuHeaderProps) {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const glassOpacity = parseInt(customization.glassOpacity || '15') || 15;
+  const blurAmount = parseInt(customization.blurAmount || '12') || 12;
+  const opacityToHex = (opacity: number) => Math.round(opacity * 2.55).toString(16).padStart(2, '0');
 
   const baseStyle = {
     fontFamily: customization.fontFamily,
