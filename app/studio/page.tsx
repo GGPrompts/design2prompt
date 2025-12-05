@@ -73,6 +73,8 @@ function StudioContent() {
   const [showExport, setShowExport] = useState(false);
   const [addToCollectionOpen, setAddToCollectionOpen] = useState(false);
   const [createCollectionOpen, setCreateCollectionOpen] = useState(false);
+  // Track pending component to add after collection creation
+  const [pendingComponentForCollection, setPendingComponentForCollection] = useState<SavedComponent | null>(null);
 
   // Mobile responsive state
   const isMobile = useIsMobile();
@@ -143,8 +145,9 @@ function StudioContent() {
     description: string;
     tags: string[];
   }) => {
+    const newCollectionId = crypto.randomUUID();
     const newCollection: Collection = {
-      id: crypto.randomUUID(),
+      id: newCollectionId,
       name: data.name,
       description: data.description,
       tags: data.tags,
@@ -154,10 +157,21 @@ function StudioContent() {
     };
     addCollection(newCollection);
     setCreateCollectionOpen(false);
-    toast({
-      title: 'Collection created',
-      description: `"${data.name}" has been created. You can now save components to it.`,
-    });
+
+    // If there's a pending component, add it to the newly created collection
+    if (pendingComponentForCollection) {
+      addComponentToCollection(newCollectionId, pendingComponentForCollection);
+      setPendingComponentForCollection(null);
+      toast({
+        title: 'Collection created & component saved',
+        description: `"${data.name}" has been created with your component.`,
+      });
+    } else {
+      toast({
+        title: 'Collection created',
+        description: `"${data.name}" has been created. You can now save components to it.`,
+      });
+    }
   };
 
   return (
@@ -448,7 +462,8 @@ function StudioContent() {
         customization={customization}
         collections={collections}
         onAddToCollection={handleAddToCollection}
-        onCreateCollection={() => {
+        onCreateCollection={(pendingComponent) => {
+          setPendingComponentForCollection(pendingComponent);
           setAddToCollectionOpen(false);
           setCreateCollectionOpen(true);
         }}

@@ -28,7 +28,7 @@ type AddToCollectionDialogProps = {
   customization: Customization;
   collections: Collection[];
   onAddToCollection: (collectionId: string, component: SavedComponent) => void;
-  onCreateCollection: () => void;
+  onCreateCollection: (pendingComponent: SavedComponent) => void;
 };
 
 export function AddToCollectionDialog({
@@ -153,7 +153,21 @@ export function AddToCollectionDialog({
               <div className="h-48 rounded-md border border-white/10 flex items-center justify-center">
                 <div className="text-center">
                   <p className="text-white/60 mb-2">No collections yet</p>
-                  <Button variant="outline" size="sm" onClick={onCreateCollection} className="border-white/20 bg-transparent text-white hover:text-white hover:bg-white/10">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const pendingComponent: SavedComponent = {
+                        id: crypto.randomUUID(),
+                        componentId: component.id,
+                        customization: { ...customization },
+                        notes: notes.trim() || undefined,
+                        order: 0,
+                      };
+                      onCreateCollection(pendingComponent);
+                    }}
+                    className="border-white/20 bg-transparent text-white hover:text-white hover:bg-white/10"
+                  >
                     <FolderPlus className="w-4 h-4 mr-2" />
                     Create Collection
                   </Button>
@@ -167,7 +181,16 @@ export function AddToCollectionDialog({
             <Button
               variant="outline"
               className="w-full border-white/20 bg-transparent text-white hover:text-white hover:bg-white/10"
-              onClick={onCreateCollection}
+              onClick={() => {
+                const pendingComponent: SavedComponent = {
+                  id: crypto.randomUUID(),
+                  componentId: component.id,
+                  customization: { ...customization },
+                  notes: notes.trim() || undefined,
+                  order: 0,
+                };
+                onCreateCollection(pendingComponent);
+              }}
             >
               <FolderPlus className="w-4 h-4 mr-2" />
               Create New Collection
