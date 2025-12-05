@@ -1,11 +1,12 @@
 'use client';
 
+import { useCallback, useRef, useEffect, useState } from 'react';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { motion } from 'framer-motion';
 import { Lock, Eye, EyeOff, Trash2, GripVertical, Layers } from 'lucide-react';
 import { CanvasComponent as CanvasComponentType } from '@/types/canvas';
-import { useCanvasStore } from '@/lib/stores/canvas-store';
+import { useCanvasStore, VIEWPORT_DIMENSIONS } from '@/lib/stores/canvas-store';
 import { ComponentPreview } from '@/components/studio/ComponentPreview';
 import { getComponentById } from '@/lib/component-registry';
 import { cn } from '@/lib/utils';
@@ -15,6 +16,8 @@ type CanvasComponentProps = {
   isSelected: boolean;
   zoom: number;
 };
+
+type ResizeHandle = 'e' | 's' | 'se' | null;
 
 export function CanvasComponentWrapper({
   component,
@@ -27,11 +30,26 @@ export function CanvasComponentWrapper({
     toggleComponentLock,
     toggleComponentVisibility,
     bringToFront,
+    updateComponentPosition,
+    viewportDevice,
+    grid,
   } = useCanvasStore();
+
+  // Resize state
+  const [isResizing, setIsResizing] = useState(false);
+  const [resizeHandle, setResizeHandle] = useState<ResizeHandle>(null);
+  const resizeStartRef = useRef<{
+    mouseX: number;
+    mouseY: number;
+    width: number;
+    height: number;
+  } | null>(null);
+
+  const dimensions = VIEWPORT_DIMENSIONS[viewportDevice];
 
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: component.id,
-    disabled: component.locked,
+    disabled: component.locked || isResizing, // Disable drag when resizing
     data: {
       type: 'canvas-component',
       component,
@@ -40,16 +58,91 @@ export function CanvasComponentWrapper({
 
   const componentDef = getComponentById(component.componentId);
 
+  // Resize handlers
+  const handleResizeStart = useCallback(
+    (e: React.MouseEvent, handle: ResizeHandle) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      setIsResizing(true);
+      setResizeHandle(handle);
+      resizeStartRef.current = {
+        mouseX: e.clientX,
+        mouseY: e.clientY,
+        width: component.position.width,
+        height: component.position.height,
+      };
+
+      // Select the component when starting resize
+      selectComponent(component.id);
+      bringToFront(component.id);
+    },
+    [component.id, component.position.width, component.position.height, selectComponent, bringToFront]
+  );
+
+  useEffect(() => {
+    if (!isResizing || !resizeStartRef.current) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!resizeStartRef.current) return;
+
+      const deltaX = (e.clientX - resizeStartRef.current.mouseX) / zoom;
+      const deltaY = (e.clientY - resizeStartRef.current.mouseY) / zoom;
+
+      let newWidth = resizeStartRef.current.width;
+      let newHeight = resizeStartRef.current.height;
+
+      // Apply deltas based on which handle is being dragged
+      if (resizeHandle === 'e' || resizeHandle === 'se') {
+        newWidth = Math.max(100, resizeStartRef.current.width + deltaX);
+      }
+      if (resizeHandle === 's' || resizeHandle === 'se') {
+        newHeight = Math.max(80, resizeStartRef.current.height + deltaY);
+      }
+
+      // Apply grid snapping if enabled
+      if (grid.snap) {
+        newWidth = Math.round(newWidth / grid.size) * grid.size;
+        newHeight = Math.round(newHeight / grid.size) * grid.size;
+      }
+
+      // Constrain to canvas bounds
+      const maxWidth = dimensions.width - component.position.x;
+      const maxHeight = dimensions.height - component.position.y;
+      newWidth = Math.min(newWidth, maxWidth);
+      newHeight = Math.min(newHeight, maxHeight);
+
+      updateComponentPosition(component.id, { width: newWidth, height: newHeight });
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+      setResizeHandle(null);
+      resizeStartRef.current = null;
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isResizing, resizeHandle, zoom, grid.snap, grid.size, dimensions, component.id, component.position.x, component.position.y, updateComponentPosition]);
+
   // Calculate the actual position (transform from dnd-kit + stored position)
+  // Use very high z-index when dragging or resizing to stay on top
+  const effectiveZIndex = (isDragging || isResizing) ? 99999 : component.position.zIndex;
+
   const style: React.CSSProperties = {
     position: 'absolute',
     left: component.position.x,
     top: component.position.y,
     width: component.position.width,
     height: component.position.height,
-    zIndex: component.position.zIndex,
+    zIndex: effectiveZIndex,
     transform: CSS.Translate.toString(transform),
-    cursor: component.locked ? 'not-allowed' : isDragging ? 'grabbing' : 'grab',
+    cursor: component.locked ? 'not-allowed' : isDragging ? 'grabbing' : isResizing ? 'default' : 'grab',
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -178,8 +271,8 @@ export function CanvasComponentWrapper({
         </div>
       </div>
 
-      {/* Component preview content */}
-      <div className="w-full h-full p-4 flex items-center justify-center overflow-hidden">
+      {/* Component preview content - reduced padding for precise alignment */}
+      <div className="w-full h-full p-2 flex items-center justify-center overflow-hidden">
         {componentDef ? (
           <div className="transform-gpu" style={{ transform: `scale(${Math.min(1, component.position.width / 400)})` }}>
             <ComponentPreview
@@ -192,12 +285,33 @@ export function CanvasComponentWrapper({
         )}
       </div>
 
-      {/* Resize handles (visual only for now, can be made functional later) */}
+      {/* Resize handles - functional with mouse event handlers */}
       {isSelected && !component.locked && (
         <>
-          <div className="absolute -right-1 top-1/2 -translate-y-1/2 w-2 h-8 bg-emerald-500 rounded-full cursor-ew-resize opacity-80 hover:opacity-100" />
-          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-2 bg-emerald-500 rounded-full cursor-ns-resize opacity-80 hover:opacity-100" />
-          <div className="absolute -right-1.5 -bottom-1.5 w-3 h-3 bg-emerald-500 rounded-full cursor-nwse-resize opacity-80 hover:opacity-100" />
+          {/* Right edge (E) */}
+          <div
+            onMouseDown={(e) => handleResizeStart(e, 'e')}
+            className={cn(
+              "absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-10 bg-emerald-500 rounded-full cursor-ew-resize opacity-70 hover:opacity-100 transition-opacity z-20",
+              resizeHandle === 'e' && "opacity-100 bg-emerald-400"
+            )}
+          />
+          {/* Bottom edge (S) */}
+          <div
+            onMouseDown={(e) => handleResizeStart(e, 's')}
+            className={cn(
+              "absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-10 h-3 bg-emerald-500 rounded-full cursor-ns-resize opacity-70 hover:opacity-100 transition-opacity z-20",
+              resizeHandle === 's' && "opacity-100 bg-emerald-400"
+            )}
+          />
+          {/* Corner (SE) */}
+          <div
+            onMouseDown={(e) => handleResizeStart(e, 'se')}
+            className={cn(
+              "absolute -right-2 -bottom-2 w-4 h-4 bg-emerald-500 rounded-full cursor-nwse-resize opacity-70 hover:opacity-100 transition-opacity z-20",
+              resizeHandle === 'se' && "opacity-100 bg-emerald-400"
+            )}
+          />
         </>
       )}
 

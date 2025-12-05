@@ -12,7 +12,7 @@ import {
   useSensors,
   DragOverlay,
 } from '@dnd-kit/core';
-import { createSnapModifier, restrictToParentElement } from '@dnd-kit/modifiers';
+import { createSnapModifier } from '@dnd-kit/modifiers';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCanvasStore, VIEWPORT_DIMENSIONS } from '@/lib/stores/canvas-store';
 import { CanvasComponent } from '@/types/canvas';

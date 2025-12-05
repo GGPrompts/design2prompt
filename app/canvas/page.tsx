@@ -11,17 +11,26 @@ import {
   Save,
   Layers,
   Folder,
+  Library,
+  FolderOpen,
 } from 'lucide-react';
-import { Canvas, ComponentLibrarySidebar } from '@/components/canvas';
+import { Canvas, ComponentLibrarySidebar, CollectionsSidebar } from '@/components/canvas';
 import { useCanvasStore } from '@/lib/stores/canvas-store';
+import { useCollectionStore } from '@/lib/stores/collection-store';
 import { cn } from '@/lib/utils';
+
+type SidebarTab = 'library' | 'collections';
 
 export default function CanvasPage() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarTab, setSidebarTab] = useState<SidebarTab>('library');
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [layoutName, setLayoutName] = useState('');
 
   const { saveLayout, layouts, loadLayout, deleteLayout, components } = useCanvasStore();
+  const { collections } = useCollectionStore();
+
+  const totalSavedComponents = collections.reduce((acc, c) => acc + c.components.length, 0);
 
   const handleSaveLayout = () => {
     if (!layoutName.trim()) return;
@@ -166,7 +175,7 @@ export default function CanvasPage() {
 
       {/* Main content */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Sidebar */}
+        {/* Sidebar with tabs */}
         <AnimatePresence>
           {sidebarOpen && (
             <motion.div
@@ -174,9 +183,49 @@ export default function CanvasPage() {
               animate={{ width: 288, opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="overflow-hidden"
+              className="overflow-hidden flex flex-col bg-zinc-900/95 border-r border-white/10"
             >
-              <ComponentLibrarySidebar />
+              {/* Tab switcher */}
+              <div className="flex border-b border-white/10">
+                <button
+                  onClick={() => setSidebarTab('library')}
+                  className={cn(
+                    "flex-1 flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium transition-colors",
+                    sidebarTab === 'library'
+                      ? "text-emerald-400 border-b-2 border-emerald-400 bg-emerald-500/5"
+                      : "text-white/50 hover:text-white hover:bg-white/5"
+                  )}
+                >
+                  <Library className="w-4 h-4" />
+                  <span>Library</span>
+                </button>
+                <button
+                  onClick={() => setSidebarTab('collections')}
+                  className={cn(
+                    "flex-1 flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium transition-colors relative",
+                    sidebarTab === 'collections'
+                      ? "text-emerald-400 border-b-2 border-emerald-400 bg-emerald-500/5"
+                      : "text-white/50 hover:text-white hover:bg-white/5"
+                  )}
+                >
+                  <FolderOpen className="w-4 h-4" />
+                  <span>Saved</span>
+                  {totalSavedComponents > 0 && (
+                    <span className="absolute top-2 right-3 px-1.5 py-0.5 text-[10px] bg-emerald-500/20 text-emerald-400 rounded-full">
+                      {totalSavedComponents}
+                    </span>
+                  )}
+                </button>
+              </div>
+
+              {/* Tab content */}
+              <div className="flex-1 overflow-hidden">
+                {sidebarTab === 'library' ? (
+                  <ComponentLibrarySidebar className="border-r-0" />
+                ) : (
+                  <CollectionsSidebar className="border-r-0" />
+                )}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
